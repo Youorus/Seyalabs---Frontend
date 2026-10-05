@@ -1,0 +1,2 @@
+import { Button, Container, SectionLabel } from "@/components/ui/primitives";
+export default function NotFound() { return <section className="page-hero not-found"><Container><SectionLabel number="404">HORS DU SYSTÈME</SectionLabel><h1>Cette page<br />n’existe pas.</h1><p>Le lien a peut-être changé. Retrouvez nos expertises ou revenez au point de départ.</p><Button href="/">Retour à l’accueil</Button></Container></section>; }

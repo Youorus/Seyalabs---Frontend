@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>SEYA LABS — Film de présentation</title>
+  <style>
+    :root{color-scheme:dark;--paper:#F3F0E8;--ink:#11100E;--copper:#D65A31;--muted:#c6bdb2}
+    *{box-sizing:border-box}body{margin:0;background:var(--ink);color:var(--paper);font:15px SeyaBody,system-ui,sans-serif}a{color:inherit}button,input{font:inherit}button{cursor:pointer}button,a,input{outline-offset:5px}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #f59973}header,main,footer{max-width:1400px;margin:auto;padding:30px 40px}header{display:flex;align-items:center;justify-content:space-between;gap:20px;border-bottom:1px solid #3b3630}header strong{font-family:SeyaDisplay,system-ui,sans-serif;font-size:24px;font-weight:600}header span{font:11px SeyaMono,monospace;color:var(--muted)}h1{font:500 clamp(25px,3vw,42px)/1.15 SeyaDisplay,system-ui,sans-serif;margin:0 0 15px}p{color:var(--muted);line-height:1.7;max-width:850px}#film{width:100%;height:auto;display:block;background:var(--paper)}.stage{max-width:1280px;margin:30px auto 20px;box-shadow:0 0 0 1px #3b3630}.stage.portrait{max-width:430px}.controls{display:flex;align-items:center;gap:15px;flex-wrap:wrap;margin:22px 0}button,.download{border:1px solid #6e6356;background:transparent;color:var(--paper);padding:13px 18px;text-decoration:none;border-radius:2px;font-size:13px}#play,button[aria-pressed=true]{background:var(--copper);color:var(--ink);border-color:var(--copper)}button:disabled{opacity:.5;cursor:wait}.progress{display:flex;align-items:center;gap:15px;flex:1;min-width:230px}input[type=range]{accent-color:var(--copper);flex:1;min-width:120px}.time{font:12px SeyaMono,monospace}.downloads{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 35px}.formats{display:flex;gap:8px}details{border-block:1px solid #3b3630;padding:20px 0;margin-top:30px}summary{cursor:pointer;font-family:SeyaDisplay;font-size:19px}details ol{padding-left:22px;line-height:1.8;color:var(--muted);max-width:880px}details li{margin:15px 0}footer{font-size:12px;color:var(--muted);padding-top:0}#status{font-size:12px;min-height:18px}.render-mode{padding:0;margin:0;overflow:hidden}.render-mode header,.render-mode .intro,.render-mode .controls,.render-mode .downloads,.render-mode details,.render-mode footer,.render-mode #status{display:none}.render-mode main{padding:0;max-width:none;margin:0}.render-mode .stage{margin:0;width:auto;max-width:none;box-shadow:none}.render-mode #film{width:auto;height:auto}@media(max-width:600px){header,main,footer{padding:24px 18px}header{align-items:flex-start}header span{max-width:120px;line-height:1.7;text-align:right}.controls{gap:12px}.progress{order:4;flex-basis:100%}.download{width:100%;text-align:center}.stage{margin-top:25px}}
+  </style>
+</head>
+<body>
+  <header><strong>SEYA LABS</strong><span>FILM DE PRÉSENTATION / 45 SECONDES</span></header>
+  <main>
+    <div class="intro"><h1>Des outils sur mesure.<br>Un budget à votre mesure.</h1><p>Une présentation générale de Seya Labs : des outils utiles au quotidien, des services expliqués simplement et des tarifs accessibles. Deux compositions, une voix française synthétique et des sous-titres intégrés.</p></div>
+    <div class="stage"><canvas id="film" width="1920" height="1080" role="img" aria-label="Film de présentation Seya Labs : informations dispersées, application de suivi, tâches automatisées, services, tarifs accessibles et contact. La transcription est disponible ci-dessous."></canvas></div>
+    <div class="controls">
+      <button id="play" disabled>Lire le film</button><button id="restart" disabled>Recommencer</button>
+      <div class="formats" aria-label="Format du film"><button data-format="landscape" aria-pressed="true">Horizontal</button><button data-format="portrait" aria-pressed="false">Vertical</button></div>
+      <button id="sound" aria-pressed="true">Son activé</button>
+      <div class="progress"><label for="seek">Position</label><input id="seek" type="range" min="0" max="45" step="0.1" value="0"><span class="time" id="time">00:00 / 00:45</span></div>
+    </div>
+    <p id="status" role="status">Préparation du film…</p>
+    <div class="downloads"><a class="download" href="output/seya-labs-horizontal.mp4" download>Télécharger le MP4 horizontal</a><a class="download" href="output/seya-labs-vertical.mp4" download>Télécharger le MP4 vertical</a><a class="download" href="prompt-motion-seya-labs.md" download>Télécharger le prompt complet</a><a class="download" href="output/seya-labs.srt" download>Télécharger les sous-titres</a></div>
+    <details><summary>Lire la transcription et le déroulé</summary><ol id="transcript"></ol></details>
+  </main>
+  <footer>Les interfaces sont illustratives. Les montants seront ajoutés lorsqu’ils auront été définis. <a href="https://seyalabs.com">seyalabs.com</a> · <a href="mailto:contact@seyalabs.com">contact@seyalabs.com</a></footer>
+  <audio id="narration" src="output/seya-labs-bande-son.mp3" preload="none"></audio>
+  <script src="assets.js"></script><script src="film.js"></script>
+</body>
+</html>

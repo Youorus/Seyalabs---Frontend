@@ -1,0 +1,8 @@
+import { PageHero } from "@/components/page-hero";
+import { Container, SectionLabel, JsonLd } from "@/components/ui/primitives";
+import { ExpertiseGrid } from "@/components/sections/expertise-grid";
+import { FinalCta } from "@/components/sections/final-cta";
+import { pageMetadata, breadcrumbs } from "@/lib/seo";
+
+export const metadata = pageMetadata("Expertises : logiciel, IA, automatisation et data", "Quatre expertises pour vos systèmes numériques : développement logiciel, intelligence artificielle, automatisation et data. Une approche du cadrage à la production.", "/expertises");
+export default function Expertises() { return <div className="services-landing"><PageHero title="Du métier au système." description="Les compétences pour concevoir le produit, relier les données et mettre vos processus en mouvement. Avec une vision de l’ensemble, jusqu’à la production." label="EXPERTISES" breadcrumb={[{ name: "Expertises" }]} /><section className="section"><Container><ExpertiseGrid light /></Container></section><section className="section principles-section"><Container><div className="editorial-grid"><div><SectionLabel>UNE APPROCHE TRANSVERSALE</SectionLabel><h2>Les bonnes briques.<br />Dans le bon système.</h2></div><div><p>Une application métier a besoin de données fiables. Un assistant IA a besoin de droits d’accès. Une automatisation a besoin d’un processus compris. Nous pensons ces éléments ensemble.</p><p>Le cadrage sert à choisir ce qui est nécessaire, à expliquer les compromis et à définir une solution qui peut être utilisée et maintenue par vos équipes.</p></div></div></Container></section><FinalCta /><JsonLd data={breadcrumbs([{ name: "Expertises", path: "/expertises" }])} /></div>; }

@@ -1,0 +1,15 @@
+{
+  "name": "seya-labs-motion-kit",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preview": "node motion/preview.mjs",
+    "render": "node motion/render-film.mjs",
+    "render:stills": "node motion/render-film.mjs --stills",
+    "render:video": "node motion/render-film.mjs --video-only"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

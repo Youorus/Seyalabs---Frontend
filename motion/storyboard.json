@@ -1,0 +1,73 @@
+{
+  "title": "SEYA LABS — Des outils sur mesure. Un budget à votre mesure.",
+  "duration": 45,
+  "fps": 30,
+  "audience": "Commerçants, indépendants, artisans, équipes et dirigeants d’entreprise, sans prérequis technique.",
+  "pricing": "Positionnement fourni par le propriétaire : tarifs accessibles. Aucun montant, remise ou classement de prix n’a été fourni.",
+  "scenes": [
+    {
+      "start": 0, "end": 5, "kind": "hook", "label": "VOTRE QUOTIDIEN", "background": "porcelain",
+      "headline": ["Votre activité.", "Des outils", "plus simples."],
+      "support": "Commerces · indépendants · entreprises",
+      "voice": "Votre métier mérite des outils plus simples.",
+      "captions": ["Votre métier mérite", "des outils plus simples."],
+      "visual": "Des demandes, un planning et des informations se dispersent autour du symbole S."
+    },
+    {
+      "start": 5, "end": 10, "kind": "problem", "label": "CE QUI VOUS PREND DU TEMPS", "background": "porcelain",
+      "headline": ["Du temps perdu.", "Des infos", "éparpillées."],
+      "support": "Saisir. Vérifier. Chercher. Recommencer.",
+      "voice": "Des infos éparpillées, des tâches répétitives, des clients à relancer.",
+      "captions": ["Des infos éparpillées,", "des tâches répétitives,", "des clients à relancer."],
+      "visual": "Des cartes Commandes, Planning, Factures et Relances se chevauchent."
+    },
+    {
+      "start": 10, "end": 16, "kind": "application", "label": "VOS OUTILS SUR MESURE", "background": "copper",
+      "headline": ["Votre activité.", "Au même", "endroit."],
+      "support": "Commandes. Clients. Planning.",
+      "voice": "Seya Labs crée vos applications pour suivre commandes, clients et planning au même endroit.",
+      "captions": ["Seya Labs crée vos applications", "pour suivre commandes, clients et planning", "au même endroit."],
+      "visual": "Une interface illustrative rassemble les demandes, le planning et le suivi client."
+    },
+    {
+      "start": 16, "end": 22, "kind": "automation", "label": "LES TÂCHES S’ENCHAÎNENT", "background": "porcelain",
+      "headline": ["Une action.", "La suite", "s’enchaîne."],
+      "support": "Vos logiciels se parlent. Votre suivi avance.",
+      "voice": "Vos logiciels se parlent. Vos tâches répétitives s’automatisent. Un assistant peut vous aider.",
+      "captions": ["Vos logiciels se parlent.", "Vos tâches répétitives s’automatisent.", "Un assistant peut vous aider."],
+      "visual": "Une demande arrive, le suivi se met à jour puis le client est informé ; un assistant aide à retrouver une information."
+    },
+    {
+      "start": 22, "end": 30, "kind": "services", "label": "CE QUE NOUS CONSTRUISONS", "background": "obsidian",
+      "headline": ["Des services.", "Une utilité", "concrète."],
+      "support": "Le besoin d’abord. Les bons outils ensuite.",
+      "voice": "Applications web et mobiles, automatisation, intelligence artificielle et formations : des outils pour votre activité.",
+      "captions": ["Applications web et mobiles,", "automatisation, intelligence artificielle", "et formations : des outils pour votre activité."],
+      "visual": "Six cartes expliquent les prestations avec des mots accessibles, sans liste de technologies."
+    },
+    {
+      "start": 30, "end": 37, "kind": "pricing", "label": "NOTRE ENGAGEMENT", "background": "aubergine",
+      "headline": ["Des tarifs", "accessibles."],
+      "support": "Un projet bien défini. Un budget construit avec vous.",
+      "voice": "Notre engagement : des tarifs accessibles. Nous définissons le projet et le budget avec vous.",
+      "captions": ["Notre engagement : des tarifs accessibles.", "Nous définissons le projet", "et le budget avec vous."],
+      "visual": "Trois étapes relient votre besoin, le périmètre utile et votre budget, sans prix fictif."
+    },
+    {
+      "start": 37, "end": 40, "kind": "benefit", "label": "FAITES PLACE À VOTRE MÉTIER", "background": "porcelain",
+      "headline": ["Vos outils", "suivent.", "Vous avancez."],
+      "support": "Plus de place pour vos clients et vos projets.",
+      "voice": "Vos outils suivent. Vous avancez.",
+      "captions": ["Vos outils suivent.", "Vous avancez."],
+      "visual": "Les cartes ordonnées laissent apparaître une grande flèche cuivre et le symbole S."
+    },
+    {
+      "start": 40, "end": 45, "kind": "closing", "label": "SEYA LABS", "background": "obsidian",
+      "headline": ["Des outils sur mesure.", "Un budget à votre mesure."],
+      "support": "Parlons de votre projet.",
+      "voice": "Seya Labs. Parlons de votre projet.",
+      "captions": ["Seya Labs.", "Parlons de votre projet."],
+      "visual": "Le vrai logo, la promesse, un CTA et seyalabs.com restent clairement lisibles."
+    }
+  ]
+}
