@@ -1,0 +1,91 @@
+name: seyalabs-site
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Le site est en ligne sur son domaine définitif : il s'indexe.
+        SITE_INDEXABLE: "true"
+        NEXT_PUBLIC_SITE_URL: https://seyalabs.com
+        NEXT_PUBLIC_CONTACT_EMAIL: contact@seyalabs.com
+        NEXT_PUBLIC_ANALYTICS_ENABLED: "true"
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: ${NEXT_PUBLIC_GA_MEASUREMENT_ID:-G-K3MFCQHF4R}
+        NEXT_PUBLIC_LINKEDIN_URL: ${NEXT_PUBLIC_LINKEDIN_URL:-}
+        NEXT_PUBLIC_GITHUB_URL: ${NEXT_PUBLIC_GITHUB_URL:-}
+        GOOGLE_SITE_VERIFICATION: ${GOOGLE_SITE_VERIFICATION:-}
+        LEGAL_COMPANY_NAME: ${LEGAL_COMPANY_NAME:-}
+        LEGAL_COMPANY_FORM: ${LEGAL_COMPANY_FORM:-}
+        LEGAL_CAPITAL: ${LEGAL_CAPITAL:-}
+        LEGAL_ADDRESS: ${LEGAL_ADDRESS:-}
+        LEGAL_REGISTRATION: ${LEGAL_REGISTRATION:-}
+        LEGAL_VAT: ${LEGAL_VAT:-}
+        LEGAL_DIRECTOR: ${LEGAL_DIRECTOR:-}
+        LEGAL_HOST_NAME: ${LEGAL_HOST_NAME:-}
+        LEGAL_HOST_ADDRESS: ${LEGAL_HOST_ADDRESS:-}
+        LEGAL_HOST_PHONE: ${LEGAL_HOST_PHONE:-}
+        PRIVACY_RETENTION_MONTHS: ${PRIVACY_RETENTION_MONTHS:-12}
+    image: seyalabs-site:${SEYA_IMAGE_TAG:-latest}
+    environment:
+      # Le formulaire de contact poste ici. Sans ces deux-là il reste inerte
+      # plutôt que de perdre un message en silence.
+      CONTACT_WEBHOOK_URL: ${CONTACT_WEBHOOK_URL:-}
+      CONTACT_WEBHOOK_SECRET: ${CONTACT_WEBHOOK_SECRET:-}
+      RATE_LIMIT_SECRET: ${RATE_LIMIT_SECRET:-}
+      UPSTASH_REDIS_REST_URL: ${UPSTASH_REDIS_REST_URL:-}
+      UPSTASH_REDIS_REST_TOKEN: ${UPSTASH_REDIS_REST_TOKEN:-}
+      # Traefik réécrit les en-têtes de transfert : on peut s'y fier.
+      CONTACT_TRUST_PROXY: "true"
+      CONTACT_ALLOW_LOCAL_PREVIEW: "false"
+    expose:
+      - "3000"
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+      - /app/.next/cache:size=128m,uid=1001,gid=1001,mode=0750
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    # Ces étiquettes sont ce qui fait exister https://seyalabs.com. Elles vivent
+    # ici, dans le dépôt, et non posées à la main sur le serveur : là-bas elles
+    # ne survivraient pas au premier « git pull » de Dokploy.
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+      - traefik.http.routers.seyalabs-site-web.rule=Host(`seyalabs.com`) || Host(`www.seyalabs.com`)
+      - traefik.http.routers.seyalabs-site-web.entrypoints=web
+      - traefik.http.routers.seyalabs-site-web.service=seyalabs-site-web
+      - traefik.http.routers.seyalabs-site-web.middlewares=redirect-to-https@file
+      - traefik.http.services.seyalabs-site-web.loadbalancer.server.port=3000
+      - traefik.http.routers.seyalabs-site-websecure.rule=Host(`seyalabs.com`) || Host(`www.seyalabs.com`)
+      - traefik.http.routers.seyalabs-site-websecure.entrypoints=websecure
+      - traefik.http.routers.seyalabs-site-websecure.service=seyalabs-site-websecure
+      - traefik.http.routers.seyalabs-site-websecure.tls.certresolver=letsencrypt
+      - traefik.http.services.seyalabs-site-websecure.loadbalancer.server.port=3000
+    networks:
+      - dokploy-network
+      - default
+    stop_grace_period: 30s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+          pids: 256
+
+networks:
+  # Créé par Dokploy, partagé avec les autres piles du serveur.
+  dokploy-network:
+    external: true
