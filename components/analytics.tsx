@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { analyticsEnabled, isAnalyticsEvent, track } from "@/lib/analytics";
 import { consentKey, readConsent, saveConsent, type ConsentChoice, type ConsentRecord } from "@/lib/consent";
 import { sendAnalyticsEvent, sendPageView, startAnalytics, stopAnalytics } from "@/lib/google-analytics";
+import { startTagManager, stopTagManager } from "@/lib/google-tag-manager";
 
 export function Analytics() {
   const pathname = usePathname();
@@ -19,7 +20,7 @@ export function Analytics() {
     if (!analyticsEnabled) return;
     function sync() {
       const choice = readConsent();
-      if (choice?.analytics !== "granted") stopAnalytics();
+      if (choice?.analytics !== "granted") { stopAnalytics(); stopTagManager(); }
       setRecord(choice);
       setVisible(!choice);
     }
@@ -59,6 +60,9 @@ export function Analytics() {
   useEffect(() => {
     if (!analyticsEnabled || record?.analytics !== "granted") return;
     let current = true;
+    // Le conteneur de balises part en même temps que la mesure, et sous la
+    // même condition. Il ne bloque pas la page vue si Google ne répond pas.
+    void startTagManager();
     void startAnalytics().then((ready) => {
       if (!current || !ready) return;
       sendPageView(pathname);
@@ -69,9 +73,9 @@ export function Analytics() {
   }, [pathname, record?.analytics]);
 
   function choose(choice: ConsentChoice) {
-    if (choice === "denied") stopAnalytics();
+    if (choice === "denied") { stopAnalytics(); stopTagManager(); }
     const saved = saveConsent(choice);
-    if (!saved) stopAnalytics();
+    if (!saved) { stopAnalytics(); stopTagManager(); }
     setStorageError(!saved);
     setRecord(saved);
     setVisible(false);
