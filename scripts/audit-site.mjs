@@ -204,15 +204,28 @@ try {
   assert.equal(await page.getByRole('tabpanel').filter({ visible: true }).getByRole('heading').innerText(), 'Dessiner le système.');
   await page.keyboard.press('ArrowRight');
   assert.equal(await page.getByRole('tab', { name: '03 BUILD' }).getAttribute('aria-selected'), 'true');
-  await page.getByRole('button', { name: 'Simplifier le système' }).click();
-  assert.equal(await page.getByRole('button', { name: 'Voir les connexions' }).getAttribute('aria-pressed'), 'true');
-  report.interactions.push({ name: 'Timeline keyboard and System Flow', passed: true });
+  if (await page.locator('.hero-team').count()) {
+    const image = page.locator('.hero .hero-team-main img');
+    assert.equal(await image.count(), 1, 'Team ambience appears in the hero');
+    await image.evaluate((img) => img.decode());
+    assert.ok(await image.evaluate((img) => img.naturalWidth > 0), 'Hero image loads');
+    assert.equal(await page.locator('main > section:not(.hero) .hero-team').count(), 0, 'Team imagery is only in hero');
+    assert.ok(await image.getAttribute('alt'), 'Meaningful alternative text');
+    report.interactions.push({ name: 'Hero-only team imagery loads with alternative text', passed: true });
+  } else {
+    await page.getByRole('button', { name: 'Simplifier le système' }).click();
+    assert.equal(await page.getByRole('button', { name: 'Voir les connexions' }).getAttribute('aria-pressed'), 'true');
+    report.interactions.push({ name: 'System Flow fallback', passed: true });
+  }
+  report.interactions.push({ name: 'Timeline keyboard navigation', passed: true });
   const normalContext = await browser.newContext({ viewport: { width: 1440, height: 1000 }, reducedMotion: 'no-preference' });
   const normal = await normalContext.newPage();
   normal.on('pageerror', (error) => errors.push(error.message));
   await normal.goto(base, { waitUntil: 'networkidle' });
+  const normalRefusal = normal.locator('.consent-banner').getByRole('button', { name: 'Tout refuser', exact: true });
+  if (await normalRefusal.count()) await normalRefusal.click();
   await normal.evaluate(() => window.scrollTo(0, 400));
-  await normal.waitForFunction(() => Number(document.querySelector('.system-flow').style.getPropertyValue('--flow-progress')) > 0.1);
+  if (await normal.locator('.system-flow').count()) await normal.waitForFunction(() => Number(document.querySelector('.system-flow').style.getPropertyValue('--flow-progress')) > 0.1);
   await normal.getByRole('tab', { name: '02 DESIGN' }).click();
   await normal.waitForFunction(() => document.getElementById('process-panel-1').getAnimations().some((animation) => animation.playState === 'running'));
   await normal.waitForFunction(() => getComputedStyle(document.getElementById('process-panel-1')).opacity === '1');
