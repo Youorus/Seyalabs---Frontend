@@ -39,7 +39,7 @@ Aucune n'est nécessaire pour que le site réponde. Elles complètent :
 
 | Variable | Ce qu'elle active |
 |---|---|
-| `CONTACT_WEBHOOK_URL`, `CONTACT_WEBHOOK_SECRET` | le formulaire de contact. Sans elles il reste inerte plutôt que de perdre un message en silence |
+| `CONTACT_WEBHOOK_URL`, `CONTACT_WEBHOOK_SECRET` | l’envoi serveur du formulaire. Sans elles, le site prépare un email et laisse le visiteur confirmer l’envoi dans sa messagerie |
 | `RATE_LIMIT_SECRET`, `UPSTASH_REDIS_REST_*` | la protection anti-abus répartie |
 | `GOOGLE_SITE_VERIFICATION` | la propriété Search Console |
 | `LEGAL_*` | les mentions légales |

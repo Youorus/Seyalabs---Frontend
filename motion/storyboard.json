@@ -6,68 +6,160 @@
   "pricing": "Positionnement fourni par le propriétaire : tarifs accessibles. Aucun montant, remise ou classement de prix n’a été fourni.",
   "scenes": [
     {
-      "start": 0, "end": 5, "kind": "hook", "label": "VOTRE QUOTIDIEN", "background": "porcelain",
-      "headline": ["Votre activité.", "Des outils", "plus simples."],
-      "support": "Commerces · indépendants · entreprises",
-      "voice": "Votre métier mérite des outils plus simples.",
-      "captions": ["Votre métier mérite", "des outils plus simples."],
-      "visual": "Des demandes, un planning et des informations se dispersent autour du symbole S."
+      "start": 0,
+      "end": 4,
+      "kind": "hook",
+      "label": "VOTRE QUOTIDIEN",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Votre activité grandit.",
+        "Vos outils vous freinent ?"
+      ],
+      "support": "Planning · factures · commandes",
+      "voice": "Votre activité grandit. Vos outils vous freinent ?",
+      "captions": [
+        "Votre activité grandit.",
+        "Vos outils vous freinent ?"
+      ],
+      "visual": "Deux phrases successives, apparition rapide et amortie avec flou temporaire. Badges discrets autour de la seconde phrase."
     },
     {
-      "start": 5, "end": 10, "kind": "problem", "label": "CE QUI VOUS PREND DU TEMPS", "background": "porcelain",
-      "headline": ["Du temps perdu.", "Des infos", "éparpillées."],
-      "support": "Saisir. Vérifier. Chercher. Recommencer.",
-      "voice": "Des infos éparpillées, des tâches répétitives, des clients à relancer.",
-      "captions": ["Des infos éparpillées,", "des tâches répétitives,", "des clients à relancer."],
-      "visual": "Des cartes Commandes, Planning, Factures et Relances se chevauchent."
+      "start": 4,
+      "end": 9,
+      "kind": "problem",
+      "label": "CE QUI VOUS PREND DU TEMPS",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Tout est",
+        "éparpillé."
+      ],
+      "support": "Commandes · planning · factures",
+      "voice": "Commandes, planning, factures… Tout est éparpillé.",
+      "captions": [
+        "Commandes, planning, factures…",
+        "Tout est éparpillé."
+      ],
+      "visual": "Téléphone en perspective avec liste de tâches dispersées et texte à droite en horizontal, en dessous en vertical."
     },
     {
-      "start": 10, "end": 16, "kind": "application", "label": "VOS OUTILS SUR MESURE", "background": "copper",
-      "headline": ["Votre activité.", "Au même", "endroit."],
-      "support": "Commandes. Clients. Planning.",
-      "voice": "Seya Labs crée vos applications pour suivre commandes, clients et planning au même endroit.",
-      "captions": ["Seya Labs crée vos applications", "pour suivre commandes, clients et planning", "au même endroit."],
-      "visual": "Une interface illustrative rassemble les demandes, le planning et le suivi client."
+      "start": 9,
+      "end": 15,
+      "kind": "application",
+      "label": "VOS OUTILS SUR MESURE",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Une application.",
+        "Votre activité."
+      ],
+      "support": "Tout au même endroit.",
+      "voice": "Avec Seya Labs, tout se retrouve dans une application pensée pour votre métier.",
+      "captions": [
+        "Avec Seya Labs,",
+        "tout se retrouve dans une application",
+        "pensée pour votre métier."
+      ],
+      "visual": "Révélation du vrai logo puis fenêtre de suivi et téléphone. Mise en page verticale dédiée."
     },
     {
-      "start": 16, "end": 22, "kind": "automation", "label": "LES TÂCHES S’ENCHAÎNENT", "background": "porcelain",
-      "headline": ["Une action.", "La suite", "s’enchaîne."],
-      "support": "Vos logiciels se parlent. Votre suivi avance.",
-      "voice": "Vos logiciels se parlent. Vos tâches répétitives s’automatisent. Un assistant peut vous aider.",
-      "captions": ["Vos logiciels se parlent.", "Vos tâches répétitives s’automatisent.", "Un assistant peut vous aider."],
-      "visual": "Une demande arrive, le suivi se met à jour puis le client est informé ; un assistant aide à retrouver une information."
+      "start": 15,
+      "end": 23,
+      "kind": "automation",
+      "label": "LES TÂCHES S’ENCHAÎNENT",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Une action. La suite s’enchaîne.",
+        "Un assistant qui vous aide."
+      ],
+      "support": "Demande reçue → suivi mis à jour → client informé",
+      "voice": "Automatisez vos tâches. Connectez vos logiciels. Retrouvez l’essentiel avec l’intelligence artificielle.",
+      "captions": [
+        "Automatisez vos tâches.",
+        "Connectez vos logiciels.",
+        "Retrouvez l’essentiel",
+        "avec l’intelligence artificielle."
+      ],
+      "visual": "Trois badges se valident successivement ; remplacement par une interface d’assistant qui retrouve l’état d’une commande."
     },
     {
-      "start": 22, "end": 30, "kind": "services", "label": "CE QUE NOUS CONSTRUISONS", "background": "obsidian",
-      "headline": ["Des services.", "Une utilité", "concrète."],
-      "support": "Le besoin d’abord. Les bons outils ensuite.",
-      "voice": "Applications web et mobiles, automatisation, intelligence artificielle et formations : des outils pour votre activité.",
-      "captions": ["Applications web et mobiles,", "automatisation, intelligence artificielle", "et formations : des outils pour votre activité."],
-      "visual": "Six cartes expliquent les prestations avec des mots accessibles, sans liste de technologies."
+      "start": 23,
+      "end": 31,
+      "kind": "services",
+      "label": "CE QUE NOUS CONSTRUISONS",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Applications",
+        "Données & API",
+        "Automatisation",
+        "Intelligence artificielle",
+        "Formations"
+      ],
+      "support": "Une prestation à la fois, synchronisée à la voix.",
+      "voice": "Applications web et mobiles, données, automatisation, intelligence artificielle… Et formations pour vos équipes.",
+      "captions": [
+        "Applications web et mobiles,",
+        "données, automatisation,",
+        "intelligence artificielle…",
+        "Et formations pour vos équipes."
+      ],
+      "visual": "Changements de mots au même ancrage, avec bénéfice court et repère discret de progression. Timings dérivés des timestamps ElevenLabs."
     },
     {
-      "start": 30, "end": 37, "kind": "pricing", "label": "NOTRE ENGAGEMENT", "background": "aubergine",
-      "headline": ["Des tarifs", "accessibles."],
-      "support": "Un projet bien défini. Un budget construit avec vous.",
-      "voice": "Notre engagement : des tarifs accessibles. Nous définissons le projet et le budget avec vous.",
-      "captions": ["Notre engagement : des tarifs accessibles.", "Nous définissons le projet", "et le budget avec vous."],
-      "visual": "Trois étapes relient votre besoin, le périmètre utile et votre budget, sans prix fictif."
+      "start": 31,
+      "end": 37,
+      "kind": "pricing",
+      "label": "NOTRE ENGAGEMENT",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Notre plus ?",
+        "Des tarifs accessibles."
+      ],
+      "support": "Un projet pensé pour votre budget.",
+      "voice": "Notre plus ? Des tarifs accessibles. Un projet pensé pour votre budget.",
+      "captions": [
+        "Notre plus ?",
+        "Des tarifs accessibles.",
+        "Un projet pensé",
+        "pour votre budget."
+      ],
+      "visual": "Révélation en grande typographie, lumière cuivre plus chaude, trait cuivre et promesse de budget."
     },
     {
-      "start": 37, "end": 40, "kind": "benefit", "label": "FAITES PLACE À VOTRE MÉTIER", "background": "porcelain",
-      "headline": ["Vos outils", "suivent.", "Vous avancez."],
-      "support": "Plus de place pour vos clients et vos projets.",
+      "start": 37,
+      "end": 40,
+      "kind": "benefit",
+      "label": "FAITES PLACE À VOTRE MÉTIER",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Vos outils suivent.",
+        "Vous avancez."
+      ],
+      "support": "",
       "voice": "Vos outils suivent. Vous avancez.",
-      "captions": ["Vos outils suivent.", "Vous avancez."],
-      "visual": "Les cartes ordonnées laissent apparaître une grande flèche cuivre et le symbole S."
+      "captions": [
+        "Vos outils suivent.",
+        "Vous avancez."
+      ],
+      "visual": "Deux phrases brèves se remplacent avec une respiration avant la conclusion."
     },
     {
-      "start": 40, "end": 45, "kind": "closing", "label": "SEYA LABS", "background": "obsidian",
-      "headline": ["Des outils sur mesure.", "Un budget à votre mesure."],
+      "start": 40,
+      "end": 45,
+      "kind": "closing",
+      "label": "SEYA LABS",
+      "background": "obsidian-copper-gradient",
+      "headline": [
+        "Des outils sur mesure.",
+        "Un budget à votre mesure."
+      ],
       "support": "Parlons de votre projet.",
-      "voice": "Seya Labs. Parlons de votre projet.",
-      "captions": ["Seya Labs.", "Parlons de votre projet."],
-      "visual": "Le vrai logo, la promesse, un CTA et seyalabs.com restent clairement lisibles."
+      "voice": "Seya Labs. Des outils sur mesure. Un budget à votre mesure.",
+      "captions": [
+        "Seya Labs.",
+        "Des outils sur mesure.",
+        "Un budget à votre mesure."
+      ],
+      "visual": "Vrai logo, promesse, bouton cuivre et seyalabs.com sur une composition calme et lisible."
     }
-  ]
+  ],
+  "edition": "V2 — direction inspirée du film Create.xyz de Martial Ditorga : typographie cinétique, interfaces en perspective, transitions floutées et sound design ElevenLabs original."
 }

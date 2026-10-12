@@ -1,0 +1,720 @@
+{
+  "voiceReport": [
+    {
+      "scene": 1,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 3.900952,
+      "trimStart": 0,
+      "trimEnd": 3.553,
+      "speed": 1.029855072463768,
+      "duration": 3.451854,
+      "startsAt": 0.25,
+      "endsAt": 3.701854
+    },
+    {
+      "scene": 2,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 4.736871,
+      "trimStart": 0,
+      "trimEnd": 4.471,
+      "speed": 1.0047191011235954,
+      "duration": 4.443167,
+      "startsAt": 4.25,
+      "endsAt": 8.693166999999999
+    },
+    {
+      "scene": 3,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 5.433469,
+      "trimStart": 0,
+      "trimEnd": 4.842,
+      "speed": 1,
+      "duration": 4.838104,
+      "startsAt": 9.25,
+      "endsAt": 14.088104000000001
+    },
+    {
+      "scene": 4,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 8.219864,
+      "trimStart": 0,
+      "trimEnd": 7.872,
+      "speed": 1.0566442953020134,
+      "duration": 7.454688,
+      "startsAt": 15.25,
+      "endsAt": 22.704688
+    },
+    {
+      "scene": 5,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 7.848345,
+      "trimStart": 0,
+      "trimEnd": 7.4079999999999995,
+      "speed": 1,
+      "duration": 7.394813,
+      "startsAt": 23.25,
+      "endsAt": 30.644813
+    },
+    {
+      "scene": 6,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 6.083628,
+      "trimStart": 0,
+      "trimEnd": 5.55,
+      "speed": 1.018348623853211,
+      "duration": 5.464167,
+      "startsAt": 31.25,
+      "endsAt": 36.714167
+    },
+    {
+      "scene": 7,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 3.250794,
+      "trimStart": 0,
+      "trimEnd": 2.253,
+      "speed": 1,
+      "duration": 2.244813,
+      "startsAt": 37.25,
+      "endsAt": 39.494813
+    },
+    {
+      "scene": 8,
+      "voice": "François Louis · ElevenLabs",
+      "sourceDuration": 4.736871,
+      "trimStart": 0,
+      "trimEnd": 4.6209999999999996,
+      "speed": 1.0384269662921346,
+      "duration": 4.463625,
+      "startsAt": 40.25,
+      "endsAt": 44.713625
+    }
+  ],
+  "cues": [
+    {
+      "scene": 0,
+      "start": 0.3063186039966226,
+      "end": 1.7269068392907403,
+      "text": "Votre activité grandit."
+    },
+    {
+      "scene": 0,
+      "start": 2.3580636082184068,
+      "end": 3.6436813960033776,
+      "text": "Vos outils vous freinent ?"
+    },
+    {
+      "scene": 1,
+      "start": 4.261943636770297,
+      "end": 6.8387832699619775,
+      "text": "Commandes, planning, factures…"
+    },
+    {
+      "scene": 1,
+      "start": 7.589241780362336,
+      "end": 8.664169089689107,
+      "text": "Tout est éparpillé."
+    },
+    {
+      "scene": 2,
+      "start": 9.285,
+      "end": 10.481,
+      "text": "Avec Seya Labs,"
+    },
+    {
+      "scene": 2,
+      "start": 10.678,
+      "end": 12.582,
+      "text": "tout se retrouve dans une application"
+    },
+    {
+      "scene": 2,
+      "start": 12.652000000000001,
+      "end": 14.022,
+      "text": "pensée pour votre métier."
+    },
+    {
+      "scene": 3,
+      "start": 15.293534044715447,
+      "end": 16.732996697154473,
+      "text": "Automatisez vos tâches."
+    },
+    {
+      "scene": 3,
+      "start": 17.118178353658536,
+      "end": 18.524517276422763,
+      "text": "Connectez vos logiciels."
+    },
+    {
+      "scene": 3,
+      "start": 19.139672256097562,
+      "end": 20.34821519308943,
+      "text": "Retrouvez l’essentiel"
+    },
+    {
+      "scene": 3,
+      "start": 20.634025660569105,
+      "end": 22.633752540650406,
+      "text": "avec l’intelligence artificielle."
+    },
+    {
+      "scene": 4,
+      "start": 23.285,
+      "end": 24.933,
+      "text": "Applications web et mobiles,"
+    },
+    {
+      "scene": 4,
+      "start": 25.131,
+      "end": 26.884,
+      "text": "données, automatisation,"
+    },
+    {
+      "scene": 4,
+      "start": 27.046,
+      "end": 28.602,
+      "text": "intelligence artificielle…"
+    },
+    {
+      "scene": 4,
+      "start": 28.904,
+      "end": 30.588,
+      "text": "Et formations pour vos équipes."
+    },
+    {
+      "scene": 5,
+      "start": 31.28436936936937,
+      "end": 32.184846846846845,
+      "text": "Notre plus ?"
+    },
+    {
+      "scene": 5,
+      "start": 32.583531531531534,
+      "end": 34.04275675675676,
+      "text": "Des tarifs accessibles."
+    },
+    {
+      "scene": 5,
+      "start": 34.5907027027027,
+      "end": 35.60509009009009,
+      "text": "Un projet pensé"
+    },
+    {
+      "scene": 5,
+      "start": 35.67382882882883,
+      "end": 36.64304504504504,
+      "text": "pour votre budget."
+    },
+    {
+      "scene": 6,
+      "start": 37.273,
+      "end": 38.353,
+      "text": "Vos outils suivent."
+    },
+    {
+      "scene": 6,
+      "start": 38.55,
+      "end": 39.468,
+      "text": "Vous avancez."
+    },
+    {
+      "scene": 7,
+      "start": 40.29429777104523,
+      "end": 41.21106903267691,
+      "text": "Seya Labs."
+    },
+    {
+      "scene": 7,
+      "start": 41.74842025535598,
+      "end": 42.88860636225925,
+      "text": "Des outils sur mesure."
+    },
+    {
+      "scene": 7,
+      "start": 43.1794308591214,
+      "end": 44.598885522614154,
+      "text": "Un budget à votre mesure."
+    }
+  ],
+  "words": [
+    {
+      "scene": 0,
+      "text": "Votre",
+      "start": 0.3063186039966226,
+      "end": 0.5879116239797355
+    },
+    {
+      "scene": 0,
+      "text": "activité",
+      "start": 0.6112158739093724,
+      "end": 1.129735434843794
+    },
+    {
+      "scene": 0,
+      "text": "grandit.",
+      "start": 1.1860540388404166,
+      "end": 1.7269068392907403
+    },
+    {
+      "scene": 0,
+      "text": "Vos",
+      "start": 2.3580636082184068,
+      "end": 2.527019420208275
+    },
+    {
+      "scene": 0,
+      "text": "outils",
+      "start": 2.594990149169716,
+      "end": 2.898916408668731
+    },
+    {
+      "scene": 0,
+      "text": "vous",
+      "start": 2.9329017731494513,
+      "end": 3.0911764705882354
+    },
+    {
+      "scene": 0,
+      "text": "freinent",
+      "start": 3.1358429496200397,
+      "end": 3.564058542077118
+    },
+    {
+      "scene": 0,
+      "text": "?",
+      "start": 3.609696031522657,
+      "end": 3.6436813960033776
+    },
+    {
+      "scene": 1,
+      "text": "Commandes,",
+      "start": 4.261943636770297,
+      "end": 4.896946991724446
+    },
+    {
+      "scene": 1,
+      "text": "planning,",
+      "start": 5.116908968910758,
+      "end": 5.740963990158801
+    },
+    {
+      "scene": 1,
+      "text": "factures...",
+      "start": 6.099273093267726,
+      "end": 6.8387832699619775
+    },
+    {
+      "scene": 1,
+      "text": "Tout",
+      "start": 7.589241780362336,
+      "end": 7.79726012077835
+    },
+    {
+      "scene": 1,
+      "text": "est",
+      "start": 7.8549876985014535,
+      "end": 7.924658912994856
+    },
+    {
+      "scene": 1,
+      "text": "éparpillé.",
+      "start": 7.994330127488258,
+      "end": 8.664169089689107
+    },
+    {
+      "scene": 2,
+      "text": "Avec",
+      "start": 9.285,
+      "end": 9.575
+    },
+    {
+      "scene": 2,
+      "text": "Séya",
+      "start": 9.633,
+      "end": 9.877
+    },
+    {
+      "scene": 2,
+      "text": "Labs,",
+      "start": 9.947,
+      "end": 10.481
+    },
+    {
+      "scene": 2,
+      "text": "tout",
+      "start": 10.678,
+      "end": 10.887
+    },
+    {
+      "scene": 2,
+      "text": "se",
+      "start": 10.922,
+      "end": 11.038
+    },
+    {
+      "scene": 2,
+      "text": "retrouve",
+      "start": 11.096,
+      "end": 11.56
+    },
+    {
+      "scene": 2,
+      "text": "dans",
+      "start": 11.584,
+      "end": 11.735
+    },
+    {
+      "scene": 2,
+      "text": "une",
+      "start": 11.815999999999999,
+      "end": 11.92
+    },
+    {
+      "scene": 2,
+      "text": "application",
+      "start": 11.943999999999999,
+      "end": 12.582
+    },
+    {
+      "scene": 2,
+      "text": "pensée",
+      "start": 12.652000000000001,
+      "end": 13.081
+    },
+    {
+      "scene": 2,
+      "text": "pour",
+      "start": 13.105,
+      "end": 13.232
+    },
+    {
+      "scene": 2,
+      "text": "votre",
+      "start": 13.267,
+      "end": 13.511
+    },
+    {
+      "scene": 2,
+      "text": "métier.",
+      "start": 13.568999999999999,
+      "end": 14.022
+    },
+    {
+      "scene": 3,
+      "text": "Automatisez",
+      "start": 15.293534044715447,
+      "end": 16.062950965447154
+    },
+    {
+      "scene": 3,
+      "text": "vos",
+      "start": 16.107431402439026,
+      "end": 16.227623221544714
+    },
+    {
+      "scene": 3,
+      "text": "tâches.",
+      "start": 16.260746951219513,
+      "end": 16.732996697154473
+    },
+    {
+      "scene": 3,
+      "text": "Connectez",
+      "start": 17.118178353658536,
+      "end": 17.61219512195122
+    },
+    {
+      "scene": 3,
+      "text": "vos",
+      "start": 17.65667555894309,
+      "end": 17.76645706300813
+    },
+    {
+      "scene": 3,
+      "text": "logiciels.",
+      "start": 17.788224085365854,
+      "end": 18.524517276422763
+    },
+    {
+      "scene": 3,
+      "text": "Retrouvez",
+      "start": 19.139672256097562,
+      "end": 19.645045731707317
+    },
+    {
+      "scene": 3,
+      "text": "l'essentiel",
+      "start": 19.688579776422763,
+      "end": 20.34821519308943
+    },
+    {
+      "scene": 3,
+      "text": "avec",
+      "start": 20.634025660569105,
+      "end": 20.941603150406504
+    },
+    {
+      "scene": 3,
+      "text": "l'intelligence",
+      "start": 21.01826092479675,
+      "end": 21.721430386178863
+    },
+    {
+      "scene": 3,
+      "text": "artificielle.",
+      "start": 21.743197408536584,
+      "end": 22.633752540650406
+    },
+    {
+      "scene": 4,
+      "text": "Applications",
+      "start": 23.285,
+      "end": 23.958
+    },
+    {
+      "scene": 4,
+      "text": "web",
+      "start": 24.028,
+      "end": 24.248
+    },
+    {
+      "scene": 4,
+      "text": "et",
+      "start": 24.295,
+      "end": 24.341
+    },
+    {
+      "scene": 4,
+      "text": "mobiles,",
+      "start": 24.365,
+      "end": 24.933
+    },
+    {
+      "scene": 4,
+      "text": "données,",
+      "start": 25.131,
+      "end": 25.642
+    },
+    {
+      "scene": 4,
+      "text": "automatisation,",
+      "start": 25.746,
+      "end": 26.884
+    },
+    {
+      "scene": 4,
+      "text": "intelligence",
+      "start": 27.046,
+      "end": 27.743000000000002
+    },
+    {
+      "scene": 4,
+      "text": "artificielle...",
+      "start": 27.766,
+      "end": 28.602
+    },
+    {
+      "scene": 4,
+      "text": "Et",
+      "start": 28.904,
+      "end": 29.043
+    },
+    {
+      "scene": 4,
+      "text": "formations",
+      "start": 29.113,
+      "end": 29.728
+    },
+    {
+      "scene": 4,
+      "text": "pour",
+      "start": 29.762999999999998,
+      "end": 29.878999999999998
+    },
+    {
+      "scene": 4,
+      "text": "vos",
+      "start": 29.914,
+      "end": 30.042
+    },
+    {
+      "scene": 4,
+      "text": "équipes.",
+      "start": 30.111,
+      "end": 30.588
+    },
+    {
+      "scene": 5,
+      "text": "Notre",
+      "start": 31.28436936936937,
+      "end": 31.603513513513512
+    },
+    {
+      "scene": 5,
+      "text": "plus",
+      "start": 31.672252252252253,
+      "end": 31.96782882882883
+    },
+    {
+      "scene": 5,
+      "text": "?",
+      "start": 32.12789189189189,
+      "end": 32.184846846846845
+    },
+    {
+      "scene": 5,
+      "text": "Des",
+      "start": 32.583531531531534,
+      "end": 32.7435945945946
+    },
+    {
+      "scene": 5,
+      "text": "tarifs",
+      "start": 32.78876576576577,
+      "end": 33.188432432432435
+    },
+    {
+      "scene": 5,
+      "text": "accessibles.",
+      "start": 33.24538738738739,
+      "end": 34.04275675675676
+    },
+    {
+      "scene": 5,
+      "text": "Un",
+      "start": 34.5907027027027,
+      "end": 34.73898198198198
+    },
+    {
+      "scene": 5,
+      "text": "projet",
+      "start": 34.80673873873874,
+      "end": 35.21720720720721
+    },
+    {
+      "scene": 5,
+      "text": "pensé",
+      "start": 35.27416216216216,
+      "end": 35.60509009009009
+    },
+    {
+      "scene": 5,
+      "text": "pour",
+      "start": 35.67382882882883,
+      "end": 35.78773873873874
+    },
+    {
+      "scene": 5,
+      "text": "votre",
+      "start": 35.82210810810811,
+      "end": 36.0842972972973
+    },
+    {
+      "scene": 5,
+      "text": "budget.",
+      "start": 36.14125225225225,
+      "end": 36.64304504504504
+    },
+    {
+      "scene": 6,
+      "text": "Vos",
+      "start": 37.273,
+      "end": 37.459
+    },
+    {
+      "scene": 6,
+      "text": "outils",
+      "start": 37.529,
+      "end": 37.796
+    },
+    {
+      "scene": 6,
+      "text": "suivent.",
+      "start": 37.83,
+      "end": 38.353
+    },
+    {
+      "scene": 6,
+      "text": "Vous",
+      "start": 38.55,
+      "end": 38.748
+    },
+    {
+      "scene": 6,
+      "text": "avancez.",
+      "start": 38.817,
+      "end": 39.468
+    },
+    {
+      "scene": 7,
+      "text": "Séya",
+      "start": 40.29429777104523,
+      "end": 40.652531919497946
+    },
+    {
+      "scene": 7,
+      "text": "Labs.",
+      "start": 40.71994157108851,
+      "end": 41.21106903267691
+    },
+    {
+      "scene": 7,
+      "text": "Des",
+      "start": 41.74842025535598,
+      "end": 41.91598138930967
+    },
+    {
+      "scene": 7,
+      "text": "outils",
+      "start": 41.98339104090024,
+      "end": 42.22895477169444
+    },
+    {
+      "scene": 7,
+      "text": "sur",
+      "start": 42.26265959748972,
+      "end": 42.39651590564813
+    },
+    {
+      "scene": 7,
+      "text": "mesure.",
+      "start": 42.44177667171608,
+      "end": 42.88860636225925
+    },
+    {
+      "scene": 7,
+      "text": "Un",
+      "start": 43.1794308591214,
+      "end": 43.32484310755248
+    },
+    {
+      "scene": 7,
+      "text": "budget",
+      "start": 43.39128976412032,
+      "end": 43.74952391257304
+    },
+    {
+      "scene": 7,
+      "text": "à",
+      "start": 43.78322873836832,
+      "end": 43.805377623890934
+    },
+    {
+      "scene": 7,
+      "text": "votre",
+      "start": 43.83908244968622,
+      "end": 44.07405323523047
+    },
+    {
+      "scene": 7,
+      "text": "mesure.",
+      "start": 44.12990694654837,
+      "end": 44.598885522614154
+    }
+  ],
+  "soundReport": {
+    "provider": "ElevenLabs",
+    "status": "draft_missing_sound_effects_permission",
+    "generatedEffects": 0,
+    "events": 0
+  }
+}

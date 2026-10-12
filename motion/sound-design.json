@@ -1,0 +1,187 @@
+{
+  "provider": "ElevenLabs",
+  "model_id": "eleven_text_to_sound_v2",
+  "effects": [
+    {
+      "id": "sweep",
+      "duration_seconds": 0.65,
+      "prompt_influence": 0.65,
+      "text": "One premium soft cinematic whoosh for a fast motion graphics transition. Airy short stereo sweep, clean and modern, no voice, no music, no harsh treble, quick fade out."
+    },
+    {
+      "id": "impact",
+      "duration_seconds": 0.7,
+      "prompt_influence": 0.6,
+      "text": "One deep restrained soft sub bass impact for a premium brand logo reveal. Short rounded low thump with a tiny airy tail, no explosion, no voice, no music, no distortion."
+    },
+    {
+      "id": "click",
+      "duration_seconds": 0.5,
+      "prompt_influence": 0.7,
+      "text": "One elegant dry tactile computer interface click. Crisp gentle pop, extremely short attack and decay, isolated, no ambience, no voice, no music."
+    },
+    {
+      "id": "typing",
+      "duration_seconds": 1.3,
+      "prompt_influence": 0.6,
+      "text": "A short quick burst of soft tactile laptop keyboard typing, refined muted key taps with natural irregular rhythm, stop cleanly. Isolated close sound, no voice, no music, no background."
+    },
+    {
+      "id": "success",
+      "duration_seconds": 1.0,
+      "prompt_influence": 0.7,
+      "text": "One elegant positive digital confirmation sound. Two soft ascending warm glass notes, premium productivity application notification, short decay. No voice, no music bed, no harsh high frequencies."
+    },
+    {
+      "id": "shimmer",
+      "duration_seconds": 1.8,
+      "prompt_influence": 0.6,
+      "text": "A subtle warm cinematic sparkling reveal, airy rising texture resolving in a soft crystalline shimmer. Premium technology brand, restrained, short clean tail, no voice, no music, no harsh noise."
+    }
+  ],
+  "events": [
+    {
+      "at": 0.12,
+      "effect": "impact",
+      "gainDb": -10
+    },
+    {
+      "at": 1.8,
+      "effect": "sweep",
+      "gainDb": -13
+    },
+    {
+      "at": 4,
+      "effect": "sweep",
+      "gainDb": -12
+    },
+    {
+      "at": 4.55,
+      "effect": "typing",
+      "gainDb": -16
+    },
+    {
+      "at": 6.3,
+      "effect": "click",
+      "gainDb": -12
+    },
+    {
+      "at": 9,
+      "effect": "impact",
+      "gainDb": -11
+    },
+    {
+      "at": 9.5,
+      "effect": "shimmer",
+      "gainDb": -17
+    },
+    {
+      "at": 11,
+      "effect": "click",
+      "gainDb": -13
+    },
+    {
+      "at": 12.4,
+      "effect": "success",
+      "gainDb": -15
+    },
+    {
+      "at": 15,
+      "effect": "sweep",
+      "gainDb": -12
+    },
+    {
+      "at": 15.6,
+      "effect": "click",
+      "gainDb": -13
+    },
+    {
+      "at": 17.4,
+      "effect": "success",
+      "gainDb": -14
+    },
+    {
+      "at": 19.4,
+      "effect": "sweep",
+      "gainDb": -15
+    },
+    {
+      "at": 21,
+      "effect": "typing",
+      "gainDb": -19
+    },
+    {
+      "at": 23,
+      "effect": "sweep",
+      "gainDb": -11
+    },
+    {
+      "at": 24.4,
+      "effect": "click",
+      "gainDb": -13,
+      "scene": 4,
+      "word": "données"
+    },
+    {
+      "at": 25.8,
+      "effect": "click",
+      "gainDb": -13,
+      "scene": 4,
+      "word": "automatisation"
+    },
+    {
+      "at": 27.2,
+      "effect": "click",
+      "gainDb": -13,
+      "scene": 4,
+      "word": "intelligence"
+    },
+    {
+      "at": 28.5,
+      "effect": "click",
+      "gainDb": -13,
+      "scene": 4,
+      "word": "formations"
+    },
+    {
+      "at": 31,
+      "effect": "impact",
+      "gainDb": -9
+    },
+    {
+      "at": 32.3,
+      "effect": "shimmer",
+      "gainDb": -16
+    },
+    {
+      "at": 34.5,
+      "effect": "success",
+      "gainDb": -16
+    },
+    {
+      "at": 37,
+      "effect": "sweep",
+      "gainDb": -13
+    },
+    {
+      "at": 38.5,
+      "effect": "success",
+      "gainDb": -15
+    },
+    {
+      "at": 40,
+      "effect": "impact",
+      "gainDb": -10
+    },
+    {
+      "at": 40.45,
+      "effect": "shimmer",
+      "gainDb": -17
+    },
+    {
+      "at": 42.9,
+      "effect": "click",
+      "gainDb": -16
+    }
+  ]
+}

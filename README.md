@@ -84,6 +84,10 @@ Les vues sont envoyées une fois par changement de chemin App Router, avec `send
 
 Références : [Consent Mode Google](https://developers.google.com/tag-platform/security/concepts/consent-mode), [configuration GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/config), [vues manuelles et mesure améliorée](https://developers.google.com/analytics/devguides/collection/ga4/views), [recommandations de la CNIL](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/FAQ).
 
+## Visuel d’équipe dans le hero
+
+Le visuel de collaboration est limité au hero de l’accueil. Il est généré et porte une légende explicite ; il ne représente pas l’équipe réelle. Configuration dans `data/team.ts`, remplacement par des photos approuvées expliqué dans `public/team/README.md`. Les portraits nominatifs restent masqués tant que le visuel est une illustration.
+
 ## Contenus réels
 
 Ajoutez les cas vérifiés dans `data/projects.ts` avec `approvedForPublication: true`. Ajoutez uniquement des chiffres, citations et captures approuvés. Le sitemap et les routes suivent automatiquement ces entrées. Pour les réseaux sociaux, configurez les URLs officielles ; aucun lien de profil inventé n’est affiché.
@@ -116,13 +120,13 @@ Les tests unitaires couvrent la qualification, les limites et le comportement de
 7. Désactiver les mesures automatiques dans le flux GA4, confirmer sa durée de conservation et les paramètres de partage. Mettre à jour la politique avec les réglages réellement choisis.
 8. Exécuter les vérifications, `npm run check:launch`, puis déclarer le sitemap dans Search Console.
 
-Le site est préparé pour un hébergement Node.js compatible Next.js. Il n’a pas été publié par cette tâche. Les paramètres légaux et la livraison des demandes dépendent de la configuration de production.
+Le site est préparé pour un hébergement Node.js compatible Next.js. Cette phase n’a pas déployé ses changements ; la configuration du serveur existant est documentée dans `docs/DEPLOIEMENT.md`. Les paramètres légaux et la livraison des demandes dépendent de la configuration de production.
 
-## Résultats vérifiés — 5 octobre 2026
+## Résultats vérifiés — 12 octobre 2026
 
-Une production motion design générale de l’agence est livrée séparément dans `motion/` : deux MP4 de 45 s, horizontal et vertical, voix française synthétique, fond sonore original et sous-titres. Le [prompt réutilisable](motion/prompt-motion-seya-labs.md), les sources et les commandes sont décrits dans [le dossier de production](motion/README.md). L’aperçu local est accessible sur `http://localhost:3210` ; cette production n’ajoute aucune vidéo au chargement du site et n’a pas été publiée à l’extérieur.
+Une production motion design V2 générale de l’agence est livrée séparément dans `motion/` : deux MP4 de 45 s, horizontal et vertical, typographie cinétique, interfaces en perspective, voix française **François Louis / ElevenLabs**, fond original discret et sous-titres. **Ce sont des versions de travail : la permission ElevenLabs Sound Generation manque encore pour ajouter les six effets prévus.** `motion/output/production-status.json` enregistre cet état. Le [prompt réutilisable](motion/prompt-motion-seya-labs.md), les sources et les commandes sont décrits dans [le dossier de production](motion/README.md). L’aperçu local est accessible sur `http://localhost:3210` ; cette production n’ajoute aucune vidéo au chargement du site et n’a pas été publiée à l’extérieur.
 
-- Lint sans avertissement, TypeScript strict, build de production et 6 tests du formulaire / consentement : validés.
+- Lint sans avertissement, TypeScript strict, build de production et 8 tests du formulaire / consentement / Tag Manager : validés.
 - 42 pages et 56 destinations internes, dont le modèle téléchargeable et les demandes de formation : vérifiées ; titres et descriptions uniques, canonicals, données structurées et une H1.
 - 39 pages dans le sitemap : aucune page orpheline, profondeur maximale de deux clics depuis l’accueil.
 - 138 contrôles responsive à 375 / 430 / 768 / 1024 / 1440 / 1920 px : aucun débordement.
@@ -134,4 +138,8 @@ Une production motion design générale de l’agence est livrée séparément d
 - Lighthouse mobile sur l’accueil après renforcement SEO, avant ajout des formations, build local indexable : **Performance 93 / Accessibilité 100 / Bonnes pratiques 100 / SEO 100**. FCP 1,1 s ; LCP 2,8 s ; TBT 200 ms ; CLS 0.
 - Lighthouse mobile sur l’offre Application métier, avant ajout des formations : **Performance 97 / Accessibilité 100 / Bonnes pratiques 100 / SEO 100**. FCP 0,8 s ; LCP 2,5 s ; TBT 30 ms ; CLS 0. Ces mesures de laboratoire dépendent de l’hébergement et des conditions de mesure ; elles ne remplacent pas le suivi des visiteurs après lancement, ni l’évaluation du classement.
 - Rapports : `test-results/audit.json`, `test-results/final-adjustments.json`, `test-results/lighthouse-home.report.html` et `test-results/lighthouse-application-metier.report.html` ; captures dans le même dossier.
-- Non publié. Les informations légales restent à renseigner. Le contact fonctionne en préparation d’email ; l’envoi serveur attend un webhook configuré et testé.
+- Les changements de cette phase n’ont pas été déployés. Voir `docs/DEPLOIEMENT.md` pour la configuration et la bascule du serveur existant. Les informations légales restent à renseigner. Le contact fonctionne en préparation d’email ; l’envoi serveur attend un webhook configuré et testé.
+
+Le 12 octobre, les deux MP4 V2 ont été décodés intégralement et lus dans le navigateur ; quatre aperçus responsive ont passé Axe sans violation automatique. Le mix de travail mesure −16,60 LUFS / −1,67 dBTP. Les effets restent à produire, puis il faudra refaire mix, export et contrôles. Le build Docker réel reste non validé localement ; le serveur Next standalone a été testé.
+
+L’audit npm du 12 octobre signale cinq alertes hautes dans la chaîne de développement ESLint (`braces` / `micromatch` / `fast-glob`), sans alerte dans les dépendances de production. La correction automatique proposée rétrograde `eslint-config-next` en 14 ; elle n’est pas appliquée au projet Next 16. Suivre une correction compatible, sans `npm audit fix --force`.

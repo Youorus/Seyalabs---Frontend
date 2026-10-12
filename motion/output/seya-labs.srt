@@ -1,83 +1,95 @@
 1
-00:00:00,250 --> 00:00:01,303
-Votre métier mérite
+00:00:00,306 --> 00:00:01,727
+Votre activité grandit.
 
 2
-00:00:01,303 --> 00:00:02,634
-des outils plus simples.
+00:00:02,358 --> 00:00:03,644
+Vos outils vous freinent ?
 
 3
-00:00:05,250 --> 00:00:06,685
-Des infos éparpillées,
+00:00:04,262 --> 00:00:06,839
+Commandes, planning, factures…
 
 4
-00:00:06,685 --> 00:00:08,185
-des tâches répétitives,
+00:00:07,589 --> 00:00:08,664
+Tout est éparpillé.
 
 5
-00:00:08,185 --> 00:00:09,685
-des clients à relancer.
+00:00:09,285 --> 00:00:10,481
+Avec Seya Labs,
 
 6
-00:00:10,250 --> 00:00:12,074
-Seya Labs crée vos applications
+00:00:10,678 --> 00:00:12,582
+tout se retrouve dans une application
 
 7
-00:00:12,074 --> 00:00:14,545
-pour suivre commandes, clients et planning
+00:00:12,652 --> 00:00:14,022
+pensée pour votre métier.
 
 8
-00:00:14,545 --> 00:00:15,486
-au même endroit.
+00:00:15,294 --> 00:00:16,733
+Automatisez vos tâches.
 
 9
-00:00:16,250 --> 00:00:17,727
-Vos logiciels se parlent.
+00:00:17,118 --> 00:00:18,525
+Connectez vos logiciels.
 
 10
-00:00:17,727 --> 00:00:19,972
-Vos tâches répétitives s’automatisent.
+00:00:19,140 --> 00:00:20,348
+Retrouvez l’essentiel
 
 11
-00:00:19,972 --> 00:00:21,685
-Un assistant peut vous aider.
+00:00:20,634 --> 00:00:22,634
+avec l’intelligence artificielle.
 
 12
-00:00:22,250 --> 00:00:24,040
+00:00:23,285 --> 00:00:24,933
 Applications web et mobiles,
 
 13
-00:00:24,040 --> 00:00:26,660
-automatisation, intelligence artificielle
+00:00:25,131 --> 00:00:26,884
+données, automatisation,
 
 14
-00:00:26,660 --> 00:00:29,664
-et formations : des outils pour votre activité.
+00:00:27,046 --> 00:00:28,602
+intelligence artificielle…
 
 15
-00:00:30,250 --> 00:00:32,707
-Notre engagement : des tarifs accessibles.
+00:00:28,904 --> 00:00:30,588
+Et formations pour vos équipes.
 
 16
-00:00:32,707 --> 00:00:34,229
-Nous définissons le projet
+00:00:31,284 --> 00:00:32,185
+Notre plus ?
 
 17
-00:00:34,229 --> 00:00:35,574
-et le budget avec vous.
+00:00:32,584 --> 00:00:34,043
+Des tarifs accessibles.
 
 18
-00:00:37,250 --> 00:00:38,513
-Vos outils suivent.
+00:00:34,591 --> 00:00:35,605
+Un projet pensé
 
 19
-00:00:38,513 --> 00:00:39,377
-Vous avancez.
+00:00:35,674 --> 00:00:36,643
+pour votre budget.
 
 20
-00:00:40,250 --> 00:00:40,923
-Seya Labs.
+00:00:37,273 --> 00:00:38,353
+Vos outils suivent.
 
 21
-00:00:40,923 --> 00:00:42,539
-Parlons de votre projet.
+00:00:38,550 --> 00:00:39,468
+Vous avancez.
+
+22
+00:00:40,294 --> 00:00:41,211
+Seya Labs.
+
+23
+00:00:41,748 --> 00:00:42,889
+Des outils sur mesure.
+
+24
+00:00:43,179 --> 00:00:44,599
+Un budget à votre mesure.

@@ -1,294 +1,990 @@
-/* A deterministic vector composition, shared by the interactive preview and both video exports. */
+/* Deterministic motion graphics: typography, UI textures and perspective are rendered at export time. */
 (() => {
-  const assets = window.SEYA_FILM_ASSETS;
-  const story = assets.storyboard;
-  const canvas = document.getElementById("film");
-  const ctx = canvas.getContext("2d");
-  const palette = { porcelain: "#F3F0E8", obsidian: "#11100E", copper: "#D65A31", aubergine: "#34212F", sandstone: "#C9BDAE", chalk: "#E4E0D7", muted: "#625e56", sage: "#65704F" };
-  const logoPath = new Path2D(assets.logoPath);
-  const renderMode = new URLSearchParams(location.search).has("render");
-  let format = new URLSearchParams(location.search).get("format") || "landscape";
-  let w = 1920, h = 1080, portrait = false, time = 0, playing = false, sound = true;
-  let ink = palette.obsidian, secondary = palette.muted, accent = palette.copper;
-  const clamp = (x, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, x));
-  const ease = (x) => 1 - Math.pow(1 - clamp(x), 3);
-  const entrance = (t, delay = 0) => ease((t - delay) / 0.65);
-  const lerp = (a, b, p) => a + (b - a) * p;
-  const blend = (a, b, p) => {
-    const ca = a.match(/\w\w/g).map((v) => parseInt(v, 16));
-    const cb = b.match(/\w\w/g).map((v) => parseInt(v, 16));
-    return `rgb(${ca.map((v, i) => Math.round(lerp(v, cb[i], p))).join(",")})`;
+  const assets = window.SEYA_FILM_ASSETS,
+    story = assets.storyboard;
+  const canvas = document.getElementById("film"),
+    ctx = canvas.getContext("2d");
+  const P = {
+    ink: "#11100E",
+    paper: "#F3F0E8",
+    copper: "#D65A31",
+    light: "#FFA27B",
+    muted: "#B6ADA7",
+    line: "#ffffff20",
   };
-  function box(x, y, width, height, fill, stroke = null, radius = 3) {
-    ctx.beginPath(); ctx.roundRect(x, y, width, height, radius);
-    if (fill) { ctx.fillStyle = fill; ctx.fill(); }
-    if (stroke) { ctx.strokeStyle = stroke; ctx.lineWidth = 1.5; ctx.stroke(); }
+  const logo = new Path2D(assets.logoPath);
+  const renderMode = new URLSearchParams(location.search).has("render");
+  let format =
+    new URLSearchParams(location.search).get("format") || "landscape";
+  let w = 1920,
+    h = 1080,
+    portrait = false,
+    time = 0,
+    playing = false,
+    sound = true;
+  const clamp = (n, a = 0, b = 1) => Math.max(a, Math.min(b, n));
+  const ease = (n) => 1 - Math.pow(1 - clamp(n), 4);
+  const smooth = (n) => {
+    const p = clamp(n);
+    return p * p * (3 - 2 * p);
+  };
+  const enter = (t, d = 0, duration = 0.5) => ease((t - d) / duration);
+  function box(x, y, width, height, fill, stroke = null, radius = 16, c = ctx) {
+    c.beginPath();
+    c.roundRect(x, y, width, height, radius);
+    if (fill) {
+      c.fillStyle = fill;
+      c.fill();
+    }
+    if (stroke) {
+      c.strokeStyle = stroke;
+      c.lineWidth = 1.4;
+      c.stroke();
+    }
   }
-  function text(value, x, y, size = 32, color = ink, weight = 400, font = "SeyaBody", align = "left") {
-    ctx.font = `${weight} ${size}px ${font}`; ctx.fillStyle = color; ctx.textAlign = align; ctx.textBaseline = "top"; ctx.fillText(value, x, y);
+  function text(
+    s,
+    x,
+    y,
+    size = 64,
+    color = P.paper,
+    weight = 500,
+    align = "center",
+    font = "SeyaBody",
+    c = ctx,
+  ) {
+    c.font = `${weight} ${size}px ${font}`;
+    c.textAlign = align;
+    c.textBaseline = "middle";
+    c.fillStyle = color;
+    c.fillText(s, x, y);
   }
-  function wrap(value, size, width, weight = 400, font = "SeyaBody") {
+  function fit(s, size, width, font = "SeyaBody", weight = 500) {
     ctx.font = `${weight} ${size}px ${font}`;
-    const lines = []; let line = "";
-    for (const word of value.split(/\s+/)) {
+    return Math.min(size, (size * width) / ctx.measureText(s).width);
+  }
+  function lines(s, size, width, font = "SeyaBody") {
+    ctx.font = `500 ${size}px ${font}`;
+    const out = [];
+    let line = "";
+    for (const word of s.split(/\s+/)) {
       const next = line ? `${line} ${word}` : word;
-      if (line && ctx.measureText(next).width > width) { lines.push(line); line = word; } else line = next;
+      if (line && ctx.measureText(next).width > width) {
+        out.push(line);
+        line = word;
+      } else line = next;
     }
-    if (line) lines.push(line);
-    return lines;
+    if (line) out.push(line);
+    return out;
   }
-  function paragraph(value, x, y, size, width, color = secondary, weight = 400, lineHeight = 1.45, align = "left") {
-    const lines = wrap(value, size, width, weight);
-    lines.forEach((line, i) => text(line, x, y + i * size * lineHeight, size, color, weight, "SeyaBody", align));
-    return lines.length * size * lineHeight;
+  function mark(x, y, height, color = P.paper, c = ctx) {
+    c.save();
+    c.translate(x, y);
+    c.scale(height / 720, height / 720);
+    c.fillStyle = color;
+    c.fill(logo);
+    c.restore();
   }
-  function mark(x, y, height, color = ink, rotation = 0) {
-    ctx.save(); ctx.translate(x, y); ctx.rotate(rotation); ctx.scale(height / 720, height / 720); ctx.fillStyle = color; ctx.fill(logoPath); ctx.restore();
-  }
-  function brand(x, y, size = 44, color = ink) {
-    mark(x, y, size * 1.2, color); text("SEYA", x + size * 1.38, y + 7, size, color, 700, "SeyaDisplay");
-    ctx.font = `700 ${size}px SeyaDisplay`; const len = ctx.measureText("SEYA").width;
-    text("LABS", x + size * 1.38 + len + size * .22, y + 7, size, color, 400, "SeyaDisplay");
-  }
-  function line(x1, y1, x2, y2, color = accent, width = 3, progress = 1) {
-    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(lerp(x1, x2, progress), lerp(y1, y2, progress)); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.stroke();
-  }
-  function check(x, y, size, color = accent, progress = 1) {
-    ctx.save(); ctx.beginPath(); ctx.moveTo(x, y + size * .5); ctx.lineTo(x + size * .35, y + size * .85); if (progress > .4) ctx.lineTo(x + size, y); ctx.strokeStyle = color; ctx.lineWidth = size * .12; ctx.lineCap = "round"; ctx.stroke(); ctx.restore();
-  }
-  function arrow(x, y, size, color = accent) {
-    line(x, y + size, x + size, y, color, 5); line(x + size * .25, y, x + size, y, color, 5); line(x + size, y, x + size, y + size * .75, color, 5);
-  }
-  function icon(kind, x, y, size = 48, color = accent) {
-    ctx.save(); ctx.translate(x, y); ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 3; ctx.lineCap = "round";
-    if (kind === "app") { box(0, 0, size, size * .78, null, color); line(0, size * .2, size, size * .2, color, 2); line(size * .15, size * .37, size * .56, size * .37, color, 3); line(size * .15, size * .55, size * .75, size * .55, color, 3); }
-    if (kind === "flow") { for (let i = 0; i < 3; i++) box(i * size * .35, i * size * .24, size * .3, size * .22, null, color); line(size * .2, size * .25, size * .5, size * .4, color, 2); }
-    if (kind === "ai") { box(0, 0, size, size * .7, null, color); line(0, size * .7, 0, size * .96, color, 3); line(0, size * .96, size * .25, size * .7, color, 3); for (let i = 0; i < 3; i++) {ctx.beginPath();ctx.arc(size*(.23+i*.27),size*.34,3,0,Math.PI*2);ctx.fill();} }
-    if (kind === "connect") { box(0, size * .18, size * .32, size * .48, null, color); box(size * .67, size * .18, size * .32, size * .48, null, color); line(size * .35, size * .41, size * .63, size * .41, color, 3); }
-    if (kind === "product") { arrow(0, 0, size * .7, color); line(0, size * .95, size * .95, size * .95, color, 3); }
-    if (kind === "learn") { box(0, 0, size * .47, size * .75, null, color); box(size * .48, 0, size * .47, size * .75, null, color); line(size * .47, size * .05, size * .47, size * .8, color, 3); }
+  function brand(cx, cy, size = 60, alpha = 1) {
+    ctx.save();
+    ctx.globalAlpha *= alpha;
+    const width = size * 6.15;
+    mark(cx - width / 2, cy - size * 0.65, size * 1.3);
+    text(
+      "SEYA",
+      cx - width / 2 + size * 1.48,
+      cy,
+      size,
+      P.paper,
+      650,
+      "left",
+      "SeyaDisplay",
+    );
+    ctx.font = `650 ${size}px SeyaDisplay`;
+    text(
+      "LABS",
+      cx - width / 2 + size * 1.7 + ctx.measureText("SEYA").width,
+      cy,
+      size,
+      P.paper,
+      400,
+      "left",
+      "SeyaDisplay",
+    );
     ctx.restore();
   }
-  function background(scene, local) {
-    const index = story.scenes.indexOf(scene);
-    const previous = story.scenes[Math.max(0, index - 1)];
-    const p = ease(local / .4);
-    ctx.fillStyle = blend(palette[previous.background], palette[scene.background], p); ctx.fillRect(0, 0, w, h);
-    const dark = ["obsidian", "aubergine"].includes(scene.background);
-    ink = dark ? palette.porcelain : palette.obsidian;
-    secondary = dark ? "#cbc1b5" : scene.background === "copper" ? "#34201a" : palette.muted;
-    accent = dark ? "#f59973" : scene.background === "copper" ? palette.obsidian : palette.copper;
-    ctx.save(); ctx.globalAlpha = .13; ctx.strokeStyle = dark ? "#c9bdae" : "#a29584"; ctx.lineWidth = 1;
-    const step = portrait ? 96 : 120;
-    for (let x = 0; x < w; x += step) { ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke(); }
-    ctx.globalAlpha = .06;
-    for (let y = 0; y < h; y += step) { ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke(); }
-    ctx.restore();
-  }
-  function header(scene, index) {
-    const pad = portrait ? 86 : 108;
-    if (scene.kind !== "closing") brand(pad, portrait ? 120 : 78, portrait ? 42 : 43);
-    text(`${String(index + 1).padStart(2, "0")} / 08`, w - pad, portrait ? 142 : 104, 24, secondary, 400, "SeyaMono", "right");
-    line(pad, portrait ? 224 : 178, w - pad, portrait ? 224 : 178, secondary, 1);
-  }
-  function headline(scene, local) {
-    const x = portrait ? 86 : 108, y = portrait ? 292 : 250;
-    const width = portrait ? 900 : 840;
-    const size = portrait ? 110 : 119;
-    text(scene.label, x, y, portrait ? 24 : 23, secondary, 400, "SeyaMono");
-    let fitted = size;
-    for (const value of scene.headline) {
-      ctx.font = `500 ${size}px SeyaDisplay`;
-      fitted = Math.min(fitted, size * Math.min(1, width / ctx.measureText(value).width));
+  function background(t, warm = false) {
+    ctx.fillStyle = P.ink;
+    ctx.fillRect(0, 0, w, h);
+    const g = ctx.createRadialGradient(
+      w * 0.78 + Math.sin(t * 0.14) * w * 0.1,
+      h * 0.95,
+      0,
+      w * 0.7,
+      h * 0.9,
+      w * 0.9,
+    );
+    g.addColorStop(0, warm ? "#81452C" : "#53312B");
+    g.addColorStop(0.48, "#282020");
+    g.addColorStop(1, "#11100E");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, w, h);
+    ctx.save();
+    ctx.globalAlpha = 0.07;
+    ctx.fillStyle = "#C9BDAE";
+    for (let y = 32; y < h; y += 48) {
+      for (let x = 32; x < w; x += 48) {
+        const alpha = (Math.sin(x * 17.1 + y * 7.3) + 1) / 2;
+        ctx.globalAlpha = 0.018 + alpha * 0.025;
+        ctx.fillRect(x, y, 1.5, 1.5);
+      }
     }
-    const top = y + (portrait ? 75 : 72), lh = fitted * 1.03;
-    scene.headline.forEach((value, i) => {
-      const p = entrance(local, .08 + i * .13);
-      ctx.save(); ctx.beginPath(); ctx.rect(x - 3, top + i * lh - 2, width + 6, lh + 8); ctx.clip();
-      ctx.globalAlpha = p; text(value, x, top + i * lh + (1 - p) * 65, fitted, scene.kind === "pricing" && i === 1 ? accent : ink, 500, "SeyaDisplay"); ctx.restore();
-    });
-    const supportTop = top + scene.headline.length * lh + 34;
-    ctx.save(); ctx.globalAlpha = entrance(local, .45); paragraph(scene.support, x, supportTop, portrait ? 33 : 32, width, secondary); ctx.restore();
-  }
-  function area() { return portrait ? { x: 86, y: 835, width: 908, height: 675 } : { x: 1040, y: 255, width: 780, height: 610 }; }
-  function card(x, y, width, height, title, subtitle, kind, p, fill = palette.porcelain) {
-    ctx.save(); ctx.globalAlpha *= p; ctx.translate(0, (1 - p) * 30);
-    box(x, y, width, height, fill, fill === "#1d1a16" ? "#554b40" : "#c8bfae");
-    const color = fill === "#1d1a16" ? palette.porcelain : palette.obsidian;
-    icon(kind, x + 28, y + 25, 41, fill === "#1d1a16" ? "#f59973" : palette.copper);
-    const fontSize = Math.min(32, width / 11.5);
-    paragraph(title, x + 28, y + 83, fontSize, width - 56, color, 500, 1.14);
-    if (subtitle) paragraph(subtitle, x + 28, y + height - 34, 21, width - 56, fill === "#1d1a16" ? "#c9c0b3" : palette.muted, 400, 1.3);
     ctx.restore();
   }
-  function scattered(local, problem) {
-    const a = area();
-    const cx = a.x + a.width * .5, cy = a.y + a.height * .5;
-    ctx.save();ctx.globalAlpha=.1;mark(cx-155, cy-173, 340, ink);ctx.restore();
-    const items = [
-      { title: "Commandes", sub: "À retrouver", kind: "app", x: .01, y: .07, r: -.065 },
-      { title: "Planning", sub: "À vérifier", kind: "app", x: .49, y: .025, r: .055 },
-      { title: "Factures", sub: "À ressaisir", kind: "app", x: .05, y: .55, r: .045 },
-      { title: "Relances", sub: "À ne pas oublier", kind: "ai", x: .51, y: .53, r: -.05 }
-    ];
-    items.forEach((item, i) => {
-      const p = entrance(local, .15 + i * .17), cw = a.width * .43, ch = a.height * .39;
-      const drift = Math.sin(local * .6 + i) * (problem ? 12 : 5);
-      ctx.save();ctx.translate(a.x + item.x * a.width + cw / 2, a.y + item.y * a.height + ch / 2 + drift);ctx.rotate(item.r * p);
-      ctx.shadowColor = "#11100e15";ctx.shadowBlur=20;ctx.shadowOffsetY=8;
-      card(-cw / 2, -ch / 2, cw, ch, item.title, item.sub, item.kind, p);
-      ctx.restore();
-    });
-    if (problem) {
-      const p=entrance(local,.8);ctx.save();ctx.globalAlpha=p;
-      const x=cx-140,y=cy-43;box(x,y,280,86,palette.obsidian);
-      text("Tout se disperse.",cx,y+25,28,palette.porcelain,500,"SeyaBody","center");ctx.restore();
-    }
-  }
-  function dashboard(local) {
-    const a=area(),p=entrance(local,.15);
-    ctx.save();ctx.globalAlpha=p;ctx.translate((1-p)*60,0);
-    box(a.x,a.y,a.width,a.height,palette.porcelain,"#11100e",4);
-    const pad=40;
-    text("Mon activité",a.x+pad,a.y+32,45,palette.obsidian,500,"SeyaDisplay");
-    text("VUE D’ENSEMBLE",a.x+a.width-pad,a.y+45,18,palette.muted,400,"SeyaMono","right");
-    line(a.x+pad,a.y+105,a.x+a.width-pad,a.y+105,"#c9bdae",1);
-    const names=["Commandes","Clients","Planning"],cwidth=(a.width-pad*2-24)/3;
-    names.forEach((name,i)=>{box(a.x+pad+i*(cwidth+12),a.y+133,cwidth,66,i===0?palette.obsidian:palette.chalk);text(name,a.x+pad+i*(cwidth+12)+cwidth/2,a.y+154,23,i===0?palette.porcelain:palette.obsidian,500,"SeyaBody","center");});
-    const rows=[{name:"Demande reçue",state:"À traiter"},{name:"Rendez-vous prévu",state:"Aujourd’hui"},{name:"Client à recontacter",state:"À suivre"}];
-    rows.forEach((row,i)=>{
-      const q=entrance(local,.5+i*.27),top=a.y+235+i*102;
-      ctx.save();ctx.globalAlpha=q;box(a.x+pad,top,a.width-pad*2,84,"#ffffff70","#ddd5c8");
-      icon(i===2?"ai":"app",a.x+pad+19,top+26,31,palette.copper);
-      text(row.name,a.x+pad+71,top+28,29,palette.obsidian,500);
-      text(row.state,a.x+a.width-pad-20,top+31,22,palette.muted,400,"SeyaBody","right");ctx.restore();
-    });
-    text("Exemple illustratif",a.x+pad,a.y+a.height-46,21,palette.muted,400,"SeyaBody");
+  // Each phrase moves independently, settles quickly and remains readable before the next beat.
+  function kinetic(s, cx, cy, size, t, start, end, color = P.paper, opts = {}) {
+    const p = enter(t, start, 0.46),
+      out = end === Infinity ? 0 : smooth((t - (end - 0.22)) / 0.22);
+    if (t < start || p < 0.001 || out >= 1) return;
+    ctx.save();
+    ctx.globalAlpha *= p * (1 - out);
+    ctx.translate(
+      cx + (opts.fromX || 0) * (1 - p) - out * 55,
+      cy + (1 - p) * 32 - out * 15,
+    );
+    ctx.scale(0.96 + 0.04 * p, 0.96 + 0.04 * p);
+    ctx.filter = `blur(${((1 - p) * 14 + out * 10).toFixed(2)}px)`;
+    const rows = Array.isArray(s) ? s : lines(s, size, opts.width || w * 0.86);
+    rows.forEach((v, i) =>
+      text(
+        v,
+        0,
+        (i - (rows.length - 1) / 2) * size * 1.18,
+        fit(v, size, opts.width || w * 0.86),
+        color,
+        opts.weight || 500,
+        "center",
+        opts.font || "SeyaBody",
+      ),
+    );
     ctx.restore();
   }
-  function workflow(local) {
-    const a=area(),width=a.width*.86,x=a.x+(a.width-width)/2,step=portrait?178:165;
-    const top=a.y+(portrait?18:0);
-    const states=[{title:"Une demande arrive",sub:"Un formulaire, un message, une commande.",kind:"app"},{title:"Le suivi se met à jour",sub:"Les bonnes informations circulent.",kind:"connect"},{title:"Le client est informé",sub:"Une confirmation, sans ressaisie.",kind:"ai"}];
-    states.forEach((item,i)=>{
-      const p=entrance(local,.12+i*.85),y=top+i*step;
-      if(i>0){const q=entrance(local,i*.85-.2);line(x+width*.5,y-27,x+width*.5,y-4,accent,3,q);}
-      ctx.save();ctx.globalAlpha=p;box(x,y,width,step-35,palette.porcelain,"#bfb29e");
-      icon(item.kind,x+26,y+32,42);text(item.title,x+95,y+28,portrait?35:33,ink,500,"SeyaDisplay");
-      paragraph(item.sub,x+95,y+77,25,width-150,secondary,400,1.3);
-      if(local>i*.85+1){check(x+width-43,y+38,21,accent,entrance(local,i*.85+1));}ctx.restore();
-    });
-    const p=entrance(local,3.1);ctx.save();ctx.globalAlpha=p;
-    text("Un assistant vous aide aussi à retrouver l’info.",x,top+3*step+16,26,secondary);
-    text("Exemple illustratif",x,top+3*step+58,20,secondary);ctx.restore();
-  }
-  function services(local) {
-    const a=area(),gap=18,cw=(a.width-gap)/2,ch=portrait?195:184;
-    const items=[
-      ["Vos applications", "Web et mobile", "app"],
-      ["Vos tâches automatisées", "Moins de ressaisies", "flow"],
-      ["Vos assistants IA", "Retrouver l’information", "ai"],
-      ["Vos logiciels connectés", "Des données partagées", "connect"],
-      ["Votre produit lancé", "SaaS et MVP", "product"],
-      ["Vos équipes formées", "Comprendre et pratiquer", "learn"]
-    ];
-    items.forEach(([title,sub,kind],i)=>card(a.x+(i%2)*(cw+gap),a.y+Math.floor(i/2)*(ch+gap),cw,ch,title,sub,kind,entrance(local,.15+i*.22),"#1d1a16"));
-  }
-  function pricing(local) {
-    const a=area(),items=["Votre besoin", "Le périmètre utile", "Votre budget"];
-    const top=a.y+(portrait?20:12);
-    items.forEach((name,i)=>{
-      const p=entrance(local,.3+i*.45),y=top+i*150;
-      ctx.save();ctx.globalAlpha=p;
-      box(a.x,y,a.width,120,"#ffffff06","#8c7180");
-      text(`0${i+1}`,a.x+30,y+43,26,accent,400,"SeyaMono");
-      text(name,a.x+110,y+35,portrait?43:43,ink,500,"SeyaDisplay");
-      check(a.x+a.width-64,y+43,29,accent);ctx.restore();
-    });
-    ctx.save();ctx.globalAlpha=entrance(local,1.8);
-    paragraph("Nous définissons ensemble ce qui est utile et ce qui est prévu.",a.x,top+480,portrait?34:31,a.width,secondary,400,1.45);
+  function chip(label, cx, cy, width, t, delay = 0, active = false) {
+    const p = enter(t, delay, 0.4);
+    if (p <= 0) return;
+    ctx.save();
+    ctx.globalAlpha *= p;
+    ctx.translate(0, (1 - p) * 25);
+    box(
+      cx - width / 2,
+      cy - 36,
+      width,
+      72,
+      active ? P.copper : "#ffffff0D",
+      active ? "#E47D57" : "#ffffff35",
+      36,
+    );
+    text(label, cx, cy, 28, active ? P.paper : "#E9E1DA", 500);
     ctx.restore();
   }
-  function benefit(local) {
-    const a=area(),p=entrance(local,.15);
-    ctx.save();ctx.globalAlpha=p;
-    const height=portrait?440:470;
-    mark(a.x+a.width*.5-height*.445,a.y+60,height,ink);
-    const q=entrance(local,.45);line(a.x+a.width*.19,a.y+a.height-10,a.x+a.width*.82,a.y+25,accent,10,q);
-    if(q>.9){line(a.x+a.width*.56,a.y+25,a.x+a.width*.82,a.y+25,accent,10);line(a.x+a.width*.82,a.y+25,a.x+a.width*.82,a.y+170,accent,10);}
-    ctx.restore();
-  }
-  function closing(local) {
-    const p=entrance(local,.12);ctx.save();ctx.globalAlpha=p;
-    const logoSize=portrait?72:79,logoWidth=logoSize*6.15;
-    brand(w/2-logoWidth/2,portrait?380:238,logoSize,ink);
-    const size=portrait?75:87,top=portrait?660:422;
-    ["Des outils sur mesure.","Un budget à votre mesure."].forEach((value,i)=>{
-      ctx.save();ctx.globalAlpha=entrance(local,.35+i*.16);text(value,w/2,top+i*size*1.3,size,i===1?accent:ink,500,"SeyaDisplay","center");ctx.restore();
+  const deviceCanvas = document.createElement("canvas");
+  deviceCanvas.width = 480;
+  deviceCanvas.height = 940;
+  function phoneTexture(mode, local) {
+    const c = deviceCanvas.getContext("2d");
+    c.clearRect(0, 0, 480, 940);
+    const bezel = c.createLinearGradient(0, 0, 480, 940);
+    bezel.addColorStop(0, "#A79D98");
+    bezel.addColorStop(0.12, "#38332F");
+    bezel.addColorStop(0.8, "#181615");
+    bezel.addColorStop(1, "#75685F");
+    box(0, 0, 480, 940, bezel, "#B7AAA1", 62, c);
+    box(12, 12, 456, 916, "#080707", null, 53, c);
+    box(24, 25, 432, 890, P.paper, null, 43, c);
+    box(145, 34, 190, 36, "#10100F", null, 18, c);
+    text("9:41", 68, 60, 18, P.ink, 650, "left", "SeyaBody", c);
+    text("•••", 410, 60, 18, P.ink, 600, "right", "SeyaBody", c);
+    const isProblem = mode === "problem";
+    text(
+      isProblem ? "Votre quotidien" : "Mon activité",
+      55,
+      139,
+      37,
+      P.ink,
+      650,
+      "left",
+      "SeyaDisplay",
+      c,
+    );
+    text(
+      isProblem ? "Tout reste à faire." : "Tout se retrouve ici.",
+      55,
+      186,
+      21,
+      "#72695F",
+      400,
+      "left",
+      "SeyaBody",
+      c,
+    );
+    const labels = isProblem
+      ? [
+          "Commande à retrouver",
+          "Facture à ressaisir",
+          "Planning à vérifier",
+          "Client à relancer",
+        ]
+      : [
+          "Commande reçue",
+          "Planning à jour",
+          "Facture préparée",
+          "Client informé",
+        ];
+    labels.forEach((label, i) => {
+      const y = 246 + i * 126;
+      box(48, y, 384, 105, "#FFFFFF", "#DED6CA", 18, c);
+      box(63, y + 22, 48, 48, isProblem ? "#F3E2D8" : "#E2E8DA", null, 13, c);
+      text(
+        isProblem ? "!" : "✓",
+        87,
+        y + 47,
+        25,
+        isProblem ? P.copper : "#59704E",
+        600,
+        "center",
+        "SeyaBody",
+        c,
+      );
+      text(label, 128, y + 36, 20, P.ink, 600, "left", "SeyaBody", c);
+      text(
+        isProblem ? "À traiter" : "Suivi centralisé",
+        128,
+        y + 70,
+        17,
+        "#776D65",
+        400,
+        "left",
+        "SeyaBody",
+        c,
+      );
     });
-    const buttonW=portrait?714:596,buttonY=portrait?1164:694;
-    box(w/2-buttonW/2,buttonY,buttonW,109,palette.copper);
-    text("Parlons de votre projet.",w/2-buttonW/2+35,buttonY+33,portrait?40:37,palette.obsidian,500);
-    arrow(w/2+buttonW/2-63,buttonY+35,30,palette.obsidian);
-    text("seyalabs.com",w/2,portrait?1375:842,portrait?61:51,ink,500,"SeyaDisplay","center");
-    text("contact@seyalabs.com",w/2,portrait?1460:907,portrait?33:28,secondary,400,"SeyaBody","center");
-    ctx.restore();
-  }
-  function captions(scene, local) {
-    const cues=assets.cues.filter(c=>c.scene===story.scenes.indexOf(scene));
-    const cue=cues.find(c=>time>=c.start&&time<c.end);
-    if(!cue)return;
-    const size=portrait?36:31,maxWidth=portrait?856:1450;
-    const lines=wrap(cue.text,size,maxWidth,500),height=lines.length*size*1.35;
-    const y=portrait?1645:969;
-    box((w-maxWidth)/2-22,y-15,maxWidth+44,height+30,"#11100eef",null,2);
-    lines.forEach((value,i)=>text(value,w/2,y+i*size*1.35,size,palette.porcelain,500,"SeyaBody","center"));
-    // A small progress line is a visual timing cue, not an interactive control in the video.
-    line(portrait?86:108,portrait?1840:1051,w-(portrait?86:108),portrait?1840:1051,secondary,1);
-    line(portrait?86:108,portrait?1840:1051,w-(portrait?86:108),portrait?1840:1051,accent,3,time/story.duration);
+    box(48, 799, 384, 66, isProblem ? "#E8E0D5" : P.copper, null, 22, c);
+    text(
+      isProblem
+        ? "Encore un autre logiciel…"
+        : "Votre métier. Votre application.",
+      240,
+      832,
+      isProblem ? 19 : 20,
+      isProblem ? "#6B625B" : "#FFFFFF",
+      550,
+      "center",
+      "SeyaBody",
+      c,
+    );
+    box(166, 894, 148, 6, "#27221E", null, 3, c);
     void local;
+    return deviceCanvas;
+  }
+  // A triangulated texture produces true pinhole perspective without a 3D runtime dependency.
+  function triangle(image, source, target) {
+    const [a, b, c] = source,
+      [u, v, z] = target;
+    const d = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y);
+    if (Math.abs(d) < 0.001) return;
+    const ax = (u.x * (b.y - c.y) + v.x * (c.y - a.y) + z.x * (a.y - b.y)) / d,
+      bx = (u.y * (b.y - c.y) + v.y * (c.y - a.y) + z.y * (a.y - b.y)) / d,
+      cx = (u.x * (c.x - b.x) + v.x * (a.x - c.x) + z.x * (b.x - a.x)) / d,
+      dx = (u.y * (c.x - b.x) + v.y * (a.x - c.x) + z.y * (b.x - a.x)) / d,
+      ex =
+        (u.x * (b.x * c.y - c.x * b.y) +
+          v.x * (c.x * a.y - a.x * c.y) +
+          z.x * (a.x * b.y - b.x * a.y)) /
+        d,
+      fx =
+        (u.y * (b.x * c.y - c.x * b.y) +
+          v.y * (c.x * a.y - a.x * c.y) +
+          z.y * (a.x * b.y - b.x * a.y)) /
+        d;
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(u.x, u.y);
+    ctx.lineTo(v.x, v.y);
+    ctx.lineTo(z.x, z.y);
+    ctx.closePath();
+    ctx.clip();
+    ctx.transform(ax, bx, cx, dx, ex, fx);
+    ctx.drawImage(image, 0, 0);
+    ctx.restore();
+  }
+  function phone(cx, cy, scale, local, mode = "app") {
+    const source = phoneTexture(mode, local),
+      rotation = -0.2 + 0.1 * Math.sin(local * 0.65);
+    const zRotation = -0.035 + 0.015 * Math.sin(local * 0.4);
+    const project = (x, y) => {
+      const xx = (x - 240) * scale,
+        yy = (y - 470) * scale,
+        z = -xx * Math.sin(rotation),
+        px = xx * Math.cos(rotation),
+        f = 1300 / (1300 + z);
+      return {
+        x: cx + (px * Math.cos(zRotation) - yy * Math.sin(zRotation)) * f,
+        y: cy + (px * Math.sin(zRotation) + yy * Math.cos(zRotation)) * f,
+      };
+    };
+    ctx.save();
+    const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, 520 * scale);
+    glow.addColorStop(0, "#D65A3122");
+    glow.addColorStop(1, "#D65A3100");
+    ctx.fillStyle = glow;
+    ctx.fillRect(
+      cx - 600 * scale,
+      cy - 600 * scale,
+      1200 * scale,
+      1200 * scale,
+    );
+    const cols = 6,
+      rows = 12;
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < cols; col++) {
+        const x = (col * 480) / cols,
+          y = (row * 940) / rows,
+          x2 = ((col + 1) * 480) / cols,
+          y2 = ((row + 1) * 940) / rows;
+        const a = { x, y },
+          b = { x: x2, y },
+          c = { x: x2, y: y2 },
+          d = { x, y: y2 };
+        triangle(
+          source,
+          [a, b, c],
+          [project(x, y), project(x2, y), project(x2, y2)],
+        );
+        triangle(
+          source,
+          [a, c, d],
+          [project(x, y), project(x2, y2), project(x, y2)],
+        );
+      }
+    }
+    ctx.restore();
+  }
+  function windowUI(cx, cy, width, height, local, assistant = false) {
+    ctx.save();
+    const p = enter(local, 0.08);
+    ctx.globalAlpha *= p;
+    ctx.translate(cx, cy + (1 - p) * 100);
+    ctx.rotate(-0.018 + 0.008 * Math.sin(local * 0.4));
+    ctx.shadowColor = "#D65A3140";
+    ctx.shadowBlur = 50;
+    box(-width / 2, -height / 2, width, height, "#211D1B", "#B0775A", 26);
+    ctx.shadowBlur = 0;
+    const x = -width / 2 + 30,
+      y = -height / 2 + 28;
+    for (let i = 0; i < 3; i++) {
+      ctx.fillStyle = ["#D65A31", "#C9BDAE", "#65704F"][i];
+      ctx.beginPath();
+      ctx.arc(x + i * 21, y, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    text(
+      assistant ? "Votre assistant" : "Votre espace métier",
+      0,
+      y,
+      22,
+      "#C9BDAE",
+      450,
+    );
+    ctx.strokeStyle = "#FFFFFF12";
+    ctx.beginPath();
+    ctx.moveTo(-width / 2, y + 26);
+    ctx.lineTo(width / 2, y + 26);
+    ctx.stroke();
+    if (assistant) {
+      text(
+        "Où en est la commande ?",
+        x,
+        -height * 0.16,
+        34,
+        P.paper,
+        500,
+        "left",
+      );
+      box(x, -height * 0.02, width - 60, height * 0.36, "#F3F0E8", null, 17);
+      text(
+        "Commande confirmée.",
+        x + 25,
+        height * 0.07,
+        32,
+        P.ink,
+        600,
+        "left",
+      );
+      text(
+        "Livraison prévue jeudi.",
+        x + 25,
+        height * 0.16,
+        29,
+        "#635A52",
+        400,
+        "left",
+      );
+      chip(
+        "L’information, retrouvée.",
+        0,
+        height * 0.35,
+        width * 0.7,
+        local,
+        0.8,
+        true,
+      );
+    } else {
+      const labels = ["Commandes", "Clients", "Planning"];
+      labels.forEach((s, i) => {
+        const cell = (width - 80) / 3;
+        box(
+          x + i * (cell + 10),
+          -height * 0.23,
+          cell,
+          55,
+          i === 0 ? P.copper : "#ffffff0D",
+          null,
+          12,
+        );
+        text(
+          s,
+          x + i * (cell + 10) + cell / 2,
+          -height * 0.23 + 27,
+          23,
+          P.paper,
+          500,
+        );
+      });
+      const names = ["Nouvelle demande", "Rendez-vous prévu", "Suivi client"];
+      names.forEach((s, i) => {
+        const top = -height * 0.02 + i * 76;
+        const q = enter(local, 0.45 + i * 0.22);
+        ctx.save();
+        ctx.globalAlpha *= q;
+        box(x, top, width - 60, 62, "#F3F0E8", null, 12);
+        text(s, x + 24, top + 31, 26, P.ink, 550, "left");
+        text("✓", width / 2 - 62, top + 31, 26, P.copper, 600, "right");
+        ctx.restore();
+      });
+      text("Exemple illustratif", 0, height / 2 - 28, 18, "#B6ADA7", 400);
+    }
+    ctx.restore();
+  }
+  function hook(t) {
+    kinetic(
+      "Votre activité grandit.",
+      w / 2,
+      h * 0.44,
+      portrait ? 83 : 103,
+      t,
+      0.12,
+      1.85,
+    );
+    kinetic(
+      ["Vos outils", "vous freinent ?"],
+      w / 2,
+      h * 0.45,
+      portrait ? 109 : 121,
+      t,
+      1.8,
+      4,
+      P.paper,
+      { font: "SeyaDisplay" },
+    );
+    if (t > 2) {
+      const p = enter(t, 2.05);
+      ctx.save();
+      ctx.globalAlpha = p * 0.5;
+      chip("Planning", w * 0.2, h * 0.76, portrait ? 220 : 280, t, 2.1);
+      chip("Factures", w * 0.77, h * 0.26, portrait ? 220 : 280, t, 2.25);
+      chip("Commandes", w * 0.75, h * 0.75, portrait ? 260 : 300, t, 2.45);
+      ctx.restore();
+    }
+  }
+  function problem(t) {
+    const p = enter(t, 0.05);
+    const cx = portrait ? w / 2 : w * 0.32,
+      cy = portrait ? h * 0.37 : h * 0.48;
+    ctx.save();
+    ctx.globalAlpha = p;
+    ctx.filter = `blur(${(1 - p) * 15}px)`;
+    phone(cx + (1 - p) * 130, cy, portrait ? 1.03 : 0.83, t, "problem");
+    ctx.restore();
+    const tx = portrait ? w / 2 : w * 0.7,
+      ty = portrait ? h * 0.76 : h * 0.48;
+    kinetic(
+      ["Tout est", "éparpillé."],
+      tx,
+      ty,
+      portrait ? 84 : 99,
+      t,
+      0.65,
+      5,
+      P.paper,
+      { width: portrait ? 920 : 840, font: "SeyaDisplay" },
+    );
+  }
+  function application(t) {
+    if (t < 1.5) {
+      brand(w / 2, h * 0.43, portrait ? 73 : 82, enter(t, 0.06));
+      kinetic(
+        "Pensé pour votre métier.",
+        w / 2,
+        h * 0.63,
+        portrait ? 43 : 45,
+        t,
+        0.4,
+        1.5,
+        P.light,
+      );
+      return;
+    }
+    kinetic(
+      ["Une application.", "Votre activité."],
+      w / 2,
+      portrait ? h * 0.18 : h * 0.2,
+      portrait ? 70 : 68,
+      t,
+      1.5,
+      6,
+      P.paper,
+      { width: w * 0.89 },
+    );
+    if (portrait) {
+      phone(w / 2, h * 0.55, 1.08, t - 1.5);
+      chip("Tout au même endroit.", w / 2, h * 0.84, 690, t, 2.7, true);
+    } else {
+      windowUI(w * 0.44, h * 0.59, 1000, 540, t - 1.5);
+      phone(w * 0.77, h * 0.58, 0.62, t - 1.5);
+    }
+  }
+  function automation(t) {
+    if (t < 4.4) {
+      kinetic(
+        "Une action. La suite s’enchaîne.",
+        w / 2,
+        portrait ? h * 0.23 : h * 0.23,
+        portrait ? 61 : 74,
+        t,
+        0.03,
+        4.4,
+        P.paper,
+        { width: w * 0.88 },
+      );
+      const labels = ["Demande reçue", "Suivi mis à jour", "Client informé"];
+      labels.forEach((s, i) => {
+        const cx = portrait ? w / 2 : w * (0.2 + i * 0.3),
+          cy = portrait ? h * (0.4 + i * 0.15) : h * 0.52;
+        chip(
+          s,
+          cx,
+          cy,
+          portrait ? 720 : 480,
+          t,
+          0.35 + i * 0.85,
+          t >= 0.9 + i * 0.85,
+        );
+        if (i < 2) {
+          ctx.save();
+          ctx.globalAlpha = enter(t, 0.8 + i * 0.85);
+          text(
+            portrait ? "↓" : "→",
+            portrait ? w / 2 : w * (0.35 + i * 0.3),
+            portrait ? cy + h * 0.075 : cy,
+            36,
+            P.light,
+          );
+          ctx.restore();
+        }
+      });
+    } else {
+      kinetic(
+        "Un assistant qui vous aide.",
+        w / 2,
+        portrait ? h * 0.23 : h * 0.2,
+        portrait ? 61 : 74,
+        t,
+        4.4,
+        8,
+        P.paper,
+        { width: w * 0.88 },
+      );
+      windowUI(
+        w / 2,
+        portrait ? h * 0.57 : h * 0.56,
+        portrait ? 850 : 1050,
+        portrait ? 580 : 530,
+        t - 4.4,
+        true,
+      );
+    }
+    text(
+      "Exemple illustratif",
+      w / 2,
+      portrait ? h * 0.86 : h * 0.86,
+      portrait ? 23 : 20,
+      P.muted,
+      400,
+    );
+  }
+  function services(t) {
+    const items = [
+      ["Applications", "web & mobiles"],
+      ["Données & API", "vos logiciels connectés"],
+      ["Automatisation", "moins de ressaisie"],
+      ["Intelligence artificielle", "l’information utile"],
+      ["Formations", "vos équipes autonomes"],
+    ];
+    const normalized = (value) =>
+      value
+        .normalize("NFD")
+        .replace(/\p{M}/gu, "")
+        .toLowerCase()
+        .replace(/[^\p{L}\p{N}]/gu, "");
+    const starts = [
+      "Applications",
+      "données",
+      "automatisation",
+      "intelligence",
+      "formations",
+    ].map((word, index) => {
+      const cue = (assets.words || []).find(
+        (c) => c.scene === 4 && normalized(c.text) === normalized(word),
+      );
+      return index === 0
+        ? 0
+        : cue
+          ? Math.max(0, cue.start - story.scenes[4].start - 0.16)
+          : index * 1.4;
+    });
+    const n = Math.max(
+      0,
+      starts.findLastIndex((start) => t >= start),
+    );
+    kinetic(
+      items[n][0],
+      w / 2,
+      h * 0.43,
+      portrait ? 75 : 115,
+      t,
+      starts[n],
+      n === 4 ? 8 : starts[n + 1],
+      P.paper,
+      { width: w * 0.88, font: "SeyaDisplay" },
+    );
+    kinetic(
+      items[n][1],
+      w / 2,
+      h * 0.56,
+      portrait ? 42 : 46,
+      t,
+      starts[n] + 0.08,
+      n === 4 ? 8 : starts[n + 1],
+      P.light,
+    );
+    for (let i = 0; i < 5; i++) {
+      ctx.fillStyle = i <= n ? P.copper : "#ffffff30";
+      box(
+        w / 2 - 120 + i * 50,
+        h * 0.74,
+        i === n ? 34 : 15,
+        5,
+        ctx.fillStyle,
+        null,
+        3,
+      );
+    }
+  }
+  function pricing(t) {
+    background(time, true);
+    kinetic(
+      "Notre plus ?",
+      w / 2,
+      h * 0.35,
+      portrait ? 65 : 76,
+      t,
+      0.08,
+      1.25,
+      P.muted,
+    );
+    kinetic(
+      ["Des tarifs", "accessibles."],
+      w / 2,
+      h * 0.42,
+      portrait ? 114 : 142,
+      t,
+      1.2,
+      6,
+      P.paper,
+      { font: "SeyaDisplay" },
+    );
+    ctx.save();
+    ctx.globalAlpha = enter(t, 2);
+    const width = portrait ? 710 : 880;
+    box(w / 2 - width / 2, h * 0.61, width, 4, P.copper, null, 2);
+    ctx.restore();
+    kinetic(
+      ["Un projet pensé", "pour votre budget."],
+      w / 2,
+      h * 0.73,
+      portrait ? 49 : 54,
+      t,
+      2.6,
+      6,
+      P.light,
+    );
+  }
+  function benefit(t) {
+    kinetic(
+      "Vos outils suivent.",
+      w / 2,
+      h * 0.4,
+      portrait ? 80 : 101,
+      t,
+      0.05,
+      1.5,
+      P.paper,
+    );
+    kinetic(
+      "Vous avancez.",
+      w / 2,
+      h * 0.47,
+      portrait ? 106 : 137,
+      t,
+      1.45,
+      3,
+      P.light,
+      { font: "SeyaDisplay" },
+    );
+  }
+  function closing(t) {
+    brand(
+      w / 2,
+      portrait ? h * 0.24 : h * 0.23,
+      portrait ? 73 : 78,
+      enter(t, 0.05),
+    );
+    kinetic(
+      ["Des outils sur mesure.", "Un budget à votre mesure."],
+      w / 2,
+      portrait ? h * 0.48 : h * 0.49,
+      portrait ? 67 : 83,
+      t,
+      0.5,
+      Infinity,
+      P.paper,
+      { width: w * 0.88, font: "SeyaDisplay" },
+    );
+    const p = enter(t, 2.2);
+    ctx.save();
+    ctx.globalAlpha = p;
+    box(
+      w / 2 - (portrait ? 350 : 390),
+      h * 0.72,
+      portrait ? 700 : 780,
+      100,
+      P.copper,
+      null,
+      50,
+    );
+    text(
+      "Parlons de votre projet  ↗",
+      w / 2,
+      h * 0.72 + 50,
+      portrait ? 35 : 37,
+      P.paper,
+      550,
+    );
+    text("seyalabs.com", w / 2, h * 0.86, portrait ? 52 : 44, P.paper, 500);
+    ctx.restore();
+  }
+  function captions(index) {
+    const cue = assets.cues.find(
+      (c) => c.scene === index && time >= c.start && time < c.end,
+    );
+    if (!cue) return;
+    const size = portrait ? 31 : 27,
+      width = portrait ? 850 : 1450,
+      rows = lines(cue.text, size, width),
+      height = rows.length * size * 1.3 + 24,
+      y = portrait ? 1718 : 1001;
+    box(
+      (w - width) / 2 - 16,
+      y - height / 2,
+      width + 32,
+      height,
+      "#11100EEB",
+      null,
+      8,
+    );
+    rows.forEach((s, i) =>
+      text(
+        s,
+        w / 2,
+        y + (i - (rows.length - 1) / 2) * size * 1.3,
+        size,
+        P.paper,
+        450,
+      ),
+    );
   }
   function setFormat(next) {
-    format=next;portrait=next==="portrait";w=portrait?1080:1920;h=portrait?1920:1080;canvas.width=w;canvas.height=h;
-    document.querySelector(".stage").classList.toggle("portrait",portrait);
-    document.querySelectorAll("[data-format]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.format===next)));
+    format = next;
+    portrait = next === "portrait";
+    w = portrait ? 1080 : 1920;
+    h = portrait ? 1920 : 1080;
+    canvas.width = w;
+    canvas.height = h;
+    document.querySelector(".stage").classList.toggle("portrait", portrait);
+    document
+      .querySelectorAll("[data-format]")
+      .forEach((b) =>
+        b.setAttribute("aria-pressed", String(b.dataset.format === next)),
+      );
   }
-  function renderFrame(seconds, nextFormat=format) {
-    if(nextFormat!==format)setFormat(nextFormat);
-    time=clamp(seconds,0,story.duration-.001);
-    const index=story.scenes.findIndex(scene=>time>=scene.start&&time<scene.end);
-    const scene=story.scenes[index],local=time-scene.start;
-    ctx.save();background(scene,local);header(scene,index);
-    const opacity=index===story.scenes.length-1?1:clamp((scene.end-time)/.28);
-    ctx.save();ctx.globalAlpha=opacity;
-    if(scene.kind!=="closing")headline(scene,local);
-    if(scene.kind==="hook"||scene.kind==="problem")scattered(local,scene.kind==="problem");
-    if(scene.kind==="application")dashboard(local);
-    if(scene.kind==="automation")workflow(local);
-    if(scene.kind==="services")services(local);
-    if(scene.kind==="pricing")pricing(local);
-    if(scene.kind==="benefit")benefit(local);
-    if(scene.kind==="closing")closing(local);
-    ctx.restore();captions(scene,local);ctx.restore();
-    return {time,index,format,width:w,height:h};
+  const shots = [
+    hook,
+    problem,
+    application,
+    automation,
+    services,
+    pricing,
+    benefit,
+    closing,
+  ];
+  function renderFrame(seconds, nextFormat = format) {
+    if (nextFormat !== format) setFormat(nextFormat);
+    time = clamp(seconds, 0, story.duration - 0.001);
+    const index = story.scenes.findIndex(
+        (s) => time >= s.start && time < s.end,
+      ),
+      scene = story.scenes[index],
+      t = time - scene.start;
+    ctx.save();
+    background(time, index === 5);
+    shots[index](t);
+    if (index < 7) {
+      const out = smooth((time - (scene.end - 0.18)) / 0.18);
+      if (out > 0) {
+        ctx.save();
+        ctx.fillStyle = P.copper;
+        ctx.globalAlpha = 0.8;
+        ctx.filter = "blur(18px)";
+        ctx.translate(-w * 0.25 + out * w * 1.5, 0);
+        ctx.transform(1, 0, -0.22, 1, 0, 0);
+        ctx.fillRect(0, -50, w * 0.2, h + 100);
+        ctx.restore();
+      }
+    }
+    captions(index);
+    ctx.restore();
+    return { time, index, format, width: w, height: h };
   }
   async function initialise() {
-    for(const [name,data] of Object.entries(assets.fonts)) {
-      const face=new FontFace(name,`url(data:font/woff2;base64,${data})`,{weight:"100 900"});await face.load();document.fonts.add(face);
+    for (const [name, data] of Object.entries(assets.fonts)) {
+      const face = new FontFace(name, `url(data:font/woff2;base64,${data})`, {
+        weight: "100 900",
+      });
+      await face.load();
+      document.fonts.add(face);
     }
-    await document.fonts.ready;setFormat(format);renderFrame(1);
-    window.renderFrame=renderFrame;window.filmReady=true;
-    if(renderMode){document.body.classList.add("render-mode");renderFrame(0);return;}
-    const audio=document.getElementById("narration"),play=document.getElementById("play"),seek=document.getElementById("seek"),status=document.getElementById("status");
-    const update=()=>{seek.value=String(time);document.getElementById("time").textContent=`00:${String(Math.floor(time)).padStart(2,"0")} / 00:45`;};
-    story.scenes.forEach(scene=>{const li=document.createElement("li");li.textContent=`${scene.start}–${scene.end} s — ${scene.voice}`;document.getElementById("transcript").append(li);});
-    function tick(){if(!playing)return;renderFrame(audio.currentTime);update();if(audio.currentTime>=story.duration-.05||audio.ended){playing=false;play.textContent="Revoir le film";renderFrame(story.duration-.05);return;}requestAnimationFrame(tick);}
-    play.disabled=false;document.getElementById("restart").disabled=false;status.textContent="Les vidéos se téléchargent ci-dessous. Le film démarre avec le bouton Lire.";
-    play.addEventListener("click",async()=>{if(playing){audio.pause();playing=false;play.textContent="Reprendre";return;}if(audio.ended||time>=story.duration-.1)audio.currentTime=0;try{audio.muted=!sound;await audio.play();playing=true;play.textContent="Pause";tick();}catch{status.textContent="Le son n’est pas encore disponible. Ouvrez le MP4 téléchargé pour lire le film complet.";}});
-    document.getElementById("restart").addEventListener("click",()=>{audio.currentTime=0;renderFrame(0);update();});
-    seek.addEventListener("input",()=>{audio.currentTime=Number(seek.value);renderFrame(Number(seek.value));update();});
-    document.getElementById("sound").addEventListener("click",event=>{sound=!sound;audio.muted=!sound;event.currentTarget.textContent=sound?"Son activé":"Son coupé";event.currentTarget.setAttribute("aria-pressed",String(sound));});
-    document.querySelectorAll("[data-format]").forEach(button=>button.addEventListener("click",()=>{setFormat(button.dataset.format);renderFrame(time);update();}));
+    await document.fonts.ready;
+    setFormat(format);
+    renderFrame(1);
+    window.renderFrame = renderFrame;
+    window.filmReady = true;
+    if (renderMode) {
+      document.body.classList.add("render-mode");
+      renderFrame(0);
+      return;
+    }
+    const audio = document.getElementById("narration"),
+      play = document.getElementById("play"),
+      seek = document.getElementById("seek"),
+      status = document.getElementById("status");
+    document.getElementById("production-stage").textContent =
+      assets.soundReport?.status === "draft_missing_sound_effects_permission"
+        ? "Version de travail V2 : animation et voix prêtes. Les effets sonores ElevenLabs attendent l’activation de la permission Sound Generation de la clé."
+        : assets.soundReport?.status === "complete"
+          ? "Édition V2 : voix et effets sonores ElevenLabs."
+          : "Aperçu de production.";
+    const update = () => {
+      seek.value = String(time);
+      document.getElementById("time").textContent =
+        `00:${String(Math.floor(time)).padStart(2, "0")} / 00:45`;
+    };
+    story.scenes.forEach((s) => {
+      const li = document.createElement("li");
+      li.textContent = `${s.start}–${s.end} s — ${s.voice}`;
+      document.getElementById("transcript").append(li);
+    });
+    function tick() {
+      if (!playing) return;
+      renderFrame(audio.currentTime);
+      update();
+      if (audio.currentTime >= story.duration - 0.05 || audio.ended) {
+        playing = false;
+        play.textContent = "Revoir le film";
+        renderFrame(story.duration - 0.05);
+        return;
+      }
+      requestAnimationFrame(tick);
+    }
+    play.disabled = false;
+    document.getElementById("restart").disabled = false;
+    status.textContent =
+      "Édition V2 — typographie cinétique et interfaces en perspective. Lecture avec le bouton Lire.";
+    play.addEventListener("click", async () => {
+      if (playing) {
+        audio.pause();
+        playing = false;
+        play.textContent = "Reprendre";
+        return;
+      }
+      if (audio.ended || time >= story.duration - 0.1) audio.currentTime = 0;
+      try {
+        audio.muted = !sound;
+        await audio.play();
+        playing = true;
+        play.textContent = "Pause";
+        tick();
+      } catch {
+        status.textContent =
+          "Le son n’est pas disponible. Ouvrez le MP4 téléchargé.";
+      }
+    });
+    document.getElementById("restart").addEventListener("click", () => {
+      audio.currentTime = 0;
+      renderFrame(0);
+      update();
+    });
+    seek.addEventListener("input", () => {
+      audio.currentTime = Number(seek.value);
+      renderFrame(Number(seek.value));
+      update();
+    });
+    document.getElementById("sound").addEventListener("click", (e) => {
+      sound = !sound;
+      audio.muted = !sound;
+      e.currentTarget.textContent = sound ? "Son activé" : "Son coupé";
+      e.currentTarget.setAttribute("aria-pressed", String(sound));
+    });
+    document.querySelectorAll("[data-format]").forEach((b) =>
+      b.addEventListener("click", () => {
+        setFormat(b.dataset.format);
+        renderFrame(time);
+        update();
+      }),
+    );
   }
-  initialise().catch(error=>{document.getElementById("status").textContent="La préparation du film a rencontré une erreur.";console.error(error);});
+  initialise().catch((error) => {
+    document.getElementById("status").textContent =
+      "La préparation du film a rencontré une erreur.";
+    console.error(error);
+  });
 })();

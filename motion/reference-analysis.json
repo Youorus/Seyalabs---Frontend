@@ -1,0 +1,131 @@
+{
+  "reference": "https://www.tiktok.com/@martial_ditorga/video/7686905362720607508",
+  "duration": 36.548005,
+  "fps": 30,
+  "width": 1024,
+  "height": 576,
+  "decodedFrames": 1096,
+  "method": "All frames decoded; mean adjacent luma difference at 96x54. Visual review on half-second contact sheets and transition frames. Not a claim of individual human review of every frame.",
+  "transitionCandidates": [
+    {
+      "frame": 46,
+      "seconds": 1.5333,
+      "meanLumaDifference": 4.037
+    },
+    {
+      "frame": 72,
+      "seconds": 2.4,
+      "meanLumaDifference": 2.2784
+    },
+    {
+      "frame": 100,
+      "seconds": 3.3333,
+      "meanLumaDifference": 22.4244
+    },
+    {
+      "frame": 138,
+      "seconds": 4.6,
+      "meanLumaDifference": 9.3613
+    },
+    {
+      "frame": 171,
+      "seconds": 5.7,
+      "meanLumaDifference": 51.8422
+    },
+    {
+      "frame": 238,
+      "seconds": 7.9333,
+      "meanLumaDifference": 2.8661
+    },
+    {
+      "frame": 282,
+      "seconds": 9.4,
+      "meanLumaDifference": 26.3835
+    },
+    {
+      "frame": 318,
+      "seconds": 10.6,
+      "meanLumaDifference": 2.8877
+    },
+    {
+      "frame": 337,
+      "seconds": 11.2333,
+      "meanLumaDifference": 99.6834
+    },
+    {
+      "frame": 346,
+      "seconds": 11.5333,
+      "meanLumaDifference": 2.409
+    },
+    {
+      "frame": 409,
+      "seconds": 13.6333,
+      "meanLumaDifference": 144.0368
+    },
+    {
+      "frame": 438,
+      "seconds": 14.6,
+      "meanLumaDifference": 78.0035
+    },
+    {
+      "frame": 463,
+      "seconds": 15.4333,
+      "meanLumaDifference": 9.3167
+    },
+    {
+      "frame": 506,
+      "seconds": 16.8667,
+      "meanLumaDifference": 68.7988
+    },
+    {
+      "frame": 515,
+      "seconds": 17.1667,
+      "meanLumaDifference": 6.5938
+    },
+    {
+      "frame": 524,
+      "seconds": 17.4667,
+      "meanLumaDifference": 3.7666
+    },
+    {
+      "frame": 564,
+      "seconds": 18.8,
+      "meanLumaDifference": 93.6547
+    },
+    {
+      "frame": 630,
+      "seconds": 21.0,
+      "meanLumaDifference": 5.0671
+    },
+    {
+      "frame": 660,
+      "seconds": 22.0,
+      "meanLumaDifference": 2.9315
+    },
+    {
+      "frame": 684,
+      "seconds": 22.8,
+      "meanLumaDifference": 2.6277
+    },
+    {
+      "frame": 695,
+      "seconds": 23.1667,
+      "meanLumaDifference": 4.1661
+    },
+    {
+      "frame": 712,
+      "seconds": 23.7333,
+      "meanLumaDifference": 8.2132
+    },
+    {
+      "frame": 779,
+      "seconds": 25.9667,
+      "meanLumaDifference": 54.2652
+    },
+    {
+      "frame": 845,
+      "seconds": 28.1667,
+      "meanLumaDifference": 26.625
+    }
+  ]
+}

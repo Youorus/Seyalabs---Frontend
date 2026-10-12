@@ -14,6 +14,9 @@ motion/output/*
 !motion/output/seya-labs-horizontal.mp4
 !motion/output/seya-labs-vertical.mp4
 !motion/output/seya-labs-bande-son.mp3
+!motion/output/seya-labs-voix-elevenlabs.mp3
+!motion/output/narration-et-cues.json
+!motion/output/production-status.json
 !motion/output/seya-labs.srt
 !motion/output/couverture-horizontal.png
 !motion/output/couverture-vertical.png

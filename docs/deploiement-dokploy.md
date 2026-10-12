@@ -1,6 +1,6 @@
 # Déploiement SEYA LABS avec Dokploy
 
-Configuration préparée le 5 octobre 2026. Le site est une application Next.js avec une API de contact : utiliser le Dockerfile fourni et le serveur Node standalone.
+Guide technique préparé le 5 octobre 2026. Pour le serveur existant et la ressource Compose, lire d’abord `docs/DEPLOIEMENT.md` ; ne pas créer un deuxième routeur sur les mêmes domaines. Le site est une application Next.js avec une API de contact : utiliser le Dockerfile fourni et le serveur Node standalone.
 
 ## Source et construction
 

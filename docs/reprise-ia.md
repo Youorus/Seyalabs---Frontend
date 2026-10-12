@@ -1,6 +1,6 @@
 # Reprise IA — SEYA LABS
 
-Dernière mise à jour : 5 octobre 2026. Lire ce document, `README.md`, puis `docs/deploiement-dokploy.md` avant de poursuivre. Le point d’arrêt est **avant le déploiement sur le serveur Dokploy**. Le site et les livrables motion sont réalisés ; les informations de société et les réglages des comptes externes restent à finaliser.
+Dernière mise à jour : **12 octobre 2026**. Lire ce document, `README.md`, `docs/DEPLOIEMENT.md` puis `docs/deploiement-dokploy.md` avant de poursuivre. Le site est contrôlé localement. La production motion V2 est exportée avec la nouvelle voix, mais **le sound design ElevenLabs attend une permission de clé**. Ne pas la présenter comme terminée. Le dépôt contient déjà des changements de déploiement et de Tag Manager provenant d’une autre phase ; ne pas les écraser ni supposer que le serveur est vierge.
 
 ## Projet et demande du propriétaire
 
@@ -14,6 +14,9 @@ Dernière mise à jour : 5 octobre 2026. Lire ce document, `README.md`, puis `do
 - Le propriétaire veut un référencement très compétitif. Une première place ou une domination des concurrents ne peut pas être garantie. Améliorer contenu utile, architecture, performances et conversion, puis mesurer après publication.
 - Le fleuriste cité dans l’historique était un exemple de compréhension par un non-technicien, **pas le sujet du film publicitaire**. La production présente l’agence et plusieurs besoins métiers.
 - Autorisations : intégrer Analytics avec gestion du consentement, initialiser Git, committer et pousser vers le dépôt indiqué. Le déploiement Dokploy sera effectué par le propriétaire. Aucun email réel, message à un tiers ou publication publicitaire n’a été demandé.
+- La dernière référence motion est le film Create.xyz de Martial Ditorga : `https://www.tiktok.com/@martial_ditorga/video/7686905362720607508`. Le profil Humain Penseur a été corrigé et ne doit plus guider la production. Le propriétaire a fourni le MP4 local le 12 octobre.
+- Le propriétaire autorise la génération de narration et d’effets ElevenLabs. Sa clé est privée : ne jamais la remettre dans un fichier Git, un log, le navigateur ou le ZIP.
+- Les images d’équipe sont demandées **uniquement dans le hero**. Aucune photo réelle de l’équipe n’a été fournie.
 - Le logo fourni reste à la racine (`Logo abstrait en S noir.png`). Déclinaisons SVG et wordmarks dans `public/brand/`.
 - Le brief initial se trouvait dans une pièce jointe locale Codex (`Texte collé.txt`) ; ne pas dépendre de cet accès pour reprendre. Les décisions utiles sont dans ce document et le README.
 
@@ -37,6 +40,12 @@ Le contenu éditorial est rendu côté serveur. Les îlots clients couvrent menu
 
 Données : `data/services.ts`, `data/additional-services.ts`, `data/service-guidance.ts`, `data/additional-service-guidance.ts`, `data/articles.ts`, `data/software-guides.ts`, `data/trainings.ts`, `data/training-programmes.ts`, `data/projects.ts`.
 
+## Image d’équipe dans le hero
+
+`components/sections/hero-team.tsx` et `data/team.ts` pilotent le visuel de l’accueil. Le fichier WebP `public/team/collaboration-seya-illustration.webp` est une image d’ambiance générée, explicitement légendée « Visuel d’ambiance généré · travail en équipe ». **Ce ne sont pas les salariés réels de Seya Labs.** Ne pas la transformer en preuve ou témoignage. Elle ne figure dans aucune autre section.
+
+Pour utiliser de vraies photos, suivre `public/team/README.md`, obtenir les identités/roles/photos approuvés, puis remplacer le visuel et sa légende. Les portraits nominatifs sont masqués tant que le visuel est une illustration. Le composant conserve System Flow comme fallback si aucun visuel approuvé n’est configuré. Next Image gère les tailles et formats ; l’image du hero est prioritaire.
+
 ## SEO
 
 `lib/seo.ts` : titres et descriptions propres, canonical, Open Graph / Twitter, directives robots, Organization / WebSite / Service / BreadcrumbList / FAQPage / Article / Course / ItemList. L’image Open Graph est produite par Next. Pas de LocalBusiness avec adresse inventée ; pas de résultat enrichi garanti. L’existence d’un schéma FAQ/Course n’assure pas son affichage par Google.
@@ -49,9 +58,10 @@ Lire `docs/strategie-seo.md` pour le ciblage et la mesure. `GOOGLE_SITE_VERIFICA
 
 ## Analytics et cookies
 
-Fichiers : `lib/consent.ts`, `lib/analytics.ts`, `lib/google-analytics.ts`, `components/analytics.tsx`, `components/cookie-preferences-button.tsx`, page `/confidentialite`.
+Fichiers : `lib/consent.ts`, `lib/analytics.ts`, `lib/google-analytics.ts`, `lib/google-tag-manager.ts`, `components/analytics.tsx`, `components/cookie-preferences-button.tsx`, page `/confidentialite`.
 
 - Analytics actif avec l’ID fourni, sauf `NEXT_PUBLIC_ANALYTICS_ENABLED=false`. Override possible avec `NEXT_PUBLIC_GA_MEASUREMENT_ID`. Rebuild nécessaire après changement de ces variables publiques.
+- Un chargeur Google Tag Manager optionnel a été ajouté dans le commit `fce483c`. Il dépend du même consentement. `NEXT_PUBLIC_GTM_CONTAINER_ID` reste vide par défaut ; ne pas activer un conteneur qui déclenche en parallèle le même GA4 sans supprimer les doublons. Les deux tests dédiés valident le format de l’ID et l’absence d’injection sans accord.
 - Consent Mode **basique** : pas de script / connexion / ping Google avant accord explicite ou après un refus initial.
 - Bandeau : « Tout refuser », « Tout accepter » de même présentation et « Personnaliser ». Mesure facultative décochée initialement. Navigation disponible en cas de refus.
 - Préférences via « Gérer les cookies » dans le footer et la politique ; dialogue natif accessible, clavier / Escape / restauration du focus.
@@ -79,15 +89,37 @@ Secrets uniquement côté serveur : `CONTACT_WEBHOOK_SECRET`, `UPSTASH_REDIS_RES
 
 `next.config.ts` désactive poweredByHeader et fournit nosniff, Referrer-Policy, X-Frame-Options DENY, Permissions-Policy et CSP frame-ancestors / base-uri / object-src. Ne pas ajouter une CSP script-src restrictive sans vérifier Next, JSON-LD et le chargement consenti de Google.
 
-## Motion design livré
+## Motion design V2 — point d’arrêt précis
 
-Film **général de 45 secondes**, promesse « Des outils sur mesure. Un budget à votre mesure. ». Software × AI × Automation avec bénéfices concrets et formations. Aucun prix ni preuve client inventé.
+Film général de **45 secondes**, promesse « Des outils sur mesure. Un budget à votre mesure. ». Le fleuriste n’est pas un thème ; applications métier, IA, automatisation, data/API et formations sont présentées en mots accessibles. Aucun prix ou résultat fictif.
 
-`motion/prompt-motion-seya-labs.md` : prompt réutilisable pour une IA. `motion/README.md`, `storyboard.json`, `film.js`, `production.html`, `render-film.mjs`, `preview.mjs`, `kit-package.json` : sources / aperçu / rendu.
+La V2 remplace les compositions de la première version par typographie cinétique, téléphone et interfaces en perspective, transformations courtes, flou temporaire, services synchronisés aux mots, puis grande promesse tarifaire. Palette et logo du site. Sources : `motion/film.js`, `production.html`, `storyboard.json`, `render-film.mjs`, `preview.mjs`. Le script rend 1 350 images par format, à 30 images/s ; il n’utilise pas un modèle vidéo génératif.
 
-Exports conservés dans Git : `motion/output/seya-labs-horizontal.mp4` (1920×1080), `seya-labs-vertical.mp4` (1080×1920), `seya-labs-bande-son.mp3`, `seya-labs.srt`, couvertures, storyboards et `kit-motion-seya-labs.zip`. Chaque vidéo : H.264, AAC, 30 fps, **45 s exactes**. Voix française **synthétique** Thomas macOS, fond sonore original ; sous-titres présents dans le rendu et SRT séparé. Audio mesuré environ −15,97 LUFS / −1,8 dBTP ; décodage des vidéos et lecture navigateur validés dans la phase de production.
+**Voix actuelle : François Louis, ElevenLabs, `eleven_multilingual_v2`.** Réglages publics dans `motion/voice-elevenlabs.json`. Huit segments générés, caches avec empreintes et timestamps dans `motion/audio/` (ignoré dans Git mais inclus dans le ZIP). Ne pas revenir à Mélanie ou Thomas par inadvertance. Le fallback `say` Thomas existe encore uniquement si on omet `--elevenlabs`.
 
-Les fichiers intermédiaires, WAV, captures techniques, `motion/audio/` et `motion/assets.js` sont ignorés dans Git. Le **ZIP de production** contient les ressources nécessaires pour reprendre hors du poste d’origine. `motion/` est exclu de l’image Docker du site et ne ralentit pas ses pages. Ne pas publier ces films sur des réseaux sans demande.
+Les silences de début/fin sont ajustés avec les timestamps ; pauses internes conservées. Ajustements `atempo` 1 à environ 1,057, hors vitesse de synthèse 1,08. Sous-titres et remplacements de mots calculés depuis les alignements, mapping explicite des apostrophes et points de suspension. `output/narration-et-cues.json` conserve trims, tempos, durées, mots et cues.
+
+**Blocage restant : effets sonores.** POST ElevenLabs Sound Generation répond `401 missing_permissions` avec la clé fournie, alors que les voix fonctionnent. Une demande d’activation de la permission « Sound Generation / Sound Effects » a été adressée au propriétaire. Aucun effet n’a été généré. `sound-design.json` prépare six effets originaux sur `eleven_text_to_sound_v2` et 27 placements. Les exports actuels sont des **versions de travail**, voix + fond original discret ; aucune substitution n’est présentée comme ElevenLabs. L’état machine est `draft_missing_sound_effects_permission` dans `output/production-status.json`. Le renderer exige `--draft-without-effects` tant que les caches d’effets manquent.
+
+Après activation de la permission, fournir la clé par `ELEVENLABS_API_KEY` ou `--key-file` privé hors dépôt, puis :
+
+```sh
+node motion/generate-sound-effects.mjs
+node motion/render-film.mjs --elevenlabs
+node scripts/audit-motion.mjs
+```
+
+Vérifier les niveaux, décoder les deux MP4 intégralement, réactualiser les planches et le ZIP. Ne pas régénérer les voix inchangées : les caches du ZIP permettent de les réutiliser sans crédit. `--force` est payant ; aucun retry API payant automatique. Le fichier temporaire contenant la clé doit être supprimé à la fin de l’utilisation ; aucune clé n’est livrée.
+
+Livraison : deux MP4 H.264/AAC, 1920×1080 et 1080×1920, 30 fps, 45 s, voix seule MP3, mix MP3, SRT, cues, couvertures, planches, état et kit ZIP. Tous ces livrables sont versionnés. Les WAV et rapports techniques restent ignorés. Le ZIP inclut sources, caches autorisés, fonts/licences et logo. Le dossier motion est exclu du Dockerfile et n’ajoute aucune vidéo au chargement du site. Aucune publication sociale autorisée.
+
+Analyse de référence : `motion/analyse-reference.md` et `reference-analysis.json`. Les 1 096 images ont été décodées/comparées ; examen visuel de 73 vues à 0,5 s et des transitions. Le lecteur `motion/output/analyse-reference.html` embarque le MP4 tiers pour une analyse locale, **hors Git, ZIP et site**. Ne pas réutiliser ses pixels, son ou preuves chiffrées. Le fournisseur de la voix et du son de référence n’est pas identifiable à partir du mix.
+
+Sur le poste d’origine, le MP4 fourni est `/Users/marc./Downloads/(34)Mon dernier projet pour Create.xyz #creatorsearchinsights #motiongraph... _ TikTok(1).mp4`. Il reste hors du dépôt. Pour reconditionner le kit après validation, lancer `python3 motion/package-kit.py` ; la liste explicite exclut référence et secrets, un manifeste SHA-256 vérifie le contenu.
+
+Contrôles V2 : deux décodages intégraux, lecture navigateur des MP4, audio, quatre aperçus 375/1440 px et deux formats, Axe sans violation automatique, aucune erreur navigateur. Mix MP3 mesuré **−16,60 LUFS / −1,67 dBTP** ; il reste à refaire après ajout des effets. Rapports locaux dans `motion/output/verification*.json`, également conservés dans le kit. Les mesures ne remplacent pas l’écoute humaine de la diction.
+
+Le prompt réutilisable `motion/prompt-motion-seya-labs.md` décrit la V2, les contraintes et les livrables. `motion/README.md` fournit les commandes de travail et de finalisation.
 
 ## Vérifications et commandes
 
@@ -105,7 +137,7 @@ npm run check:launch
 
 `npm start` utilise `scripts/start.mjs` : ressources statiques copiées dans `.next/standalone`, chargement de l’environnement local et serveur standalone. Ne pas lancer `next start` avec ce mode. Port par défaut 3000 ; sur le poste d’origine, 3000 était occupé par un autre projet. Ne pas arrêter un processus tiers. Le site de cette session utilise 3100, l’aperçu motion 3210. Les ports sont des aperçus locaux, pas une publication.
 
-Tests réussis de cette session : lint sans avertissement, TypeScript, build ; **6 tests unitaires** du contact / consentement ; audit **42 pages / 56 destinations / 138 contrôles responsive**, Axe AA sans violation automatique. Contenu principal disponible sans JS sur **31 pages**. Navigation mobile / clavier / focus, préremplissage des **12 formations**, contact / fallback email, ressource téléchargée, 404 et données structurées validés.
+Tests réexécutés le **12 octobre 2026** : lint sans avertissement, TypeScript, build de production (48 routes générées) ; **8 tests unitaires** du contact / consentement ; audit **42 pages / 56 destinations / 138 contrôles responsive**, Axe AA sans violation automatique. Contenu principal disponible sans JS sur **31 pages**. Navigation mobile / clavier / focus, préremplissage des **12 formations**, contact / fallback email, ressource téléchargée, 404 et données structurées validés.
 
 Audit cookies : blocage avant choix et après refus persistant, aspect égal des boutons, checkbox off par défaut, focus Escape, bon ID et config, vues SPA dédupliquées, payloads sans champs de contact ni queries, retrait entre onglets, suppression sélective des cookies, expiration, stockage indisponible, retrait pendant chargement ; Axe sans violation sur bandeau / dialogue à 1440 px et 375 px. Scripts / API / Google simulés : aucune mesure réelle ni email envoyé.
 
@@ -117,16 +149,24 @@ Les scores Lighthouse historiques documentés dans README ont été mesurés **a
 
 ## Déploiement et prochain travail
 
-Dockerfile multi-stage, Node22 Alpine, `npm ci`, Next standalone, utilisateur UID1001, port3000 et healthcheck `/api/health`. `.dockerignore` exclut secrets, IDE, Git, motion, caches et rapports. Lire `docs/deploiement-dokploy.md` pour distinguer **Build Time Arguments publics** et **variables runtime / secrets**. Aucun accès au serveur Dokploy ni déploiement public réalisé.
+Dockerfile multi-stage, Node22 Alpine, `npm ci`, Next standalone, utilisateur UID1001, port3000 et healthcheck `/api/health`. `.dockerignore` exclut secrets, IDE, Git, motion, caches et rapports. Lire `docs/deploiement-dokploy.md` pour distinguer **Build Time Arguments publics** et **variables runtime / secrets**. Cette phase n’a pas accédé au serveur et n’a pas déployé ces changements. `docs/DEPLOIEMENT.md`, ajouté dans une autre phase, décrit le serveur existant et la bascule de Postly vers `studio.seyalabs.com`. Vérifier cet état avant toute action. `docker-compose.dokploy.yml` contient les routeurs Traefik : ne pas ajouter de routeur concurrent dans Domains. Le build Docker réel n’a pas été validé localement (daemon indisponible lors du contrôle précédent) ; le build et serveur Next standalone ont été validés.
 
 Pour continuer :
 
 1. Lire `git status`, `git log -3 --oneline`, `git remote -v` et vérifier que main correspond à origin/main. Ne pas forcer un push ni écraser d’autres changements.
 2. Obtenir les vraies informations légales et d’hébergement ; confirmer durées / prestataire de contact. Ne pas créer de tarifs ou cases studies sans données approuvées.
-3. Configurer la source Git dans Dokploy, le Dockerfile, les arguments de build (domaine final et `SITE_INDEXABLE=true`), les variables runtime correspondantes et les secrets éventuels.
+3. Vérifier d’abord le déploiement existant et l’ordre de bascule dans `docs/DEPLOIEMENT.md`. Réutiliser la ressource Compose si elle existe ; confirmer arguments de build, variables runtime et secrets. Ne pas déployer sur le serveur sans demande du propriétaire.
 4. Finaliser les réglages GA4 indiqués ci-dessus et la politique ; vérifier une mesure réelle consentie après mise en ligne.
 5. Configurer DNS, HTTPS et variantes canonisées. Tester le healthcheck, les assets, les formations, le contact jusqu’à la réception réelle si webhook.
 6. Valider Search Console, soumettre le sitemap et suivre conversions / indexation. Préparer des améliorations avec données observées.
 7. Si une nouvelle modification est demandée : garder l’identité et les décisions validées, exécuter les contrôles concernés, documenter les limites et committer un changement cohérent. Ne pas refaire le projet depuis zéro.
 
-Aucune publication, aucun accès au compte GA4, aucune validation Search Console et aucun envoi réel de contact ne doivent être présentés comme déjà effectués.
+Aucune publication du film, aucun accès au compte GA4, aucune validation Search Console et aucun envoi réel de contact ne doivent être présentés comme déjà effectués par cette phase. Les paramètres de production et les informations légales restent à confirmer.
+
+## Livraison Git
+
+Branche demandée : `main`, remote `origin` SSH vers Youorus/Seyalabs---Frontend. Préserver les commits de déploiement, les libellés entreprise individuelle et le chargeur GTM déjà présents. La session livre les changements hero/motion/documentation par commits cohérents et push, sans force. Lire `git log` et comparer `HEAD` à `origin/main` pour obtenir les hashes de livraison actuels ; ne pas supposer qu’un hash écrit ici reste le dernier. Vérifier `git status` avant toute reprise.
+
+Le seul blocage de production motion est la permission ElevenLabs des effets, suivie du mix, export, contrôles et reconditionnement du kit. Les points de lancement du site restent listés par `npm run check:launch` : informations légales/hébergement et indexation finale.
+
+Audit npm du 12 octobre : cinq alertes hautes dans les outils de développement ESLint (`braces`/`micromatch`/`fast-glob`), zéro dans les dépendances de production. La proposition automatique rétrograde `eslint-config-next` en 14 ; ne pas appliquer `npm audit fix --force`. Rechercher une correction compatible avant modification et conserver la chaîne Next 16. Rapports ignorés dans `test-results/`.

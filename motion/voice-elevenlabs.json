@@ -1,0 +1,15 @@
+{
+  "provider": "ElevenLabs",
+  "voice_id": "UBXZKOKbt62aLQHhc1Jm",
+  "voice_name": "François Louis",
+  "model_id": "eleven_multilingual_v2",
+  "voice_settings": {
+    "stability": 0.45,
+    "similarity_boost": 0.78,
+    "style": 0.2,
+    "use_speaker_boost": true,
+    "speed": 1.08
+  },
+  "direction": "Narrateur français à la voix grave, chaleureuse et assurée. Diction claire, énergie publicitaire retenue. Les phrases courtes portent les changements de plan. Sourire discret sur la promesse de tarifs accessibles. Sans imitation de la voix de référence.",
+  "brand_pronunciation": "Séya Labs"
+}
