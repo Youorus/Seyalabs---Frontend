@@ -38,7 +38,7 @@ export function ContactForm({ deliveryEnabled, initialProjectType, initialMessag
     }
     setErrors({});
     const bodyText = emailBody(result.data);
-    const subject = result.data.projectType === "Formation" ? `Formation — ${result.data.company}` : `Projet ${result.data.projectType} — ${result.data.company}`;
+    const subject = result.data.projectType === "Formation" ? `Formation — ${result.data.company || result.data.name}` : `Projet ${result.data.projectType} — ${result.data.company || result.data.name}`;
     const email = `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
     setPrepared(bodyText); setCopied(false); setShowCopy(false);
     setMailto(email);
@@ -59,8 +59,8 @@ export function ContactForm({ deliveryEnabled, initialProjectType, initialMessag
     <div className="honeypot" aria-hidden="true"><label htmlFor="website">Site web</label><input name="website" id="website" tabIndex={-1} autoComplete="off" /></div>
     <fieldset className="form-section"><legend><span className="mono">01 /</span>Faisons connaissance.</legend><div className="form-grid">
       <div className="form-field"><label htmlFor="name">Votre nom *</label><input {...fieldProps("name")} autoComplete="name" maxLength={100} required />{error("name")}</div>
-      <div className="form-field"><label htmlFor="company">Entreprise *</label><input {...fieldProps("company")} autoComplete="organization" maxLength={150} required />{error("company")}</div>
-      <div className="form-field"><label htmlFor="email">Email professionnel *</label><input {...fieldProps("email")} type="email" autoComplete="email" maxLength={254} required />{error("email")}</div>
+      <div className="form-field"><label htmlFor="company">Entreprise <span>— facultatif</span></label><input {...fieldProps("company")} autoComplete="organization" maxLength={150} />{error("company")}</div>
+      <div className="form-field"><label htmlFor="email">Email *</label><input {...fieldProps("email")} type="email" autoComplete="email" maxLength={254} required />{error("email")}</div>
       <div className="form-field"><label htmlFor="phone">Téléphone <span>— facultatif</span></label><input {...fieldProps("phone")} type="tel" autoComplete="tel" maxLength={30} />{error("phone")}</div>
     </div></fieldset>
     <fieldset className="form-section"><legend><span className="mono">02 /</span>{isTraining ? "Préparons votre formation." : "Parlons de votre besoin."}</legend><div className="form-grid">

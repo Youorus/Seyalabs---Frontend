@@ -16,7 +16,7 @@ export default function Privacy() {
       <h2>Qui traite vos informations ?</h2>
       <p>Les demandes sont destinées à {legal.company || site.name}. Pour toute question relative à vos données, écrivez à <a href={`mailto:${site.email}`}>{site.email}</a>. Les informations d’identification figurent dans les <a href="/mentions-legales">mentions légales</a>.</p>
       <h2>Quelles données sont utilisées ?</h2>
-      <p>Le formulaire demande votre nom, votre entreprise, votre email, le type de projet, le budget indicatif, le calendrier et la description du besoin. Le téléphone est facultatif. Évitez d’inclure des données sensibles ou des informations confidentielles non nécessaires au premier échange.</p>
+      <p>Le formulaire demande votre nom, votre email, le type de projet, le budget indicatif, le calendrier et la description du besoin. L’entreprise et le téléphone sont facultatifs. Évitez d’inclure des données sensibles ou des informations confidentielles non nécessaires au premier échange.</p>
       <h2>Pourquoi et sur quelle base ?</h2>
       <p>Ces informations permettent d’étudier votre besoin, d’échanger avec vous et de préparer les mesures précontractuelles que vous demandez. Elles ne vous inscrivent pas à une newsletter et ne déclenchent aucune prospection automatisée.</p>
       <h2>Envoi et destinataires</h2>

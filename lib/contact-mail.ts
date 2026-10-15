@@ -56,7 +56,7 @@ export async function sendContactMail(lead: Lead, id: string) {
     from: { name: "SEYA LABS", address: config.user },
     to: config.to,
     replyTo: { name: oneLine(lead.name), address: lead.email },
-    subject: oneLine(`Demande de contact — ${lead.projectType} — ${lead.company} — ${shortReference(id)}`),
+    subject: oneLine(`Demande de contact — ${lead.projectType} — ${lead.company || lead.name} — ${shortReference(id)}`),
     text: `${emailBody({ ...lead, website: "", startedAt: 0 })}\n\n— Envoyé depuis seyalabs.com, référence ${shortReference(id)} (${id})`,
     headers: { "X-Seya-Lead-Id": id },
   });

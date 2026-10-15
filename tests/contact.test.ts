@@ -20,6 +20,13 @@ test("lead validation trims values and rejects unqualified or malformed requests
     assert.equal(contactSchema.safeParse({ ...input, ...change }).success, false);
   }
   assert.ok(emailBody(valid).includes(input.message));
+  const individual = contactSchema.parse({ ...input, company: "" });
+  assert.equal(individual.company, "");
+  assert.ok(emailBody(individual).includes("Entreprise : Non renseignée"));
+  const { company: _company, ...withoutCompany } = input;
+  void _company;
+  assert.equal(contactSchema.safeParse(withoutCompany).success, true);
+  assert.equal(contactSchema.safeParse({ ...input, company: "A" }).success, false);
   const training = contactSchema.parse({ ...input, projectType: "Formation", message: "Nous souhaitons former cinq personnes à l’automatisation." });
   assert.ok(emailBody(training).includes("Type de demande : Formation"));
   assert.ok(emailBody(training).includes("former cinq personnes"));

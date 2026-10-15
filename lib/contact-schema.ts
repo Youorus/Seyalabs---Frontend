@@ -7,7 +7,8 @@ export const timelines = ["Urgent", "1–2 mois", "3–6 mois", "Exploration"] a
 
 export const contactSchema = z.object({
   name: z.string().trim().min(2, "Indiquez votre nom (au moins 2 caractères).").max(100, "Votre nom est trop long."),
-  company: z.string().trim().min(2, "Indiquez votre entreprise.").max(150, "Le nom de l’entreprise est trop long."),
+  // Facultatif : un particulier peut aussi écrire.
+  company: z.string().trim().max(150, "Le nom de l’entreprise est trop long.").refine((value) => !value || value.length >= 2, "Le nom de l’entreprise est trop court.").default(""),
   email: z.string().trim().max(254).pipe(z.email("Indiquez une adresse email valide.")),
   phone: z.string().trim().max(30, "Le numéro est trop long.").refine((value) => !value || (/^[+\d\s().-]{7,30}$/.test(value) && /\d/.test(value)), "Vérifiez le numéro de téléphone.").default(""),
   projectType: z.enum(projectTypes, { error: "Choisissez un type de demande." }),
@@ -21,5 +22,5 @@ export const contactSchema = z.object({
 export type ContactData = z.infer<typeof contactSchema>;
 
 export function emailBody(data: ContactData) {
-  return `Bonjour SEYA LABS,\n\n${data.message}\n\nNom : ${data.name}\nEntreprise : ${data.company}\nEmail : ${data.email}\nTéléphone : ${data.phone || "Non renseigné"}\nType de demande : ${data.projectType}\nBudget indicatif : ${data.budget}\nHorizon : ${data.timeline}\n\nJ’ai pris connaissance de la politique de confidentialité.`;
+  return `Bonjour SEYA LABS,\n\n${data.message}\n\nNom : ${data.name}\nEntreprise : ${data.company || "Non renseignée"}\nEmail : ${data.email}\nTéléphone : ${data.phone || "Non renseigné"}\nType de demande : ${data.projectType}\nBudget indicatif : ${data.budget}\nHorizon : ${data.timeline}\n\nJ’ai pris connaissance de la politique de confidentialité.`;
 }
