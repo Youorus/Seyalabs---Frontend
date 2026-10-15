@@ -9,7 +9,7 @@ export function robotsMetadata(noindex = false): Metadata["robots"] {
 
 export function pageMetadata(title: string, description: string, path: string, noindex = false): Metadata {
   const url = new URL(path, site.url).href;
-  const fullTitle = `${title} | SEYA LABS`;
+  const fullTitle = path === "/" ? `${site.name} — ${title}` : `${title} | ${site.name}`;
   return {
     title: { absolute: fullTitle },
     description,
@@ -18,6 +18,38 @@ export function pageMetadata(title: string, description: string, path: string, n
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "SEYA LABS — Software × AI × Automation" }] },
     twitter: { card: "summary_large_image", title: fullTitle, description, images: ["/opengraph-image"] },
     robots: robotsMetadata(noindex),
+  };
+}
+
+export function siteIdentitySchema() {
+  const alternateName = ["Seyalabs", new URL(site.url).hostname];
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization", "@id": `${site.url}/#organization`,
+        name: site.name, alternateName, url: site.url,
+        logo: {
+          "@type": "ImageObject", "@id": `${site.url}/#logo`,
+          url: `${site.url}/brand/apple-icon.png`,
+          contentUrl: `${site.url}/brand/apple-icon.png`,
+          width: 180, height: 180, caption: site.name,
+        },
+        email: site.email, description: site.description,
+        areaServed: { "@type": "Country", name: "France" },
+        knowsAbout: ["Développement logiciel sur mesure", "Intelligence artificielle en entreprise", "Automatisation des processus métier", "Intégration de données et API"],
+        contactPoint: {
+          "@type": "ContactPoint", contactType: "Contact commercial",
+          email: site.email, url: `${site.url}/contact`, availableLanguage: "French",
+        },
+        sameAs: [site.linkedin, site.github].filter(Boolean),
+      },
+      {
+        "@type": "WebSite", "@id": `${site.url}/#website`,
+        name: site.name, alternateName, url: site.url, inLanguage: "fr-FR",
+        description: site.description, publisher: { "@id": `${site.url}/#organization` },
+      },
+    ],
   };
 }
 

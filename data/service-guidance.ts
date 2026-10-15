@@ -73,7 +73,7 @@ export const serviceGuidance: Record<string, ServiceGuidance> = {
     ],
     acceptance: ["Vérifier un échange valide, un rejet et une réponse indisponible.", "Tester la réception répétée d’un événement sans créer d’action métier en double.", "Retrouver l’état d’un traitement et la procédure de reprise prévue."],
     tradeoff: "Une intégration dépend des capacités, des autorisations et des changements des systèmes tiers. Les quotas, les versions et les permissions doivent être suivis. Si une API ne permet pas l’action nécessaire, il faut revoir le périmètre ou le mode d’échange avant de développer le connecteur.",
-    articles: ["migration-donnees-application-metier", "cahier-des-charges-application-metier", "automatiser-un-processus-par-ou-commencer"]
+    articles: ["integration-api-crm-erp", "migration-donnees-application-metier", "automatiser-un-processus-par-ou-commencer"]
   },
   "mvp": {
     heading: "Développement MVP : tester une hypothèse avec un produit utilisable.",

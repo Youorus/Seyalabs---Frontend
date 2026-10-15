@@ -12,7 +12,7 @@ export const metadata = pageMetadata("Formations : logiciel, IA, automatisation 
 export default function Formations() {
   const catalogue = trainingFamilies.flatMap((family) => trainings.filter((training) => training.relatedExpertise === family.slug));
   return <>
-    <PageHero title="Comprendre. Pratiquer. Devenir autonome." description="Les mêmes domaines d’expertise, transmis à vos équipes. Des formations en logiciel, intelligence artificielle, automatisation et data/API, construites autour de vos objectifs et de cas concrets." label="FORMATIONS / SEYA LABS" breadcrumb={[{ name: "Formations" }]} />
+    <PageHero title="Formations logiciel, IA et automatisation." description="Les mêmes domaines d’expertise, transmis à vos équipes. Des formations en logiciel, intelligence artificielle, automatisation et data/API, construites autour de vos objectifs et de cas concrets." label="FORMATIONS / SEYA LABS" breadcrumb={[{ name: "Formations" }]} />
     <section className="section training-intro"><Container><div className="editorial-grid">
       <div><SectionLabel>UNE FORMATION UTILE AU MÉTIER</SectionLabel><h2>Des repères.<br />Et de la pratique.</h2></div>
       <div><p>Comprendre une architecture, construire un workflow, vérifier une réponse IA ou préparer une intégration : chaque parcours vise des compétences que votre équipe peut mettre en pratique.</p><p>Nous précisons le niveau de départ, les outils et les objectifs avant de choisir les modules. Les programmes ci-dessous sont des bases à adapter à votre contexte.</p><Button variant="dark" href={trainingContactHref()}>Définir notre parcours</Button></div>

@@ -5,7 +5,7 @@ import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
 import { JsonLd } from "@/components/ui/primitives";
 import { site } from "@/lib/site";
-import { robotsMetadata } from "@/lib/seo";
+import { robotsMetadata, siteIdentitySchema } from "@/lib/seo";
 import "@/styles/globals.css";
 
 const space = localFont({ src: "../public/fonts/space-grotesk.woff2", variable: "--font-heading", weight: "300 700", display: "swap" });
@@ -25,12 +25,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return <html lang="fr" data-scroll-behavior="smooth" className={`${space.variable} ${inter.variable} ${mono.variable}`}><body>
     <a href="#main" className="skip-link">Aller au contenu</a>
     <Header /><main id="main">{children}</main><Footer /><Analytics />
-    <JsonLd data={{ "@context": "https://schema.org", "@graph": [
-      { "@type": "Organization", "@id": `${site.url}/#organization`, name: site.name,
-        url: site.url, logo: `${site.url}/brand/logo-mark.svg`, email: site.email, description: site.description,
-        areaServed: { "@type": "Country", name: "France" },
-        sameAs: [site.linkedin, site.github].filter(Boolean) },
-      { "@type": "WebSite", "@id": `${site.url}/#website`, name: site.name, url: site.url, inLanguage: "fr-FR", publisher: { "@id": `${site.url}/#organization` } },
-    ] }} />
+    <JsonLd data={siteIdentitySchema()} />
   </body></html>;
 }

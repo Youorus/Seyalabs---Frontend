@@ -43,6 +43,7 @@ jobs:
             sleep 1
           done
           curl --fail --silent http://localhost:3000/api/health
+          python3 scripts/audit-search.py --url http://localhost:3000 --preview --output test-results/search-ci.json
           npm run audit:cookies
           AUDIT_INDEXABLE=false npm run audit:site
       - name: Save audit reports

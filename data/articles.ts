@@ -1,5 +1,6 @@
 import type { Article } from "@/data/article-types";
 import { softwareGuides } from "@/data/software-guides";
+import { integrationGuide } from "@/data/integration-guide";
 export type { Article, ArticleSection } from "@/data/article-types";
 // CMS-ready typed content. Replace this repository with a CMS adapter when needed.
 const notes: Article[] = [
@@ -181,6 +182,6 @@ const notes: Article[] = [
   }
 ];
 
-export const articles: Article[] = [...softwareGuides, ...notes];
+export const articles: Article[] = [...softwareGuides, ...notes, integrationGuide];
 export const featuredArticles = ["cahier-des-charges-application-metier", "logiciel-sur-mesure-ou-saas", "quand-remplacer-excel-par-une-application-metier"]
   .map((slug) => articles.find((article) => article.slug === slug)!);

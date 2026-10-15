@@ -12,7 +12,7 @@ export function Footer() {
         {site.linkedin && <a href={site.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>}{site.github && <a href={site.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a>}
       </div></div>
     </div>
-    <nav className="footer-software" aria-label="Logiciels métier et ressources"><Link href="/expertises/developpement-logiciel">Développement logiciel sur mesure</Link><Link href="/solutions/application-metier">Applications métier</Link><Link href="/insights/budget-application-metier">Budget d’une application</Link><Link href="/insights/cahier-des-charges-application-metier">Modèle de cahier des charges</Link></nav>
+    <nav className="footer-software" aria-label="Expertises et ressources"><Link href="/expertises/developpement-logiciel">Développement logiciel sur mesure</Link><Link href="/expertises/intelligence-artificielle">Intelligence artificielle en entreprise</Link><Link href="/expertises/automatisation">Automatisation des processus métier</Link><Link href="/expertises/data-api">Data et intégration API</Link><Link href="/solutions/application-metier">Applications métier</Link><Link href="/insights/budget-application-metier">Budget d’une application</Link><Link href="/insights/cahier-des-charges-application-metier">Modèle de cahier des charges</Link><Link href="/insights/integration-api-crm-erp">Connecter un CRM et un ERP</Link></nav>
     <div className="footer-bottom"><span>© {new Date().getFullYear()} SEYA LABS</span><span className="footer-signature mono">BUILT WITH INTENT.</span><div><Link href="/mentions-legales">Mentions légales</Link><Link href="/confidentialite">Confidentialité</Link><CookiePreferencesButton /></div></div>
   </Container></footer>;
 }

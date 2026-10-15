@@ -101,7 +101,7 @@ export const additionalServiceGuidance: Record<string, ServiceGuidance> = {
     ],
     acceptance: ["Rapprocher les volumes, les identifiants et les relations avec les sources.", "Contrôler les transformations et retrouver les données rejetées.", "Vérifier un indicateur sur un jeu dont le résultat est connu.", "Tester les droits, une interruption et la reprise des flux."],
     tradeoff: "Un modèle technique ne résout pas seul les contradictions entre définitions métier. Certaines données demandent une décision ou un nettoyage avant migration. Les exigences de fraîcheur et de volume sont précisées sur les usages réels pour choisir une architecture proportionnée.",
-    articles: ["migration-donnees-application-metier", "cahier-des-charges-application-metier"]
+    articles: ["integration-api-crm-erp", "migration-donnees-application-metier", "cahier-des-charges-application-metier"]
   },
   "plateformes-web-mobile": {
     heading: "Une plateforme web ou mobile adaptée aux usages réels.",

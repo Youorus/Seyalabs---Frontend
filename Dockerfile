@@ -34,7 +34,8 @@ ARG PRIVACY_RETENTION_MONTHS=12
 RUN npm run build
 
 FROM base AS runner
-ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0
+ARG SITE_INDEXABLE=false
+ENV NODE_ENV=production PORT=3000 HOSTNAME=0.0.0.0 SITE_INDEXABLE=${SITE_INDEXABLE}
 RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static

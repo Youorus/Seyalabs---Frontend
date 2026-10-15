@@ -79,6 +79,8 @@ Les trois clics sont un choix d’architecture du projet, pas une règle de clas
 
 ## Lancement et mesure
 
+Le [point de contrôle du 15 octobre 2026](referencement-google.md) décrit l’audit des 39 URL publiques, le `noindex` constaté sur Contact, les corrections d’environnement et de domaine canonique, ainsi que le renforcement de la marque et des liens entre expertises. Un huitième guide consacré aux intégrations CRM/ERP porte le sitemap préparé à 40 pages. Le document distingue l’état public observé des changements à déployer et des actions à terminer dans Search Console.
+
 1. Finaliser les informations de l’entreprise et de l’hébergement, relire les engagements commerciaux et vérifier la réception des demandes.
 2. Déployer sur `https://seyalabs.com`, rediriger les variantes vers cette origine, garder les previews en `noindex` et activer `SITE_INDEXABLE=true` au build public.
 3. Valider une propriété Domaine dans Search Console par DNS, ou une propriété de préfixe d’URL avec `GOOGLE_SITE_VERIFICATION`. Le token n’est pas fourni ; la propriété n’a pas été créée par cette tâche.
