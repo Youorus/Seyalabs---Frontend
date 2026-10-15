@@ -11,7 +11,7 @@ export type Article = {
   title: string;
   seoTitle: string;
   description: string;
-  category: "AI" | "Automation" | "Software" | "Engineering" | "Business";
+  category: "AI" | "Automation" | "Software" | "Engineering" | "Business" | "Découverte";
   date: string;
   updatedAt?: string;
   readingTime: string;

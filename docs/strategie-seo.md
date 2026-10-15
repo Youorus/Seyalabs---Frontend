@@ -1,12 +1,16 @@
-# SEYA LABS — Acquisition des PME par le référencement
+# SEYA LABS — Référencement pour les PME et les particuliers curieux
 
 Décision du 5 octobre 2026 : priorité commerciale aux **logiciels et applications métier sur mesure**. Périmètre de travail : entreprises francophones en France. À affiner avec les demandes réelles ; aucun volume de recherche ni rang concurrent n’est revendiqué ici.
 
 Cible confirmée par le propriétaire le **15 octobre 2026 : PME françaises, logiciels métier, IA et automatisation**. L’accueil et l’identité du site reprennent ce périmètre. Les trois besoins à relier sont : centraliser un processus dans une application métier, connecter les outils existants et automatiser les étapes répétitives avec les contrôles nécessaires.
 
+Complément demandé le même jour : **accueillir aussi les particuliers curieux de technologie**. Le parcours de découverte commence dès l’accueil et mène aux guides, aux outils gratuits et aux formations. Un guide d’introduction explique logiciel, IA et automatisation avec des exemples du quotidien. Le catalogue et le contact accueillent une démarche individuelle ; les prérequis des programmes restent explicites et les modalités sont à définir avec la personne.
+
 ## Objectif
 
 Obtenir des demandes qualifiées d’entreprises qui doivent concevoir, remplacer ou connecter un outil métier. Le site aide l’acheteur à décrire son besoin, comparer les options et préparer une conversation commerciale.
+
+Permettre également à une personne qui découvre ces sujets de comprendre les notions, essayer une ressource et choisir la suite à son rythme. Une lecture ou un téléchargement par curiosité n’est pas assimilé à une demande commerciale.
 
 L’axe éditorial est précis : **les règles, les données et la vie du logiciel après livraison**. Critères de recette, dépendances, migration et modèle de cahier des charges donnent une réponse utilisable. Lighthouse vérifie une partie de la qualité technique ; il ne mesure ni l’autorité du domaine, ni la demande commerciale, ni la position Google.
 
@@ -35,6 +39,7 @@ Les formulations suivantes sont des cibles éditoriales, sans volume estimé. Le
 | logiciel sur mesure ou SaaS, logiciel standard ou spécifique | `/insights/logiciel-sur-mesure-ou-saas` | Comparaison, coût complet et réversibilité. |
 | budget application métier, coût développement application métier | `/insights/budget-application-metier` | Postes, périmètre et comparaison de devis ; aucun tarif fictif. |
 | calcul temps gagné automatisation, comparer tâches à automatiser | `/outils/calculateur-automatisation` | Comparaison de trois tâches, contrôle humain et suivi déduits, hypothèses modifiables et cadrage téléchargeable. |
+| différence IA automatisation logiciel, comprendre IA pour débuter | `/insights/ia-automatisation-logiciel-differences` | Définitions accessibles, exemples du quotidien et premier exercice ; liens vers les guides et les formations. |
 | cahier des charges application métier, modèle cahier des charges logiciel métier | `/insights/cahier-des-charges-application-metier` | Guide et modèle modifiable en accès libre. |
 | migration données application métier, migration Excel vers application | `/insights/migration-donnees-application-metier` | Sources, relations, tests et bascule. |
 | intégration API CRM ERP, connecter logiciels métier | `/solutions/integration-api` | Flux, référence des données et reprise sur erreur. |
@@ -87,6 +92,8 @@ Les trois clics sont un choix d’architecture du projet, pas une règle de clas
 ## Lancement et mesure
 
 Le [point de contrôle du 15 octobre 2026](referencement-google.md) décrit l’audit initial des 39 URL publiques, les corrections déployées, le sitemap de 40 URL accepté par Google et six demandes d’indexation acceptées. Le calculateur porte la version préparée lors de cette nouvelle phase à **41 URL**. Les rapports Search Console détaillés sont locaux et ignorés par Git.
+
+Le guide de découverte ajouté pour les particuliers porte ensuite le sitemap à **42 URL**. Son accès depuis l’accueil, le parcours de formation individuelle et le formulaire ont été vérifiés à 375 px, sans débordement horizontal. Le build indexable passe l’audit HTTP local : 42 pages, aucune erreur ni avertissement (`test-results/seo-particuliers-release-2026-10-15.json`).
 
 1. Finaliser les informations de l’entreprise et de l’hébergement, relire les engagements commerciaux et vérifier la réception des demandes.
 2. Déployer sur `https://seyalabs.com`, rediriger les variantes vers cette origine, garder les previews en `noindex` et activer `SITE_INDEXABLE=true` au build public.

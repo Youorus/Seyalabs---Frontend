@@ -33,10 +33,10 @@ export const foundationTrainings: Training[] = [
     slug: "intelligence-artificielle", number: "02",
     name: "Intelligence artificielle, assistants & agents",
     title: "Utiliser l’IA. Comprendre ses limites.",
-    seoTitle: "Formation IA en entreprise : assistants et agents",
-    description: "Formation IA pour vos équipes : usages, prompting, assistants documentaires, agents, évaluation et contrôle humain. Des ateliers reliés à vos besoins métier.",
-    intro: "L’IA devient utile lorsqu’on sait choisir une tâche, préparer les informations et vérifier le résultat. Cette formation va de la compréhension des usages aux assistants et agents intégrés aux processus. Le niveau technique et les ateliers sont définis avec votre équipe.",
-    audience: "Responsables métier, équipes opérationnelles, chefs de projet et profils techniques qui souhaitent utiliser l’IA avec des repères clairs. Les modules d’acculturation et les ateliers d’intégration peuvent être organisés en parcours distincts.",
+    seoTitle: "Formation IA pour particuliers et équipes",
+    description: "Formation IA pour particuliers et équipes : usages, prompting, assistants, agents et vérification des réponses. Un parcours à adapter à votre niveau.",
+    intro: "L’IA devient utile lorsqu’on sait choisir une tâche, préparer les informations et vérifier le résultat. Cette formation va de la compréhension des usages aux assistants et agents intégrés aux processus. Le niveau technique et les ateliers sont définis avec vous.",
+    audience: "Particuliers curieux, responsables métier, équipes opérationnelles, chefs de projet et profils techniques qui souhaitent utiliser l’IA avec des repères clairs. Les modules d’acculturation et les ateliers d’intégration peuvent être organisés en parcours distincts.",
     prerequisites: "Aucune programmation n’est nécessaire pour le parcours d’usage. Les ateliers d’intégration demandent des bases en développement et en API. Les accès aux outils, le corpus pédagogique et les informations pouvant être utilisées sont vérifiés avant la session.",
     objectives: [
       "Choisir un cas d’usage précis et reconnaître les situations où l’IA apporte peu.",
@@ -123,6 +123,7 @@ export function trainingContactHref(training?: Training) {
 }
 
 export const trainingFaq = [
+  { question: "Je viens à titre individuel : par où commencer ?", answer: "Les guides et les outils gratuits permettent de découvrir les sujets à votre rythme. Si vous souhaitez une formation, indiquez votre objectif, votre niveau et le programme qui vous intéresse. Nous préciserons les prérequis et les modalités possibles avant toute proposition. Le champ Entreprise du formulaire est facultatif." },
   { question: "Peut-on adapter la formation à nos outils ?", answer: "Oui. Le cadrage précise votre environnement, les usages visés et les contraintes d’accès. Nous choisissons des exemples pédagogiques adaptés, avec des données dont l’usage est autorisé. Le programme et les exercices sont définis avant la session." },
   { question: "Faut-il déjà savoir développer ?", answer: "Cela dépend du parcours. Les modules de compréhension et de cadrage peuvent s’adresser à des profils métier. Les ateliers de développement, SQL ou intégration précisent les bases nécessaires. Nous vérifions le niveau des participants pour proposer les modules adaptés." },
   { question: "Quelle est la durée et comment est défini le tarif ?", answer: "La durée, les modalités, le calendrier et le tarif sont précisés dans une proposition après cadrage. Ils dépendent des objectifs, du niveau du groupe, des modules et de la préparation des ateliers. Indiquez le sujet, le nombre de participants et la période souhaitée pour préparer cet échange." }

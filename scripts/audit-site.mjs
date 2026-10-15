@@ -114,7 +114,7 @@ try {
     const renderedText = await crawler.locator('main').innerText();
     assert.equal(await crawler.locator('main h1').count(), 1, `${path}: heading available without JavaScript`);
     assert.ok(renderedText.length > 1500, `${path}: main content available without JavaScript`);
-    assert.ok(await crawler.locator('main a[href^="/solutions/"], main a[href^="/expertises/"]').count() > 0, `${path}: crawlable service links`);
+    assert.ok(await crawler.locator('main a[href^="/solutions/"], main a[href^="/expertises/"], main a[href^="/formations"]').count() > 0, `${path}: crawlable service or learning links`);
   }
   await crawlerContext.close();
   report.interactions.push({ name: `Content available without JavaScript on ${crawlerPaths.length} commercial and editorial pages`, passed: true });

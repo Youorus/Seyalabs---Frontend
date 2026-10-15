@@ -7,15 +7,15 @@ import { trainings, trainingFamilies, trainingContactHref, trainingFaq } from "@
 import { pageMetadata, breadcrumbs, faqSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-export const metadata = pageMetadata("Formations : logiciel, IA, automatisation et data", "Formez vos équipes au développement logiciel, à l’IA, à l’automatisation et à la data/API. Des programmes pratiques adaptés à vos niveaux et à vos objectifs.", "/formations");
+export const metadata = pageMetadata("Formations : logiciel, IA, automatisation et data", "Particuliers et équipes : explorez nos formations en logiciel, IA, automatisation et data/API. Un parcours à définir selon votre niveau et vos objectifs.", "/formations");
 
 export default function Formations() {
   const catalogue = trainingFamilies.flatMap((family) => trainings.filter((training) => training.relatedExpertise === family.slug));
   return <>
-    <PageHero title="Formations logiciel, IA et automatisation." description="Les mêmes domaines d’expertise, transmis à vos équipes. Des formations en logiciel, intelligence artificielle, automatisation et data/API, construites autour de vos objectifs et de cas concrets." label="FORMATIONS / SEYA LABS" breadcrumb={[{ name: "Formations" }]} />
+    <PageHero title="Formations logiciel, IA et automatisation." description="À titre individuel ou avec votre équipe : explorez nos parcours en logiciel, intelligence artificielle, automatisation et data/API. Le niveau, les objectifs et les modalités se définissent avec vous." label="FORMATIONS / SEYA LABS" breadcrumb={[{ name: "Formations" }]} />
     <section className="section training-intro"><Container><div className="editorial-grid">
       <div><SectionLabel>UNE FORMATION UTILE AU MÉTIER</SectionLabel><h2>Des repères.<br />Et de la pratique.</h2></div>
-      <div><p>Comprendre une architecture, construire un workflow, vérifier une réponse IA ou préparer une intégration : chaque parcours vise des compétences que votre équipe peut mettre en pratique.</p><p>Nous précisons le niveau de départ, les outils et les objectifs avant de choisir les modules. Les programmes ci-dessous sont des bases à adapter à votre contexte.</p><Button variant="dark" href={trainingContactHref()}>Définir notre parcours</Button></div>
+      <div><p>Comprendre une architecture, construire un workflow, vérifier une réponse IA ou préparer une intégration : chaque parcours vise des compétences que vous pouvez mettre en pratique.</p><p>Nous précisons le niveau de départ, les outils et les objectifs avant de choisir les modules. Les programmes ci-dessous sont des bases à adapter à votre contexte.</p><p>Vous souhaitez d’abord découvrir ces sujets ? <Link className="link-arrow" href="/insights/ia-automatisation-logiciel-differences">Commencer par le guide gratuit<ArrowUpRight size={16} aria-hidden="true" /></Link></p><Button variant="dark" href={trainingContactHref()}>Définir mon parcours</Button></div>
     </div></Container></section>
     <section className="section training-catalogue"><Container>
       <SectionLabel>{`${trainingFamilies.length} DOMAINES / ${trainings.length} PROGRAMMES`}</SectionLabel><h2>Choisir votre formation.</h2>

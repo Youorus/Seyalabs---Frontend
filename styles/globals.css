@@ -108,6 +108,8 @@ p { line-height: 1.75; }
 .hero-actions { display: flex; align-items: center; gap: 31px; margin-top: 34px; }
 .hero-actions .link-arrow { border: 0; gap: 18px; }
 .hero-copy > .hero-audience { font-size: 9px; margin-top: 35px; color: var(--body-muted); }
+.hero-copy > .hero-discovery { margin-top: 14px; font-size: 12px; }
+.hero-discovery a { display: inline-flex; align-items: center; gap: 10px; color: var(--copper-ink); text-decoration: underline; text-underline-offset: 4px; }
 .hero-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-block: 26px; color: var(--body-muted); }
 .hero-bottom a { display: flex; align-items: center; gap: 20px; font-size: 9px; }
 .hero-bottom > span { font-size: 9px; }
@@ -286,6 +288,9 @@ p { line-height: 1.75; }
 .usecase-grid .mono { color: #f1855e; }
 .usecase-grid h3 { margin-block: 25px 16px; }
 .usecase-grid p { font-size: 14px; color: #bcb6aa; }
+.discovery-paths > div { border-color: var(--border); }
+.discovery-paths p { color: var(--body-muted); }
+.discovery-paths .link-arrow { margin-top: 18px; }
 .deliverables-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; }
 .deliverables-grid h2 { font-size: 45px; }
 .deliverables { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
