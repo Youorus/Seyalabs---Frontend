@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Check } from "lucide-react";
 import { Container, SectionLabel, Button, LinkArrow } from "@/components/ui/primitives";
-import { HeroTeam } from "@/components/sections/hero-team";
+import { HeroMotion } from "@/components/sections/hero-motion";
 import { ExpertiseGrid } from "@/components/sections/expertise-grid";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { FinalCta } from "@/components/sections/final-cta";
@@ -18,7 +18,7 @@ export default function Home() {
   return <>
     <section className="hero"><Container>
       <div className="hero-topline mono"><span><i className="status-dot" /> SOFTWARE × AI × AUTOMATION</span><span>INGÉNIERIE NUMÉRIQUE / PARIS</span></div>
-      <div className="hero-grid"><div className="hero-copy"><h1>La technologie.<br />À la mesure de<br /><span>votre entreprise.</span></h1><p>Logiciels et applications métier sur mesure, intelligence artificielle et automatisation conçus autour de vos processus.<br className="desktop-break" /> Du cadrage à la mise en production.</p><div className="hero-actions"><Button event="hero_cta_click">Démarrer un projet</Button><LinkArrow href="/expertises/developpement-logiciel">Nos logiciels sur mesure</LinkArrow></div><p className="hero-audience mono">POUR LES ENTREPRISES QUI VEULENT AVANCER.</p></div><HeroTeam /></div>
+      <div className="hero-grid"><div className="hero-copy"><h1>La technologie.<br />À la mesure de<br /><span>votre entreprise.</span></h1><p>Logiciels et applications métier sur mesure, intelligence artificielle et automatisation conçus autour de vos processus.<br className="desktop-break" /> Du cadrage à la mise en production.</p><div className="hero-actions"><Button event="hero_cta_click">Démarrer un projet</Button><LinkArrow href="/expertises/developpement-logiciel">Nos logiciels sur mesure</LinkArrow></div><p className="hero-audience mono">POUR LES ENTREPRISES QUI VEULENT AVANCER.</p></div><HeroMotion /></div>
       <div className="hero-bottom"><a href="#pourquoi" className="mono">DÉCOUVRIR SEYA LABS <ArrowDown size={15} aria-hidden="true" /></a><span className="mono">DU BESOIN AU SYSTÈME.</span></div>
     </Container></section>
     <div className="capabilities-strip"><Container>{["Logiciels sur mesure", "Intelligence artificielle", "Automatisation", "Data & API"].map((text, i) => <span key={text}><span className="mono">0{i + 1}</span>{text}</span>)}</Container></div>

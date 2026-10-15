@@ -20,7 +20,7 @@ Le [guide de déploiement](docs/deploiement-dokploy.md) détaille le Dockerfile 
 
 - `app/` : routes, Metadata API, image Open Graph, sitemap, robots et endpoint de contact.
 - `components/` : navigation et composants éditoriaux. Server Components par défaut.
-- `components/sections/` : expertises, articles, CTA et deux îlots interactifs (System Flow, méthode).
+- `components/sections/` : expertises, articles, CTA, motion design du hero et méthode interactive.
 - `components/ui/` : conteneur, labels, boutons, liens, marque et JSON-LD.
 - `data/services.ts`, `data/additional-services.ts` : 4 expertises et 8 solutions, chacune avec intention commerciale, cas d’usage, livrables et FAQ propres. Les plateformes web/mobile et produits SaaS ont leurs pages dédiées.
 - `data/articles.ts`, `data/software-guides.ts` : 7 articles originaux, dont 4 guides consacrés aux décisions d’achat logiciel. Schéma typé dans `data/article-types.ts`, remplaçable par un adaptateur CMS.
@@ -84,9 +84,11 @@ Les vues sont envoyées une fois par changement de chemin App Router, avec `send
 
 Références : [Consent Mode Google](https://developers.google.com/tag-platform/security/concepts/consent-mode), [configuration GA4](https://developers.google.com/analytics/devguides/collection/ga4/reference/config), [vues manuelles et mesure améliorée](https://developers.google.com/analytics/devguides/collection/ga4/views), [recommandations de la CNIL](https://www.cnil.fr/fr/cookies-et-autres-traceurs/regles/cookies/FAQ).
 
-## Visuel d’équipe dans le hero
+## Motion design dans le hero
 
-Le visuel de collaboration est limité au hero de l’accueil. Il est généré et porte une légende explicite ; il ne représente pas l’équipe réelle. Configuration dans `data/team.ts`, remplacement par des photos approuvées expliqué dans `public/team/README.md`. Les portraits nominatifs restent masqués tant que le visuel est une illustration.
+Le hero de l’accueil utilise `components/sections/hero-motion.tsx` et sa feuille CSS isolée. Une boucle silencieuse de 18 secondes présente trois scènes : les besoins métier autour du symbole SEYA en relief, la connexion des expertises, puis l’assemblage d’une application illustrative. Les chapitres sont sélectionnables et un bouton permet de mettre en pause et de reprendre. La progression CSS pilote les changements de scène, sans minuterie JavaScript ni fichier vidéo à charger. L’animation se suspend hors écran et lorsque l’onglet est masqué. Avec `prefers-reduced-motion`, l’application finale reste affichée sans animation. Un texte alternatif décrit le concept aux lecteurs d’écran.
+
+L’ancien composant `hero-team.tsx`, ses données et son image restent disponibles mais ne sont plus affichés sur l’accueil. L’illustration d’équipe générée ne représente pas de salariés réels ; les règles de publication de portraits approuvés restent documentées dans `public/team/README.md`.
 
 ## Contenus réels
 
@@ -107,7 +109,7 @@ npm run check:launch
 
 L’audit vérifie les destinations internes, titres et descriptions uniques, canonicals, données structurées, une H1, 404, absence de débordement à 375 / 430 / 768 / 1024 / 1440 / 1920 px, axe WCAG AA, focus du menu, navigation de la méthode et validation du formulaire. Il contrôle aussi les pages orphelines, la profondeur des liens, la cohérence du schéma Article, le téléchargement du modèle et le contenu rendu sans JavaScript. Il n’envoie aucun email et intercepte l’API de contact. Captures et rapport : `test-results/` (ignoré par Git). Sur macOS, Chrome installé est utilisé ; sinon installer le navigateur Playwright. `AUDIT_URL` et `CHROME_PATH` permettent de préciser la configuration. `AUDIT_INDEXABLE=true` vérifie les directives du build public ; `false` vérifie celles d’un aperçu. L’activer ne change pas le build : `SITE_INDEXABLE` doit correspondre lors de la compilation et du démarrage.
 
-Les tests unitaires couvrent la qualification, les limites et le comportement de l’endpoint sur échec ou réception confirmée. System Flow utilise une progression de scroll limitée par requestAnimationFrame et la visibilité du visuel. Le moteur Framer Motion Mini est chargé à la première interaction avec la méthode, jamais pour le premier rendu. Les mouvements sont désactivés avec prefers-reduced-motion. Les performances Lighthouse se mesurent sur le build de production, avec l’indexation finale activée pour la catégorie SEO. Les objectifs du brief sont des cibles à mesurer, pas des scores revendiqués sans audit.
+Les tests unitaires couvrent la qualification, les limites et le comportement de l’endpoint sur échec ou réception confirmée. Le motion design du hero repose sur CSS/SVG ; ses animations sont suspendues hors écran et dans un onglet masqué. Le moteur Framer Motion Mini est chargé à la première interaction avec la méthode, jamais pour le premier rendu. Les mouvements sont désactivés avec prefers-reduced-motion. Les performances Lighthouse se mesurent sur le build de production, avec l’indexation finale activée pour la catégorie SEO. Les objectifs du brief sont des cibles à mesurer, pas des scores revendiqués sans audit.
 
 ## Avant publication
 

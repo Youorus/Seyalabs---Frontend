@@ -1,6 +1,6 @@
 # Reprise IA — SEYA LABS
 
-Dernière mise à jour : **12 octobre 2026**. Lire ce document, `README.md`, `docs/DEPLOIEMENT.md` puis `docs/deploiement-dokploy.md` avant de poursuivre. Le site est contrôlé localement. La production motion V2 est exportée avec la nouvelle voix, mais **le sound design ElevenLabs attend une permission de clé**. Ne pas la présenter comme terminée. Le dépôt contient déjà des changements de déploiement et de Tag Manager provenant d’une autre phase ; ne pas les écraser ni supposer que le serveur est vierge.
+Dernière mise à jour : **15 octobre 2026**. Lire ce document, `README.md`, `docs/DEPLOIEMENT.md` puis `docs/deploiement-dokploy.md` avant de poursuivre. Le hero dispose désormais d’un motion design CSS/SVG à la place de l’image. Le site est contrôlé localement. La production motion V2 est exportée avec la nouvelle voix, mais **le sound design ElevenLabs attend une permission de clé**. Ne pas la présenter comme terminée. Le dépôt contient déjà des changements de déploiement et de Tag Manager provenant d’une autre phase ; ne pas les écraser ni supposer que le serveur est vierge.
 
 ## Projet et demande du propriétaire
 
@@ -16,7 +16,7 @@ Dernière mise à jour : **12 octobre 2026**. Lire ce document, `README.md`, `do
 - Autorisations : intégrer Analytics avec gestion du consentement, initialiser Git, committer et pousser vers le dépôt indiqué. Le déploiement Dokploy sera effectué par le propriétaire. Aucun email réel, message à un tiers ou publication publicitaire n’a été demandé.
 - La dernière référence motion est le film Create.xyz de Martial Ditorga : `https://www.tiktok.com/@martial_ditorga/video/7686905362720607508`. Le profil Humain Penseur a été corrigé et ne doit plus guider la production. Le propriétaire a fourni le MP4 local le 12 octobre.
 - Le propriétaire autorise la génération de narration et d’effets ElevenLabs. Sa clé est privée : ne jamais la remettre dans un fichier Git, un log, le navigateur ou le ZIP.
-- Les images d’équipe sont demandées **uniquement dans le hero**. Aucune photo réelle de l’équipe n’a été fournie.
+- Le 15 octobre 2026, le propriétaire demande de remplacer l’image du hero par un motion design attrayant. Aucune photo réelle de l’équipe n’a été fournie.
 - Le logo fourni reste à la racine (`Logo abstrait en S noir.png`). Déclinaisons SVG et wordmarks dans `public/brand/`.
 - Le brief initial se trouvait dans une pièce jointe locale Codex (`Texte collé.txt`) ; ne pas dépendre de cet accès pour reprendre. Les décisions utiles sont dans ce document et le README.
 
@@ -26,7 +26,7 @@ Next.js **16.3.8**, App Router, React 19.3, TypeScript strict, Tailwind 4.3, Zod
 
 Palette Digital Mineral / Copper : obsidienne `#11100E`, porcelaine `#F3F0E8`, cuivre `#D65A31`, aubergine `#34212F`, sandstone `#C9BDAE`, chalk `#E4E0D7`. Le cuivre de texte utilise un ton plus sombre pour le contraste. Fonts Space Grotesk, Inter et Geist Mono auto-hébergées, licences incluses. Styles et adaptations responsive dans `styles/globals.css`. Aucun fournisseur de fonts externe au chargement.
 
-Le contenu éditorial est rendu côté serveur. Les îlots clients couvrent menu, formulaire, méthode, visuel System Flow et consentement. `prefers-reduced-motion` est pris en compte. Éviter d’ajouter du JavaScript global ou un lecteur vidéo à l’accueil sans demande.
+Le contenu éditorial est rendu côté serveur. Les îlots clients couvrent menu, formulaire, méthode, motion design du hero et consentement. `prefers-reduced-motion` est pris en compte. Éviter d’ajouter du JavaScript global ou un lecteur vidéo à l’accueil sans demande.
 
 ## Contenus livrés
 
@@ -40,11 +40,13 @@ Le contenu éditorial est rendu côté serveur. Les îlots clients couvrent menu
 
 Données : `data/services.ts`, `data/additional-services.ts`, `data/service-guidance.ts`, `data/additional-service-guidance.ts`, `data/articles.ts`, `data/software-guides.ts`, `data/trainings.ts`, `data/training-programmes.ts`, `data/projects.ts`.
 
-## Image d’équipe dans le hero
+## Motion design dans le hero — 15 octobre 2026
 
-`components/sections/hero-team.tsx` et `data/team.ts` pilotent le visuel de l’accueil. Le fichier WebP `public/team/collaboration-seya-illustration.webp` est une image d’ambiance générée, explicitement légendée « Visuel d’ambiance généré · travail en équipe ». **Ce ne sont pas les salariés réels de Seya Labs.** Ne pas la transformer en preuve ou témoignage. Elle ne figure dans aucune autre section.
+L’accueil affiche désormais `components/sections/hero-motion.tsx`, avec `hero-motion.module.css`. Boucle silencieuse de 18 secondes, trois scènes de six secondes : besoins métier et symbole SEYA en relief, connexion logiciel/IA/automatisation, puis assemblage d’une application illustrative. Le texte commercial et les CTA du hero restent identiques. L’interface dessinée n’est pas une réalisation client ni une preuve de résultat.
 
-Pour utiliser de vraies photos, suivre `public/team/README.md`, obtenir les identités/roles/photos approuvés, puis remplacer le visuel et sa légende. Les portraits nominatifs sont masqués tant que le visuel est une illustration. Le composant conserve System Flow comme fallback si aucun visuel approuvé n’est configuré. Next Image gère les tailles et formats ; l’image du hero est prioritaire.
+Animations CSS/SVG, sans vidéo ni nouvelle dépendance. La fin de l’animation de progression déclenche le chapitre suivant ; pas de boucle requestAnimationFrame ou de minuterie JavaScript. Sélection manuelle des chapitres, pause/reprise au clavier, suspension via IntersectionObserver et visibilité du document. `prefers-reduced-motion` affiche la scène finale statique. Le visuel décoratif est masqué aux lecteurs d’écran et accompagné d’une description textuelle.
+
+L’ancien `hero-team.tsx`, `data/team.ts`, System Flow et le WebP généré restent disponibles, sans affichage dans l’accueil. Le WebP ne représente pas les salariés réels ; conserver les règles de `public/team/README.md` si des portraits sont réintroduits.
 
 ## SEO
 

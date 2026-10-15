@@ -1,5 +1,7 @@
 # Portraits réels de l’équipe
 
+Depuis le 15 octobre 2026, le hero utilise `components/sections/hero-motion.tsx`. Le composant photo et les fichiers ci-dessous sont conservés pour une éventuelle réutilisation ; ils ne sont plus affichés sur l’accueil.
+
 Ajouter ici les photos approuvées pour publication (idéalement WebP, cadrage vertical 4:5, environ 800 × 1000 px et moins de 200 Ko). Préférer un fond simple, une lumière cohérente et des photos actuelles. Retirer les métadonnées de localisation.
 
 Renseigner `data/team.ts` : `teamHeroPhoto` contient le chemin local de la photo principale, son texte alternatif, une légende exacte et `approvedForPublication: true`. Préférer un cadrage horizontal 6:5 pour cette photo. `teamMembers` fournit facultativement les noms réels, rôles, descriptions et portraits ; les deux premiers portraits approuvés complètent la photo principale. Vérifier que le fichier existe et que la personne autorise cet usage. Un seul portrait convient si l’entreprise est portée par une personne.
