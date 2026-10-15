@@ -87,7 +87,7 @@ test("contact endpoint delivers by SMTP, replying to the visitor, before any web
     assert.equal(webhookCalled, false);
     assert.equal(sent.length, 1);
     assert.equal(sent[0].to, "contact@seyalabs.com");
-    assert.deepEqual(sent[0].from, { name: "Site SEYA LABS", address: "contact@seyalabs.com" });
+    assert.deepEqual(sent[0].from, { name: "SEYA LABS", address: "contact@seyalabs.com" });
     assert.deepEqual(sent[0].replyTo, { name: input.name, address: input.email });
     assert.ok(!String(sent[0].subject).includes("\n"));
     assert.ok(String(sent[0].text).includes(input.message));

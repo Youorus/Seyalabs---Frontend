@@ -52,7 +52,7 @@ export async function sendContactMail(lead: Lead, id: string) {
   const config = smtpConfig();
   if (!config) throw new Error("SMTP not configured");
   await mailer.createTransport(config).sendMail({
-    from: { name: "Site SEYA LABS", address: config.user },
+    from: { name: "SEYA LABS", address: config.user },
     to: config.to,
     replyTo: { name: oneLine(lead.name), address: lead.email },
     subject: oneLine(`Demande de contact — ${lead.projectType} — ${lead.company}`),
