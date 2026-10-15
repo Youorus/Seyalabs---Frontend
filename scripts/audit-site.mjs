@@ -108,7 +108,7 @@ try {
   report.crawl = { indexablePages: sitemapPaths.size, maxDepth: Math.max(...depth.values()), orphanedPages: 0 };
   const crawlerContext = await browser.newContext({ javaScriptEnabled: false });
   const crawler = await crawlerContext.newPage();
-  const crawlerPaths = paths.filter((path) => /^\/(insights|expertises|solutions|formations)\/.+/.test(path));
+  const crawlerPaths = paths.filter((path) => /^\/(insights|expertises|solutions|formations|outils)\/.+/.test(path));
   for (const path of crawlerPaths) {
     await crawler.goto(`${base}${path}`);
     const renderedText = await crawler.locator('main').innerText();
@@ -125,9 +125,22 @@ try {
   assert.equal(download.suggestedFilename(), 'modele-cahier-des-charges-application-metier.md');
   assert.equal(await download.failure(), null);
   report.interactions.push({ name: 'Free project brief template download', passed: true });
+  await page.goto(`${base}/outils/calculateur-automatisation`);
+  await page.getByRole('button', { name: 'Comparer mes tâches', exact: true }).click();
+  assert.deepEqual(await page.getByRole('row', { name: /^Ressaisie CRM/ }).getByRole('cell').allTextContents(), ['30 h', '11 h', '19 h']);
+  assert.deepEqual(await page.getByRole('row', { name: /^Validation de dossier/ }).getByRole('cell').allTextContents(), ['12 h', '13 h', '-1 h']);
+  await page.locator('#minutesAfter-0').fill('6');
+  assert.equal(await page.getByRole('button', { name: 'Télécharger mon cadrage', exact: true }).isDisabled(), true);
+  await page.getByRole('button', { name: 'Comparer mes tâches', exact: true }).click();
+  const briefEvent = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Télécharger mon cadrage', exact: true }).click();
+  const briefDownload = await briefEvent;
+  assert.equal(briefDownload.suggestedFilename(), 'seya-labs-mon-cadrage-automatisation.md');
+  assert.equal(await briefDownload.failure(), null);
+  report.interactions.push({ name: 'Automation comparison, negative results, stale assumptions and private brief download', passed: true });
   for (const width of [375, 430, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 1000 });
-    for (const path of ['/', '/contact', '/solutions/assistant-ia', '/solutions/application-metier', '/solutions/plateformes-web-mobile', '/solutions/saas', '/insights', '/insights/quand-remplacer-excel-par-une-application-metier', '/insights/logiciel-sur-mesure-ou-saas', '/insights/cahier-des-charges-application-metier', '/formations', ...paths.filter((item) => item.startsWith('/formations/'))]) {
+    for (const path of ['/', '/contact', '/solutions/assistant-ia', '/solutions/application-metier', '/solutions/plateformes-web-mobile', '/solutions/saas', '/outils/calculateur-automatisation', '/insights/automatiser-un-processus-par-ou-commencer', '/insights', '/insights/quand-remplacer-excel-par-une-application-metier', '/insights/logiciel-sur-mesure-ou-saas', '/insights/cahier-des-charges-application-metier', '/formations', ...paths.filter((item) => item.startsWith('/formations/'))]) {
       await page.goto(`${base}${path}`, { waitUntil: 'networkidle' });
       const dimensions = await page.evaluate(() => ({ width: document.documentElement.clientWidth, scroll: document.documentElement.scrollWidth }));
       report.viewports.push({ width, path, overflow: dimensions.scroll > dimensions.width });
@@ -204,7 +217,12 @@ try {
   assert.equal(await page.getByRole('tabpanel').filter({ visible: true }).getByRole('heading').innerText(), 'Dessiner le système.');
   await page.keyboard.press('ArrowRight');
   assert.equal(await page.getByRole('tab', { name: '03 BUILD' }).getAttribute('aria-selected'), 'true');
-  if (await page.locator('.hero-team').count()) {
+  const heroMotion = page.getByRole('group', { name: 'Du besoin au système, une animation SEYA LABS en trois étapes' });
+  if (await heroMotion.count()) {
+    assert.equal(await heroMotion.getAttribute('data-scene'), '2', 'Reduced motion displays the final scene');
+    assert.equal(await page.getByRole('button', { name: 'Animation désactivée selon vos préférences de mouvement' }).isDisabled(), true);
+    report.interactions.push({ name: 'Hero animation respects reduced motion', passed: true });
+  } else if (await page.locator('.hero-team').count()) {
     const image = page.locator('.hero .hero-team-main img');
     assert.equal(await image.count(), 1, 'Team ambience appears in the hero');
     await image.evaluate((img) => img.decode());

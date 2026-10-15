@@ -338,6 +338,7 @@ p { line-height: 1.75; }
 .article-author { display: flex; gap: 20px; color: var(--body-muted); font-size: 11px; margin-top: 25px; align-items: center; }
 .article-author > span:first-child { color: var(--obsidian); }
 .article-byline { display: flex; flex-wrap: wrap; gap: 12px 24px; font-size: 11px; color: var(--body-muted); margin-bottom: 25px; }
+.article-updated { color: var(--body-muted); margin-bottom: 25px; }
 .article-byline a, .article-author a { color: var(--copper-ink); text-decoration: underline; text-underline-offset: 4px; }
 .article-takeaways { background: var(--chalk); border-left: 2px solid var(--copper-ink); padding: 28px; margin-bottom: 35px; }
 .article-takeaways h2 { margin: 0 0 20px; font-size: 25px; }

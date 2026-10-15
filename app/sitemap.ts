@@ -6,7 +6,7 @@ import { publishedProjects } from "@/data/projects";
 import { trainings } from "@/data/trainings";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["/", "/expertises", "/solutions", "/formations", "/methode", "/a-propos", "/contact", "/insights", ...(publishedProjects.length ? ["/realisations"] : [])];
+  const paths = ["/", "/expertises", "/solutions", "/formations", "/methode", "/a-propos", "/contact", "/insights", "/outils/calculateur-automatisation", ...(publishedProjects.length ? ["/realisations"] : [])];
   return [
     ...paths.map((path) => ({ url: new URL(path, site.url).href })),
     ...services.map((service) => ({ url: `${site.url}/${service.kind}/${service.slug}` })),

@@ -72,8 +72,12 @@ const notes: Article[] = [
     "description": "Choisir un premier processus à automatiser : fréquence, règles, exceptions, outils, indicateurs et reprise sur erreur. Une grille concrète pour cadrer le besoin.",
     "category": "Automation",
     "date": "2026-10-05",
+    "updatedAt": "2026-10-15",
     "readingTime": "5 min",
     "relatedService": "automatisation-workflows",
+    "relatedArticles": ["integration-api-crm-erp", "cahier-des-charges-application-metier"],
+    "takeaways": ["Comparer le temps évité au contrôle et au suivi qui restent nécessaires.", "Prévoir une issue pour les données manquantes, les doublons et les interruptions.", "Choisir un responsable et des critères de test avant le lancement."],
+    "download": { "href": "/ressources/grille-cadrage-automatisation.md", "label": "Télécharger la grille de cadrage", "description": "Une grille à remplir pour décrire le flux, relever les temps et tester les erreurs, sans inscription." },
     "intro": "La tâche la plus visible n’est pas toujours la meilleure à automatiser. Un premier workflow utile doit être assez fréquent pour compter, assez clair pour être construit et assez observable pour être amélioré.",
     "sections": [
       {
@@ -104,6 +108,17 @@ const notes: Article[] = [
         ]
       },
       {
+        "title": "Tester la fiabilité du workflow avant le lancement.",
+        "paragraphs": ["Le scénario nominal ne permet pas de juger la fiabilité d’une automatisation. Choisissez un événement de départ et vérifiez les situations qui peuvent laisser le processus dans un état ambigu. Les exemples suivants forment une base de recette à adapter à vos outils.", "Un mécanisme de reprise ne suffit pas à empêcher une action métier en double. Avant de relancer un traitement, il faut déterminer ce qui a déjà été effectué, à partir d’un identifiant et d’un état conservés. La personne responsable doit pouvoir distinguer un dossier terminé, rejeté ou en attente."],
+        "table": { "caption": "Grille de recette illustrative : de la demande au dossier CRM", "headers": ["Situation à provoquer", "Comportement à vérifier", "Preuve à conserver"], "rows": [
+          ["La même demande arrive deux fois", "Retrouver le dossier existant plutôt que le recréer", "Identifiant de la demande et référence du dossier"],
+          ["Le CRM répond après expiration du délai", "Vérifier si l’action a abouti avant de la rejouer", "État de la tentative et résultat de la vérification"],
+          ["Une information obligatoire manque", "Mettre en attente et orienter vers le responsable", "Motif exploitable et prochaine action"],
+          ["Les accès à un outil sont retirés", "Arrêter le flux et alerter sans perdre le travail en attente", "Alerte reçue, état du dossier et procédure de reprise"]
+        ] },
+        "links": [{ "label": "n8n : gestion des erreurs et workflows d’erreur", "href": "https://docs.n8n.io/flow-logic/error-handling/" }, { "label": "Make : conserver et reprendre les exécutions incomplètes", "href": "https://help.make.com/incomplete-executions" }]
+      },
+      {
         "title": "Garder une décision humaine quand elle est utile.",
         "paragraphs": [
           "Automatiser une opération ne signifie pas supprimer toute intervention. Le système peut préparer un dossier, vérifier sa complétude et le présenter à la personne qui valide. C’est souvent une première étape plus pertinente qu’une exécution entièrement autonome.",
@@ -121,7 +136,8 @@ const notes: Article[] = [
           "Tester les doublons, interruptions et reprises.",
           "Donner accès aux états et aux alertes utiles.",
           "Prévoir qui adapte le workflow lorsque le métier change."
-        ]
+        ],
+        "links": [{ "label": "Comparer trois tâches avec le calculateur d’automatisation", "href": "/outils/calculateur-automatisation" }]
       }
     ]
   },

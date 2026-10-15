@@ -6,19 +6,20 @@ import { ExpertiseGrid } from "@/components/sections/expertise-grid";
 import { ProcessTimeline } from "@/components/sections/process-timeline";
 import { FinalCta } from "@/components/sections/final-cta";
 import { ArticleCards } from "@/components/sections/article-cards";
+import { AutomationResource } from "@/components/sections/automation-resource";
 import { TrainingSection } from "@/components/sections/training-section";
 import { solutions } from "@/data/services";
 import { principles } from "@/data/process";
 import { publishedProjects } from "@/data/projects";
 import { pageMetadata } from "@/lib/seo";
 
-export const metadata = pageMetadata("Logiciels sur mesure, IA et automatisation", "SEYA LABS conçoit des applications métier, des solutions d’intelligence artificielle et des automatisations pour les entreprises. Du cadrage à la production.", "/");
+export const metadata = pageMetadata("Logiciels métier, IA et automatisation pour PME", "SEYA LABS accompagne les PME françaises : logiciels métier sur mesure, assistants IA et automatisation des processus. Du cadrage à la mise en production.", "/");
 
 export default function Home() {
   return <>
     <section className="hero"><Container>
       <div className="hero-topline mono"><span><i className="status-dot" /> SOFTWARE × AI × AUTOMATION</span><span>INGÉNIERIE NUMÉRIQUE / PARIS</span></div>
-      <div className="hero-grid"><div className="hero-copy"><h1>La technologie.<br />À la mesure de<br /><span>votre entreprise.</span></h1><p>SEYA LABS conçoit vos logiciels et applications métier sur mesure, vos solutions d’intelligence artificielle et vos automatisations.<br className="desktop-break" /> Du cadrage à la mise en production.</p><div className="hero-actions"><Button event="hero_cta_click">Démarrer un projet</Button><LinkArrow href="/expertises/developpement-logiciel">Nos logiciels sur mesure</LinkArrow></div><p className="hero-audience mono">POUR LES ENTREPRISES QUI VEULENT AVANCER.</p></div><HeroMotion /></div>
+      <div className="hero-grid"><div className="hero-copy"><h1>La technologie.<br />À la mesure de<br /><span>votre entreprise.</span></h1><p>SEYA LABS accompagne les PME françaises avec des logiciels métier sur mesure, des assistants IA et des automatisations connectées à leurs outils.<br className="desktop-break" /> Du cadrage à la mise en production.</p><div className="hero-actions"><Button event="hero_cta_click">Démarrer un projet</Button><LinkArrow href="/expertises/developpement-logiciel">Nos logiciels sur mesure</LinkArrow></div><p className="hero-audience mono">LOGICIELS MÉTIER, IA ET AUTOMATISATION POUR LES PME.</p></div><HeroMotion /></div>
       <div className="hero-bottom"><a href="#pourquoi" className="mono">DÉCOUVRIR SEYA LABS <ArrowDown size={15} aria-hidden="true" /></a><span className="mono">DU BESOIN AU SYSTÈME.</span></div>
     </Container></section>
     <div className="capabilities-strip"><Container>{["Logiciels sur mesure", "Intelligence artificielle", "Automatisation", "Data & API"].map((text, i) => <span key={text}><span className="mono">0{i + 1}</span>{text}</span>)}</Container></div>
@@ -30,7 +31,7 @@ export default function Home() {
     <section className="section engineering-section"><Container><div className="section-heading"><div><SectionLabel number="06">ENGINEERING</SectionLabel><h2>Des choix techniques.<br />Une raison pour chacun.</h2></div><p className="section-intro">La stack suit le besoin, les contraintes<br />et la vie du produit après le lancement.</p></div><div className="technology-grid">{["Python", "FastAPI", "Next.js", "React", "PostgreSQL", "Docker", "Redis", "Qdrant", "OpenAI", "Anthropic", "Mistral", "n8n"].map((tech) => <span key={tech}>{tech}<span aria-hidden="true">↗</span></span>)}</div></Container></section>
     <section className="section principles-section"><Container><div className="section-heading"><div><SectionLabel number="07">L’EXIGENCE SEYA</SectionLabel><h2>Construire aujourd’hui.<br />Penser à la suite.</h2></div><LinkArrow href="/a-propos">À propos de SEYA LABS</LinkArrow></div><div className="principles-grid">{principles.map((principle) => <div key={principle.label}><span className="mono">{principle.label}</span><h3>{principle.title}</h3><p>{principle.description}</p></div>)}</div></Container></section>
     <TrainingSection />
-    <section className="section insights-section"><Container><div className="section-heading"><div><SectionLabel number="08">INSIGHTS</SectionLabel><h2>Avant de construire,<br />comprendre.</h2></div><LinkArrow href="/insights">Toutes nos notes</LinkArrow></div><ArticleCards /></Container></section>
+    <section className="section insights-section"><Container><div className="section-heading"><div><SectionLabel number="08">INSIGHTS</SectionLabel><h2>Avant de construire,<br />comprendre.</h2></div><LinkArrow href="/insights">Toutes nos notes</LinkArrow></div><ArticleCards /><AutomationResource /></Container></section>
     <FinalCta />
   </>;
 }

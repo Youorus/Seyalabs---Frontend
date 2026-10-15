@@ -22,11 +22,13 @@ export default async function Insight({ params }: { params: Promise<{ slug: stri
   const service = services.find((item) => item.slug === article.relatedService);
   const related = (article.relatedArticles || []).map((relatedSlug) => articles.find((item) => item.slug === relatedSlug)).filter((item) => item !== undefined);
   const publishedDate = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Paris" }).format(new Date(`${article.date}T12:00:00Z`));
+  const updatedDate = article.updatedAt && article.updatedAt !== article.date ? new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long", year: "numeric", timeZone: "Europe/Paris" }).format(new Date(`${article.updatedAt}T12:00:00Z`)) : undefined;
   return <>
     <PageHero title={article.title} description={article.description} label={`${article.category.toUpperCase()} / ${article.readingTime} DE LECTURE`} breadcrumb={[{ name: "Insights", href: "/insights" }, { name: article.seoTitle }]} />
     <section className="section"><Container><div className="article-layout">
       <article className="article-body">
         <div className="article-byline"><Link href="/a-propos">Par SEYA LABS</Link><span>Publié le <time dateTime={article.date}>{publishedDate}</time></span></div>
+        {updatedDate && <div className="article-updated mono">Mis à jour le <time dateTime={article.updatedAt}>{updatedDate}</time></div>}
         <p className="article-lead">{article.intro}</p>
         {article.takeaways && <div className="article-takeaways"><h2>Les repères pour décider.</h2><ul>{article.takeaways.map((item) => <li key={item}>{item}</li>)}</ul></div>}
         {article.download && <div className="article-download"><span className="mono">RESSOURCE GRATUITE / SANS INSCRIPTION</span><p>{article.download.description}</p><a className="button button-dark" href={article.download.href} download data-analytics="resource_downloaded"><span>{article.download.label}</span><Download size={18} aria-hidden="true" /></a></div>}

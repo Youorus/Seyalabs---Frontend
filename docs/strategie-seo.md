@@ -1,6 +1,8 @@
-# SEYA LABS — Stratégie SEO logiciels métier
+# SEYA LABS — Acquisition des PME par le référencement
 
 Décision du 5 octobre 2026 : priorité commerciale aux **logiciels et applications métier sur mesure**. Périmètre de travail : entreprises francophones en France. À affiner avec les demandes réelles ; aucun volume de recherche ni rang concurrent n’est revendiqué ici.
+
+Cible confirmée par le propriétaire le **15 octobre 2026 : PME françaises, logiciels métier, IA et automatisation**. L’accueil et l’identité du site reprennent ce périmètre. Les trois besoins à relier sont : centraliser un processus dans une application métier, connecter les outils existants et automatiser les étapes répétitives avec les contrôles nécessaires.
 
 ## Objectif
 
@@ -32,6 +34,7 @@ Les formulations suivantes sont des cibles éditoriales, sans volume estimé. Le
 | remplacer Excel par une application | `/insights/quand-remplacer-excel-par-une-application-metier` | Signaux, processus réel et options. |
 | logiciel sur mesure ou SaaS, logiciel standard ou spécifique | `/insights/logiciel-sur-mesure-ou-saas` | Comparaison, coût complet et réversibilité. |
 | budget application métier, coût développement application métier | `/insights/budget-application-metier` | Postes, périmètre et comparaison de devis ; aucun tarif fictif. |
+| calcul temps gagné automatisation, comparer tâches à automatiser | `/outils/calculateur-automatisation` | Comparaison de trois tâches, contrôle humain et suivi déduits, hypothèses modifiables et cadrage téléchargeable. |
 | cahier des charges application métier, modèle cahier des charges logiciel métier | `/insights/cahier-des-charges-application-metier` | Guide et modèle modifiable en accès libre. |
 | migration données application métier, migration Excel vers application | `/insights/migration-donnees-application-metier` | Sources, relations, tests et bascule. |
 | intégration API CRM ERP, connecter logiciels métier | `/solutions/integration-api` | Flux, référence des données et reprise sur erreur. |
@@ -65,9 +68,13 @@ Les pages formation répondent à une intention d’apprentissage ; les pages ex
 ## Changements réalisés
 
 - Toutes les offres approfondies : quatre expertises et huit solutions. Définitions, décisions, dépendances, compromis et critères de réception propres à chaque prestation.
+- Les huit solutions ont une H1 qui nomme la prestation ; les appels à contact de chaque offre conservent son contexte et présélectionnent le type de demande à partir d’un identifiant autorisé. Les paramètres libres ne sont pas repris dans le formulaire.
+- Le formulaire active l’envoi serveur pour une configuration SMTP complète ou un webhook, conformément aux capacités de l’API. La réception réelle n’a pas été testée par un envoi de cette phase.
 - Douze formations organisées en quatre domaines, avec quatre parcours de fondations et huit programmes appliqués. Chaque prestation dispose d’un lien vers son programme ; les programmes appliqués renvoient vers la solution correspondante.
 - Quatre guides originaux ajoutés aux trois notes existantes : comparaisons, réponses directes, exemples explicitement illustratifs et liens contextuels vers les offres.
 - Modèle complet de cahier des charges Markdown, téléchargeable sans inscription.
+- Calculateur d’automatisation sans inscription : volume mensuel de l’équipe, durées avant/après et suivi du flux. Les valeurs négatives restent visibles. Le fichier personnalisé est généré dans le navigateur ; les hypothèses ne sont placées ni dans l’URL de contact ni dans un événement analytique.
+- Guide d’automatisation enrichi : tableau de recette des doublons et interruptions, liens vers les documentations n8n/Make, grille de cadrage téléchargeable. La date de mise à jour est visible et reprise dans le sitemap.
 - Dossier logiciels métier dans Insights, trois lectures mises en avant sur l’accueil et liens utiles en pied de page.
 - Métadonnées et canonicals distincts ; schémas Article, auteur Organisation lié à À propos, BreadcrumbList, Service, WebSite et Organization correspondant au contenu visible.
 - `date` et `updatedAt` éditoriaux : le sitemap reprend la dernière modification réelle, jamais une date renouvelée artificiellement à chaque build.
@@ -79,15 +86,36 @@ Les trois clics sont un choix d’architecture du projet, pas une règle de clas
 
 ## Lancement et mesure
 
-Le [point de contrôle du 15 octobre 2026](referencement-google.md) décrit l’audit des 39 URL publiques, le `noindex` constaté sur Contact, les corrections d’environnement et de domaine canonique, ainsi que le renforcement de la marque et des liens entre expertises. Un huitième guide consacré aux intégrations CRM/ERP porte le sitemap préparé à 40 pages. Le document distingue l’état public observé des changements à déployer et des actions à terminer dans Search Console.
+Le [point de contrôle du 15 octobre 2026](referencement-google.md) décrit l’audit initial des 39 URL publiques, les corrections déployées, le sitemap de 40 URL accepté par Google et six demandes d’indexation acceptées. Le calculateur porte la version préparée lors de cette nouvelle phase à **41 URL**. Les rapports Search Console détaillés sont locaux et ignorés par Git.
 
 1. Finaliser les informations de l’entreprise et de l’hébergement, relire les engagements commerciaux et vérifier la réception des demandes.
 2. Déployer sur `https://seyalabs.com`, rediriger les variantes vers cette origine, garder les previews en `noindex` et activer `SITE_INDEXABLE=true` au build public.
-3. Valider une propriété Domaine dans Search Console par DNS, ou une propriété de préfixe d’URL avec `GOOGLE_SITE_VERIFICATION`. Le token n’est pas fourni ; la propriété n’a pas été créée par cette tâche.
-4. Déclarer `https://seyalabs.com/sitemap.xml` et inspecter l’accueil et les deux offres principales : HTML récupéré, canonical et indexabilité. La déclaration ne garantit pas une indexation immédiate.
-5. Examiner les impressions et clics hors marque par groupe de requêtes, puis les pages d’entrée et les demandes commerciales correspondantes. Les événements existants ne transmettent rien à un fournisseur tant qu’aucun outil n’est raccordé et autorisé selon la configuration de consentement.
+3. Conserver la propriété Domaine déjà validée dans Search Console. L’accès fourni dans Chrome a permis les vérifications et soumissions documentées.
+4. Après mise en ligne du calculateur, vérifier le sitemap à 41 URL et inspecter cette nouvelle page. La soumission ne garantit pas une indexation immédiate.
+5. Examiner les impressions et clics hors marque par groupe de requêtes, puis les pages d’entrée et les demandes commerciales correspondantes. Analytics et Tag Manager respectent le choix de consentement ; les chiffres saisis dans le calculateur ne sont pas transmis par son code.
 
-Le déploiement, Search Console, les positions et les conversions de production ne sont pas disponibles dans ce dépôt. Ils restent nécessaires pour juger le référencement réel.
+Le résultat de cette phase doit se juger sur les recherches pertinentes et les demandes qualifiées après publication. Le nombre de pages et la réussite d’un audit ne mesurent pas une part de marché.
+
+### Décisions commerciales à partir des données
+
+Comparer des périodes de même durée et noter les dates de publication. Avec peu de données, conserver les observations et attendre un échantillon utile avant d’attribuer une variation aux changements.
+
+| Étape | Signal à observer | Action à décider |
+| --- | --- | --- |
+| Découverte | Pages indexées, impressions hors marque par offre et pays | Corriger un obstacle confirmé ou préciser le contenu qui répond mal au besoin. |
+| Visite pertinente | Clics et pages d’entrée sur logiciel métier, IA, automatisation et API | Affiner les titres selon les requêtes réellement affichées, sans multiplier les variantes proches. |
+| Préparation du projet | Lecture des guides, téléchargements, passage du calculateur à l’offre | Rapprocher la ressource de la prestation utile et rendre la prochaine étape compréhensible. |
+| Demande | Contacts reçus et confirmés ; contexte, besoin et calendrier compatibles | Qualifier la demande avec l’équipe commerciale. Ne pas déduire une vente d’un clic sur un bouton. |
+| Contrat | Propositions pertinentes et contrats gagnés, suivis en interne | Documenter les objections, les preuves manquantes et les secteurs où l’offre répond le mieux. |
+
+La prochaine ressource ou page sectorielle doit répondre à une question effectivement rencontrée. Les preuves de projets et la diffusion via des partenaires réels restent à préparer avec le propriétaire ; aucun client, résultat, avis, partenariat ou message externe n’est inventé ou publié par cette phase.
+
+### Validation de la phase du 15 octobre
+
+- Compilation de production et TypeScript : réussis ; lint complet et 12 tests : réussis.
+- Audit HTTP du build indexable : **41 pages, 0 erreur, 0 avertissement**, rapport local `test-results/seo-acquisition-release-2026-10-15.json`. Preview non indexable : même résultat.
+- Dans Chrome : calculs positifs et négatifs, invalidation d’un résultat après modification, remise à zéro, absence d’erreur console sur l’outil compilé, contexte Assistant IA dans le formulaire et priorité conservée pour une demande de formation.
+- La CI couvre également le téléchargement du cadrage, le contenu sans JavaScript et le rendu à six largeurs. Son contrôle de hero prend désormais en charge l’animation et sa préférence de mouvement réduit. Ces contrôles CI doivent être distingués des vérifications locales ci-dessus.
 
 ## Priorités après publication
 

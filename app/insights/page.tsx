@@ -4,6 +4,7 @@ import { ArticleCards } from "@/components/sections/article-cards";
 import { FinalCta } from "@/components/sections/final-cta";
 import { pageMetadata, breadcrumbs } from "@/lib/seo";
 import { articles } from "@/data/articles";
+import { AutomationResource } from "@/components/sections/automation-resource";
 
 export const metadata = pageMetadata("Guides : logiciel, IA, automatisation et API", "Logiciels sur mesure, budget, assistants IA, automatisation et intégration CRM/ERP : des guides pour préparer vos projets numériques et comparer les options.", "/insights");
 export default function Insights() {
@@ -16,6 +17,7 @@ export default function Insights() {
     <section className="section principles-section"><Container>
       <SectionLabel>IA, AUTOMATISATION & API</SectionLabel><h2 className="guides-heading">Connecter les outils.<br />Garder les bons contrôles.</h2>
       <ArticleCards items={articles.filter((article) => article.category !== "Software")} />
+      <AutomationResource />
     </Container></section>
     <FinalCta /><JsonLd data={breadcrumbs([{ name: "Insights", path: "/insights" }])} />
   </>;

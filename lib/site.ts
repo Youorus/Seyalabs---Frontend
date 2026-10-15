@@ -3,7 +3,7 @@ export const site = {
   name: "SEYA LABS",
   url: new URL(configuredUrl).origin,
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "contact@seyalabs.com",
-  description: "SEYA LABS conçoit des logiciels sur mesure, des solutions d’intelligence artificielle et des automatisations pour les entreprises, du cadrage à la production.",
+  description: "SEYA LABS accompagne les PME françaises avec des logiciels métier sur mesure, des solutions d’intelligence artificielle et des automatisations, du cadrage à la production.",
   indexable: process.env.SITE_INDEXABLE === "true",
   linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || "",
   github: process.env.NEXT_PUBLIC_GITHUB_URL || "",

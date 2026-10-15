@@ -1,0 +1,47 @@
+.calculator { margin-top: 36px; min-width: 0; }
+.note { color: var(--body-muted); font-size: 13px; max-width: 800px; }
+.tasks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 36px; }
+.task { min-width: 0; margin: 0; padding: 25px; border: 1px solid var(--border); background: var(--porcelain); }
+.task legend { padding: 0 8px; font-family: var(--font-mono); font-size: 11px; color: var(--copper-ink); }
+.task label { display: block; font-size: 13px; font-weight: 550; margin-bottom: 10px; }
+.task input { width: 100%; min-width: 0; padding: 12px; color: var(--obsidian); border: 1px solid var(--border); background: #fffdf9; border-radius: 2px; }
+.field { margin-top: 24px; }
+.field p { margin-top: 8px; font-size: 11px; color: var(--body-muted); line-height: 1.6; }
+.actions { display: flex; align-items: center; flex-wrap: wrap; gap: 20px 30px; margin-top: 28px; }
+.reset { background: none; border: 0; padding: 12px 0; color: var(--body-muted); font-size: 13px; text-decoration: underline; text-underline-offset: 5px; }
+.results { margin-top: 50px; padding: 35px; border: 1px solid var(--border); background: var(--chalk); scroll-margin-top: 120px; }
+.results h3 { margin-top: 16px; font-size: clamp(28px, 3vw, 40px); overflow-wrap: anywhere; }
+.results p { font-size: 14px; color: var(--body-muted); max-width: 850px; margin-top: 16px; }
+.results > .note { font-size: 12px; }
+.results button:disabled { cursor: not-allowed; }
+.table { overflow: auto; max-width: 100%; margin-block: 28px; }
+.table table { width: 100%; min-width: 550px; border-collapse: collapse; text-align: left; font-size: 14px; }
+.table th, .table td { padding: 18px 14px; border-bottom: 1px solid var(--border); }
+.table th { font-weight: 550; }
+.table tbody th { overflow-wrap: anywhere; max-width: 250px; }
+.table thead { color: var(--body-muted); font-size: 12px; }
+.resource { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 45px; border: 1px solid var(--border); padding: 40px; margin-top: 55px; background: var(--chalk); }
+.resource h3 { max-width: 650px; font-size: clamp(28px, 3vw, 40px); }
+.resource p { font-size: 14px; color: var(--body-muted); margin-bottom: 22px; }
+.resource :global(.section-label) { margin-bottom: 18px; }
+.resource a { max-width: 100%; }
+.method { max-width: 880px; }
+.method > p { color: var(--body-muted); margin-top: 24px; }
+.method h3 { margin-top: 38px; margin-bottom: 20px; }
+.method ol, .method ul { padding-left: 22px; color: var(--body-muted); line-height: 1.9; }
+.method li { margin-bottom: 12px; }
+.formula { padding: 26px; border-left: 2px solid var(--copper-ink); background: var(--chalk); font-size: 16px; }
+@media (max-width: 1000px) {
+  .tasks { gap: 16px; }
+  .task { padding: 20px 16px; }
+  .resource { grid-template-columns: 1fr; gap: 24px; padding: 30px; }
+}
+@media (max-width: 767px) {
+  .tasks { grid-template-columns: 1fr; gap: 26px; }
+  .task { padding: 24px; }
+  .results { padding: 24px 18px; }
+  .resource { padding: 25px; }
+  .actions > :global(.button) { width: 100%; gap: 16px; }
+  .actions > :global(.link-arrow) { font-size: 12px; gap: 14px; }
+  .table { font-size: 12px; }
+}

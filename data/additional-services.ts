@@ -3,7 +3,7 @@ import type { Service } from "./services";
 export const additionalServices: Service[] = [
   {
     kind: "solutions", slug: "plateformes-web-mobile", number: "07", label: "WEB / MOBILE",
-    name: "Plateformes web & mobiles", title: "Vos services. Là où ils sont utilisés.",
+    name: "Plateformes web & mobiles", title: "Développement de plateformes web et mobiles.",
     seoTitle: "Développement de plateformes web et applications mobiles",
     description: "SEYA LABS conçoit vos plateformes web et applications mobiles : portails clients, espaces partenaires et outils de terrain, avec API, droits et parcours adaptés.",
     intro: "Au bureau, chez un client ou sur le terrain, un service doit rester simple à utiliser. Nous concevons des plateformes web et mobiles autour des parcours, des appareils et des conditions d’accès de vos utilisateurs.",
@@ -26,7 +26,7 @@ export const additionalServices: Service[] = [
   },
   {
     kind: "solutions", slug: "saas", number: "08", label: "PRODUIT / SAAS",
-    name: "Produits SaaS", title: "Votre produit. Une base pour le faire grandir.",
+    name: "Produits SaaS", title: "Développement de votre produit SaaS.",
     seoTitle: "Développement SaaS sur mesure pour votre produit logiciel",
     description: "Développez votre SaaS avec SEYA LABS : parcours produit, organisations clientes, comptes, permissions, abonnements, intégrations et exploitation du service.",
     intro: "Un produit SaaS sert plusieurs clients sans mélanger leurs données ni leurs usages. Nous construisons ses parcours, ses comptes et son architecture, avec les conditions nécessaires pour le déployer et le faire évoluer.",
