@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { contactSchema } from "@/lib/contact-schema";
+import { sendContactMail, smtpConfig } from "@/lib/contact-mail";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { site } from "@/lib/site";
 
@@ -46,13 +47,18 @@ export async function POST(request: NextRequest) {
   if (parsed.data.website) return reply({ ok: true });
   const elapsed = Date.now() - parsed.data.startedAt;
   if (elapsed < 1500 || elapsed > 86400000) return reply({ error: "Merci de vérifier votre demande puis de réessayer." }, 400);
+  const { website: _website, startedAt: _startedAt, ...lead } = parsed.data;
+  void _website; void _startedAt;
+  const id = randomUUID();
+  // SMTP d'abord : la demande arrive directement dans la boîte de contact.
+  if (smtpConfig()) {
+    try { await sendContactMail(lead, id); return reply({ ok: true }); }
+    catch { return reply({ error: "L’envoi n’a pas pu être confirmé. Vous pouvez finaliser votre demande par email." }, 502); }
+  }
   const webhook = process.env.CONTACT_WEBHOOK_URL;
   if (!webhook) return reply({ error: "L’envoi direct n’est pas encore disponible. Finalisez votre demande par email." }, 503);
   try {
     if (new URL(webhook).protocol !== "https:") throw new Error("Invalid webhook configuration");
-    const { website: _website, startedAt: _startedAt, ...lead } = parsed.data;
-    void _website; void _startedAt;
-    const id = randomUUID();
     const response = await fetch(webhook, {
       method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": id,
         ...(process.env.CONTACT_WEBHOOK_SECRET ? { Authorization: `Bearer ${process.env.CONTACT_WEBHOOK_SECRET}` } : {}) },

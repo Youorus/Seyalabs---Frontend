@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 import { contactSchema, emailBody } from "../lib/contact-schema";
 import { consumeRateLimit } from "../lib/rate-limit";
 import { POST } from "../app/api/contact/route";
+import { mailer } from "../lib/contact-mail";
 
 const input = {
   name: "Camille Martin", company: "Exemple de test", email: "camille@example.org", phone: "",
@@ -63,5 +64,38 @@ test("contact endpoint checks origin, payload, bot trap and delivery outcome", a
     globalThis.fetch = realFetch;
     if (previousWebhook === undefined) delete process.env.CONTACT_WEBHOOK_URL; else process.env.CONTACT_WEBHOOK_URL = previousWebhook;
     delete process.env.CONTACT_TRUST_PROXY;
+  }
+});
+
+test("contact endpoint delivers by SMTP, replying to the visitor, before any webhook", async () => {
+  process.env.CONTACT_TRUST_PROXY = "true";
+  process.env.SMTP_USER = "contact@seyalabs.com";
+  process.env.SMTP_PASSWORD = "test-only";
+  process.env.CONTACT_WEBHOOK_URL = "https://webhook.example.org/lead";
+  const realCreate = mailer.createTransport;
+  const realFetch = globalThis.fetch;
+  let index = 0;
+  function request(body: unknown) {
+    return new NextRequest("https://seyalabs.com/api/contact", { method: "POST", headers: { origin: "https://seyalabs.com", "content-type": "application/json", "x-forwarded-for": `smtp-${index++}` }, body: JSON.stringify(body) });
+  }
+  const sent: Array<Record<string, unknown>> = [];
+  let webhookCalled = false;
+  globalThis.fetch = (async () => { webhookCalled = true; return new Response("", { status: 200 }); }) as typeof fetch;
+  try {
+    mailer.createTransport = (() => ({ sendMail: async (message: Record<string, unknown>) => { sent.push(message); return {}; } })) as unknown as typeof mailer.createTransport;
+    assert.equal((await POST(request({ ...input, company: "Exemple\r\nBcc: x@example.org" }))).status, 200);
+    assert.equal(webhookCalled, false);
+    assert.equal(sent.length, 1);
+    assert.equal(sent[0].to, "contact@seyalabs.com");
+    assert.deepEqual(sent[0].from, { name: "Site SEYA LABS", address: "contact@seyalabs.com" });
+    assert.deepEqual(sent[0].replyTo, { name: input.name, address: input.email });
+    assert.ok(!String(sent[0].subject).includes("\n"));
+    assert.ok(String(sent[0].text).includes(input.message));
+    mailer.createTransport = (() => ({ sendMail: async () => { throw new Error("535 auth failed"); } })) as unknown as typeof mailer.createTransport;
+    assert.equal((await POST(request(input))).status, 502);
+  } finally {
+    mailer.createTransport = realCreate;
+    globalThis.fetch = realFetch;
+    for (const key of ["SMTP_USER", "SMTP_PASSWORD", "CONTACT_WEBHOOK_URL", "CONTACT_TRUST_PROXY"]) delete process.env[key];
   }
 });

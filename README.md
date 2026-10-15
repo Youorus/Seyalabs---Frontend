@@ -62,7 +62,9 @@ Références de conception : [Google Search Central](https://developers.google.c
 
 Le domaine et le contact par défaut sont `https://seyalabs.com` et `contact@seyalabs.com`.
 
-Sans `CONTACT_WEBHOOK_URL`, le formulaire valide la demande et propose un lien email prérempli. L’utilisateur confirme l’envoi dans sa messagerie. Le site n’annonce pas une transmission qui n’a pas eu lieu.
+Avec `SMTP_USER` et `SMTP_PASSWORD`, la demande part par SMTP (OVH par défaut) vers `CONTACT_MAIL_TO`, expédiée depuis la boîte authentifiée avec le visiteur en *Reply-To* : répondre depuis la messagerie lui écrit. Aucun accusé de réception n’est envoyé au visiteur, pour que le formulaire ne puisse pas servir de relais vers une adresse saisie. Le SMTP passe avant le webhook.
+
+Sans SMTP ni `CONTACT_WEBHOOK_URL`, le formulaire valide la demande et propose un lien email prérempli. L’utilisateur confirme l’envoi dans sa messagerie. Le site n’annonce pas une transmission qui n’a pas eu lieu.
 
 Pour un envoi direct, configurez un webhook **HTTPS** (n8n, CRM ou service email) et, si nécessaire, `CONTACT_WEBHOOK_SECRET`. Le serveur transmet un JSON validé contenant `id`, `name`, `company`, `email`, `phone`, `projectType`, `budget`, `timeline`, `message`, `consent`, `source`, `receivedAt`. Le webhook doit confirmer la prise en charge par un statut 2xx et conserver la demande avant cet accusé de réception. La clé d’idempotence permet au récepteur de traiter les répétitions d’une même requête. Aucune donnée du formulaire n’est écrite dans les logs applicatifs.
 

@@ -28,8 +28,15 @@ services:
         PRIVACY_RETENTION_MONTHS: ${PRIVACY_RETENTION_MONTHS:-12}
     image: seyalabs-site:${SEYA_IMAGE_TAG:-latest}
     environment:
-      # Le formulaire de contact poste ici. Sans ces deux-là il reste inerte
-      # plutôt que de perdre un message en silence.
+      # Le formulaire de contact écrit à contact@seyalabs.com par le SMTP
+      # d'OVH. Le mot de passe vit dans l'onglet Environment de Dokploy,
+      # jamais ici. Sans lui, le webhook prend le relais ; sans aucun des
+      # deux, le site prépare un courriel plutôt que de perdre un message.
+      SMTP_HOST: ${SMTP_HOST:-ssl0.ovh.net}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER:-contact@seyalabs.com}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      CONTACT_MAIL_TO: ${CONTACT_MAIL_TO:-contact@seyalabs.com}
       CONTACT_WEBHOOK_URL: ${CONTACT_WEBHOOK_URL:-}
       CONTACT_WEBHOOK_SECRET: ${CONTACT_WEBHOOK_SECRET:-}
       RATE_LIMIT_SECRET: ${RATE_LIMIT_SECRET:-}

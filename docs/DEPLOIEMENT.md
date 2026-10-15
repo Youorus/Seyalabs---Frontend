@@ -39,7 +39,8 @@ Aucune n'est nécessaire pour que le site réponde. Elles complètent :
 
 | Variable | Ce qu'elle active |
 |---|---|
-| `CONTACT_WEBHOOK_URL`, `CONTACT_WEBHOOK_SECRET` | l’envoi serveur du formulaire. Sans elles, le site prépare un email et laisse le visiteur confirmer l’envoi dans sa messagerie |
+| `SMTP_PASSWORD` | l’envoi du formulaire à `contact@seyalabs.com` par le SMTP d’OVH (`ssl0.ovh.net:587`, compte `contact@seyalabs.com`, le visiteur en *Reply-To*). Seul secret à saisir : hôte, port, compte et destinataire ont leur valeur par défaut dans le Compose (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `CONTACT_MAIL_TO`). Variable d’exécution : un redémarrage suffit, mais le mot de passe change avec celui de la boîte OVH |
+| `CONTACT_WEBHOOK_URL`, `CONTACT_WEBHOOK_SECRET` | l’envoi par webhook, utilisé seulement sans SMTP. Sans aucun des deux, le site prépare un email et laisse le visiteur confirmer l’envoi dans sa messagerie |
 | `RATE_LIMIT_SECRET`, `UPSTASH_REDIS_REST_*` | la protection anti-abus répartie |
 | `GOOGLE_SITE_VERIFICATION` | la propriété Search Console |
 | `LEGAL_*` | les mentions légales |
