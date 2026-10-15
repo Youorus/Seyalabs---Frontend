@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
 import { contactSchema } from "@/lib/contact-schema";
-import { sendContactMail, smtpConfig } from "@/lib/contact-mail";
+import { sendConfirmationMail, sendContactMail, smtpConfig } from "@/lib/contact-mail";
 import { consumeRateLimit } from "@/lib/rate-limit";
 import { site } from "@/lib/site";
 
@@ -52,8 +52,11 @@ export async function POST(request: NextRequest) {
   const id = randomUUID();
   // SMTP d'abord : la demande arrive directement dans la boîte de contact.
   if (smtpConfig()) {
-    try { await sendContactMail(lead, id); return reply({ ok: true }); }
+    try { await sendContactMail(lead, id); }
     catch { return reply({ error: "L’envoi n’a pas pu être confirmé. Vous pouvez finaliser votre demande par email." }, 502); }
+    // La demande est arrivée : un accusé manqué ne doit pas la faire renvoyer.
+    try { await sendConfirmationMail(lead, id); } catch { /* sans conséquence pour la demande */ }
+    return reply({ ok: true });
   }
   const webhook = process.env.CONTACT_WEBHOOK_URL;
   if (!webhook) return reply({ error: "L’envoi direct n’est pas encore disponible. Finalisez votre demande par email." }, 503);

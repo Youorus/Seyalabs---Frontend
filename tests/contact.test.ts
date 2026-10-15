@@ -85,12 +85,27 @@ test("contact endpoint delivers by SMTP, replying to the visitor, before any web
     mailer.createTransport = (() => ({ sendMail: async (message: Record<string, unknown>) => { sent.push(message); return {}; } })) as unknown as typeof mailer.createTransport;
     assert.equal((await POST(request({ ...input, company: "Exemple\r\nBcc: x@example.org" }))).status, 200);
     assert.equal(webhookCalled, false);
-    assert.equal(sent.length, 1);
+    assert.equal(sent.length, 2);
     assert.equal(sent[0].to, "contact@seyalabs.com");
+    const confirmation = sent[1];
+    assert.equal(confirmation.to, input.email);
+    assert.equal(confirmation.replyTo, "contact@seyalabs.com");
+    assert.equal((confirmation.headers as Record<string, string>)["Auto-Submitted"], "auto-replied");
+    assert.match(String(confirmation.subject), /^Nous avons bien reçu votre demande — SL-[0-9A-F]{8}$/);
+    // Aucun texte libre du visiteur dans un courriel envoyé à une adresse saisie.
+    for (const field of [confirmation.html, confirmation.text]) {
+      assert.ok(!String(field).includes("Bcc:"));
+      assert.ok(!String(field).includes(input.message));
+      assert.ok(!String(field).includes(input.name));
+    }
+    assert.ok(String(confirmation.html).includes("Application métier"));
     assert.deepEqual(sent[0].from, { name: "SEYA LABS", address: "contact@seyalabs.com" });
     assert.deepEqual(sent[0].replyTo, { name: input.name, address: input.email });
     assert.ok(!String(sent[0].subject).includes("\n"));
     assert.ok(String(sent[0].text).includes(input.message));
+    let calls = 0;
+    mailer.createTransport = (() => ({ sendMail: async () => { if (calls++ === 1) throw new Error("550 mailbox unavailable"); return {}; } })) as unknown as typeof mailer.createTransport;
+    assert.equal((await POST(request(input))).status, 200, "an undeliverable confirmation must not reject a delivered lead");
     mailer.createTransport = (() => ({ sendMail: async () => { throw new Error("535 auth failed"); } })) as unknown as typeof mailer.createTransport;
     assert.equal((await POST(request(input))).status, 502);
   } finally {

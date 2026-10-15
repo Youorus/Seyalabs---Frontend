@@ -62,7 +62,7 @@ Références de conception : [Google Search Central](https://developers.google.c
 
 Le domaine et le contact par défaut sont `https://seyalabs.com` et `contact@seyalabs.com`.
 
-Avec `SMTP_USER` et `SMTP_PASSWORD`, la demande part par SMTP (OVH par défaut) vers `CONTACT_MAIL_TO`, expédiée depuis la boîte authentifiée avec le visiteur en *Reply-To* : répondre depuis la messagerie lui écrit. Aucun accusé de réception n’est envoyé au visiteur, pour que le formulaire ne puisse pas servir de relais vers une adresse saisie. Le SMTP passe avant le webhook.
+Avec `SMTP_USER` et `SMTP_PASSWORD`, la demande part par SMTP (OVH par défaut) vers `CONTACT_MAIL_TO`, expédiée depuis la boîte authentifiée avec le visiteur en *Reply-To* : répondre depuis la messagerie lui écrit. Le visiteur reçoit ensuite un accusé de réception aux couleurs de la marque (`lib/contact-confirmation.ts`), avec une référence `SL-XXXXXXXX` reprise dans l’objet du courriel interne. Il ne reprend **aucun texte libre** du visiteur — seulement ses choix dans les listes fermées : le formulaire ne peut pas servir à faire écrire contact@seyalabs.com le texte de son choix à une adresse saisie. Son échec n’empêche pas la demande d’être acceptée. Le SMTP passe avant le webhook.
 
 Sans SMTP ni `CONTACT_WEBHOOK_URL`, le formulaire valide la demande et propose un lien email prérempli. L’utilisateur confirme l’envoi dans sa messagerie. Le site n’annonce pas une transmission qui n’a pas eu lieu.
 
